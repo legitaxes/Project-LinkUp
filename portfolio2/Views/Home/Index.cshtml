@@ -1,0 +1,68 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <!-- Unicode character encoding - multi-language compatibility -->
+        <meta charset="utf-8">
+
+        <!-- Set the initial view zooming scale for mobile device -->
+        <meta name="viewport" content="width = device-width,
+ initial-scale = 1" />
+
+        <title>NP Book Rentals</title>
+
+        <!-- Reference to customized styling for this website -->
+        <link rel="stylesheet" type="text/css" href="~/css/Site.css">
+    </head>
+    <body>
+        <div class="container" id="mainContainer">
+            <!-- 1st row -->
+            <div class="flex-container">
+                <!-- Flexbox for logo, auto-expand in the container -->
+                <div style="flex:auto;">
+                    <img id="imgNPLogo" src="~/images/nplogo.gif" />
+                </div>
+                <!-- Flexbox for staff login -->
+                <div>
+                    <form method="post" action="~/Home/Login">
+                        <fieldset class="loginFieldset">
+                            <legend>Staff Login</legend>
+                            <label for="txtLoginID">Login ID:</label>
+                            <input type="email" name="txtLoginID"
+                                   id="txtLoginID" required /><br />
+                            <label for="txtPassword">Password:</label>
+                            <input type="password" name="txtPassword"
+                                   id="txtPassword" style="width:100px"
+                                   required />
+                            <input type="submit" id="btnStaffLogin"
+                                   class="myButton" value="Login" />
+                        </fieldset>
+                    </form>
+                </div>
+                <!-- Flexbox for student login -->
+                <div>
+                    <fieldset class="loginFieldset">
+                        <legend>Student Login</legend>
+                        <p>
+                            <a href="#" class="myButton">Microsoft Login</a>
+                        </p>
+                    </fieldset>
+                </div>
+            </div>
+            <!-- 2nd row -->
+            <div>
+                <div style="text-align: center;">
+                    <p>
+                        <img id="imgLogo" src="~/images/logo.jpg"
+                             style="width: 100%" />
+                    </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

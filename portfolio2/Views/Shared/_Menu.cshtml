@@ -1,0 +1,42 @@
+﻿<!-- A grey navbar that expands horizontally at medium device -->
+<nav class="navbar navbar-expand-md bg-light navbar-light">
+    <!-- The brand(or icon) of the navbar -->
+    <a class="navbar-brand" href="~/Home/VolunteerMain"
+       style="font-size:32px; font-weight:bold; color:#3399FF;">
+        NP Book Rental
+    </a>
+    <!-- Toggle/collapsible Button, also known as hamburger button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#staffNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Links in the navbar, displayed as drop-down list when collapsed -->
+    <div class="collapse navbar-collapse" id="staffNavbar">
+        <!-- Links that are aligned to the left,
+        mr-auto: right margin auto-adjusted -->
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="~/Rental/Calculate">
+                    Rental Calculator
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="~/Fine/Calculate">Fine Calculator</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="~/Staff/Index">View Staff</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="~/Branch/Index">View Branch</a>
+            </li>
+        </ul>
+        <!-- Links that are aligned to the right,
+        ml-auto: left margin auto-adjusted -->
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <!-- A link for logging out user -->
+                <a class="nav-link" href="~/Home/LogOut">Log Out</a>
+            </li>
+        </ul>
+    </div>
+</nav>

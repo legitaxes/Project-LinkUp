@@ -1,0 +1,58 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/css/Site.css" rel="stylesheet" />
+    <title>@ViewData["Title"] - NP Book Rental</title>
+    <!-- Reference to Bootstrap CSS, JavaScript/JQuery files -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <!-- Reference to customized styling for this website -->
+    <link rel="stylesheet" type="text/css" href="~/css/Site.css">
+</head>
+<body>
+    <!-- Bootstrap container, centralise the container between margins -->
+    <div class="container">
+        <!-- 1st row -->
+        <div class="row">
+            <div class="col-sm-12">
+                @await Html.PartialAsync("_Menu.cshtml")
+            </div>
+        </div>
+        <!-- 2nd row -->
+        <div class="row">
+            <div class="col-sm-12">
+                <p style="padding:2px 15px;">
+                    Welcome,&nbsp;
+                </p>
+            </div>
+        </div>
+        <!-- 3rd row -->
+        <div class="row">
+            <div class="col-sm-12">
+                @RenderBody()
+            </div>
+        </div>
+        <!-- 4th row -->
+        <div class="row">
+            <div class="col-sm-12" style="text-align: right">
+                <hr />
+                <footer>
+                    <p style="padding-right:10px;">
+                        WEB Practical Exercises - &copy;@DateTime.Today.Year
+                        School of ICT, Ngee Ann Polytechnic
+                    </p>
+                </footer>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
