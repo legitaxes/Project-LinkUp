@@ -14,7 +14,7 @@ namespace portfolio2.Controllers
             return View();
         }
 
-        //login action method for homepage
+        //login action method for homepage --- to be worked on --- need to include hashing and implementation of db
         [HttpPost]
         public ActionResult Login(IFormCollection formData)
         {
@@ -24,12 +24,13 @@ namespace portfolio2.Controllers
             string password = formData["txtPassword"].ToString();
             if (loginID == "abc@npbook.com" && password == "pass1234")
             {
-                // Redirect user to the "StaffMain" view through an action
+                HttpContext.Session.SetString("LoginName", loginID);
+                //HttpContext.Session.SetInt32("ID", lecturer.LecturerId.ToString());  //remember to add
                 return RedirectToAction("VolunteerMain");
             }
             else
             {
-                // Redirect user back to the index view through an action
+                TempData["Message"] = "Invalid Login Credentials!";
                 return RedirectToAction("Index");
             }
         }
@@ -40,5 +41,11 @@ namespace portfolio2.Controllers
             return View();
         }
 
+        //logout button function
+        public ActionResult LogOut()
+        { 
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
+        }
     }
 }

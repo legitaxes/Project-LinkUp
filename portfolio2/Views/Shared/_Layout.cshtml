@@ -31,7 +31,17 @@
         <div class="row">
             <div class="col-sm-12">
                 <p style="padding:2px 15px;">
-                    Welcome,&nbsp;
+                    @{ 
+                        string userId = "Anonymous"; string userRole = "Unknown";
+                        if (Context.Session.GetString("Role") != null) { userRole = Context.Session.GetString("Role"); }
+                        if (Context.Session.GetString("LoginID") != null)
+                        {
+                            userId = Context.Session.GetString("LoginID");
+                        }
+                     } 
+                     Welcome,&nbsp;
+                    <span style="font-weight:bold">@userId</span>&nbsp; 
+                    (Role: @userRole).&nbsp;
                 </p>
             </div>
         </div>
