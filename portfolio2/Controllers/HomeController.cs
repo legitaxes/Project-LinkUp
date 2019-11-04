@@ -24,6 +24,7 @@ namespace portfolio2.Controllers
             string password = formData["txtPassword"].ToString();
             if (loginID == "abc@npbook.com" && password == "pass1234")
             {
+                HttpContext.Session.SetString("Role", "Student");
                 HttpContext.Session.SetString("LoginName", loginID);
                 //HttpContext.Session.SetInt32("ID", lecturer.LecturerId.ToString());  //remember to add
                 return RedirectToAction("VolunteerMain");
