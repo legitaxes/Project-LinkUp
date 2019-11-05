@@ -33,7 +33,7 @@ namespace portfolio2.Controllers
                 HttpContext.Session.SetString("Role", "Student");
                 HttpContext.Session.SetString("LoginName", loginID);
                 //HttpContext.Session.SetInt32("ID", lecturer.LecturerId.ToString());  //remember to add
-                return RedirectToAction("VolunteerMain");
+                return RedirectToAction("StudentMain");
             }
             else
             {
@@ -62,12 +62,12 @@ namespace portfolio2.Controllers
                 HttpContext.Session.SetString("Role", "Student");
                 HttpContext.Session.SetString("LoggedInTime",
                  DateTime.Now.ToString());
-                return RedirectToAction("Index", "Book");
+                return RedirectToAction("StudentMain");
             }
             return RedirectToAction("Index");
         }
         [HttpGet]
-        public ActionResult VolunteerMain()
+        public ActionResult StudentMain()
         {
             return View();
         }

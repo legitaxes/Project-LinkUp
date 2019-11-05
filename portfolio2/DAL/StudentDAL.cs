@@ -7,6 +7,7 @@ using System.IO;
 using System.Data;
 using System.Data.SqlClient;
 using portfolio2.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace portfolio2.DAL
 {
@@ -31,7 +32,35 @@ namespace portfolio2.DAL
             //Connection String read.
             conn = new SqlConnection(strConn);
         }
-
+        public bool checkStudent(string name)
+        {
+            SqlCommand cmd = new SqlCommand(
+             "SELECT * FROM Student WHERE Name = @selectedname", conn);
+            cmd.Parameters.AddWithValue("@selectedname", name);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "StudentDetails");
+            conn.Close();
+            Student student = new Student();
+            foreach (DataRow row in result.Tables["StudentDetails"].Rows)
+            {
+                student.Name = row["Name"].ToString().ToLower();
+                if (student.Name == name)
+                {
+                    string status = row["Status"].ToString();
+                    if (status == "N")
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            return false;
+        }
         public List<Student> GetAllStudent()
         {
             SqlCommand cmd = new SqlCommand(
@@ -66,6 +95,14 @@ namespace portfolio2.DAL
                 );
             }
             return studentList;
+        }
+        public int Add(Student student)
+        {
+            SqlCommand cmd = new SqlCommand
+            ("INSERT INTO Student (Name, Year, Email, @photo Description)" +
+            " OUTPUT INSERTED.LecturerID" +
+            " VALUES(@name, @email, @password, @description)", conn);
+            return 0;
         }
     }
 }
