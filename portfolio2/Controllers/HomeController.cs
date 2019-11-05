@@ -4,6 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using portfolio2.Models;
 
 namespace portfolio2.Controllers
 {
@@ -35,7 +41,31 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Index");
             }
         }
-
+        [Authorize]
+        public async Task<ActionResult> StudentLogin()
+        {
+            //Retrieve the access token of the user
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            //Call API to obtain user information
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://ictonejourney.com");
+            client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", accessToken);
+            HttpResponseMessage response = await
+             client.GetAsync("/api/Users/userinfo");
+            if (response.IsSuccessStatusCode)
+            {
+                string data = await response.Content.ReadAsStringAsync();
+                //Convert the JSON string into an Account object
+                Account account = JsonConvert.DeserializeObject<Account>(data);
+                HttpContext.Session.SetString("LoginID", account.Accounts.Name);
+                HttpContext.Session.SetString("Role", "Student");
+                HttpContext.Session.SetString("LoggedInTime",
+                 DateTime.Now.ToString());
+                return RedirectToAction("Index", "Book");
+            }
+            return RedirectToAction("Index");
+        }
         [HttpGet]
         public ActionResult VolunteerMain()
         {
