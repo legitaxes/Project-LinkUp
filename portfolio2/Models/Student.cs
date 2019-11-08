@@ -32,8 +32,8 @@ namespace portfolio2.Models
         [Display(Name = "Phone Number")]
         public int PhoneNo { get; set; }
 
-        [StringLength(255, ErrorMessage = "Password Length Cannot Exceed 255 Characters!")]
-        public string Password { get; set; }
+        //[StringLength(255, ErrorMessage = "Password Length Cannot Exceed 255 Characters!")]
+        //public string Password { get; set; }
 
         [Display(Name = "External Link")]
         [StringLength(255, ErrorMessage = "Name Cannot Exceed 255 Characters!")]

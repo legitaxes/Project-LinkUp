@@ -8,16 +8,21 @@
 <h2>Create</h2>
 
 <h4>Student</h4>
+@if (ViewData["Message"] != null)
+{
+    <h3 class="text-danger" style="text-align:center;">@ViewData["Message"]</h3>
+}
+
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="StudentID" class="control-label"></label>
-                <input asp-for="StudentID" class="form-control" />
-                <span asp-validation-for="StudentID" class="text-danger"></span>
-            </div>
+            @*<div class="form-group">
+                    <label asp-for="StudentID" class="control-label"></label>
+                    <input asp-for="StudentID" class="form-control" />
+                    <span asp-validation-for="StudentID" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -33,21 +38,21 @@
                 <input asp-for="EmailAddr" class="form-control" />
                 <span asp-validation-for="EmailAddr" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                @*<label asp-for="Photo" class="control-label"></label>*@
-                <input asp-for="Photo" class="form-control" hidden/>
-                <span asp-validation-for="Photo" class="text-danger"></span>
-            </div>
+            @*<div class="form-group">
+                    <label asp-for="Photo" class="control-label"></label>
+                    <input asp-for="Photo" class="form-control" hidden/>
+                    <span asp-validation-for="Photo" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <label asp-for="PhoneNo" class="control-label"></label>
                 <input asp-for="PhoneNo" class="form-control" />
                 <span asp-validation-for="PhoneNo" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
+            @*<div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <label asp-for="ExternalLink" class="control-label"></label>
                 <input asp-for="ExternalLink" class="form-control" />
@@ -56,13 +61,13 @@
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <span asp-validation-for="Description" class="text-danger">You can leave this blank and fill in later!</span>
             </div>
-            <div class="form-group">
-                @*<label asp-for="Points" class="control-label"></label>*@
-                <input asp-for="Points" class="form-control" hidden/>
-                <span asp-validation-for="Points" class="text-danger"></span>
-            </div>
+            @*<div class="form-group">
+                    <label asp-for="Points" class="control-label"></label>
+                    <input asp-for="Points" class="form-control" hidden/>
+                    <span asp-validation-for="Points" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>

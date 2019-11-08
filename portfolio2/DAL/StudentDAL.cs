@@ -32,6 +32,7 @@ namespace portfolio2.DAL
             //Connection String read.
             conn = new SqlConnection(strConn);
         }
+
         public bool checkStudent(string name)
         {
             SqlCommand cmd = new SqlCommand(
@@ -48,23 +49,16 @@ namespace portfolio2.DAL
                 student.Name = row["Name"].ToString().ToLower();
                 if (student.Name == name)
                 {
-                    string status = row["Status"].ToString();
-                    if (status == "N")
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return true;
                 }
             }
             return false;
         }
+
         public List<Student> GetAllStudent()
         {
             SqlCommand cmd = new SqlCommand(
-             "SELECT * FROM Student ORDER BY StudentID", conn);
+             "SELECT * FROM Student ORDER BY Points DESC", conn);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
             conn.Open();
@@ -87,7 +81,7 @@ namespace portfolio2.DAL
                         EmailAddr = row["Email"].ToString(),
                         Photo = row["Photo"].ToString(),
                         PhoneNo = Convert.ToInt32(row["PhoneNo"]),
-                        Password = row["Password"].ToString(),
+                        //Password = row["Password"].ToString(),
                         ExternalLink = row["ExternalLink"].ToString(),
                         Description = row["Description"].ToString(),
                         Points = points
@@ -96,13 +90,26 @@ namespace portfolio2.DAL
             }
             return studentList;
         }
+
+        //adds the student to the database if he does not exist in the database
         public int Add(Student student)
         {
             SqlCommand cmd = new SqlCommand
-            ("INSERT INTO Student (Name, Year, Email, @photo Description)" +
-            " OUTPUT INSERTED.LecturerID" +
-            " VALUES(@name, @email, @password, @description)", conn);
-            return 0;
+            ("INSERT INTO Student (Name, Year, Email, Photo, PhoneNo, ExternalLink, Description, Points)" +
+            " OUTPUT INSERTED.StudentID" +
+            " VALUES(@name, @year, @email, @photo, @phoneno, @externallink, @description, @points)", conn);
+            cmd.Parameters.AddWithValue("@name", student.Name);
+            cmd.Parameters.AddWithValue("@year", student.Year);
+            cmd.Parameters.AddWithValue("@email", student.EmailAddr);
+            cmd.Parameters.AddWithValue("@photo", DBNull.Value);
+            cmd.Parameters.AddWithValue("@phoneno", student.PhoneNo);
+            cmd.Parameters.AddWithValue("@externallink", student.ExternalLink);
+            cmd.Parameters.AddWithValue("@description", student.Description);
+            cmd.Parameters.AddWithValue("@points", DBNull.Value);
+            conn.Open();
+            student.StudentID = (int)cmd.ExecuteScalar();
+            conn.Close();
+            return student.StudentID;
         }
     }
 }

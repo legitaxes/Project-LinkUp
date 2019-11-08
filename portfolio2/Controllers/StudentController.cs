@@ -29,11 +29,11 @@ namespace portfolio2.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            if ((HttpContext.Session.GetString("Role") == null) ||
-            (HttpContext.Session.GetString("Role") != "Student"))
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            //if ((HttpContext.Session.GetString("Role") == null) ||
+            //(HttpContext.Session.GetString("Role") != "Student"))
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
             return View();
         }
 
@@ -47,7 +47,8 @@ namespace portfolio2.Controllers
                 ViewData["Message"] = "Student Created Successfully";
                 student.StudentID = studentContext.Add(student);
             }
-            return null;
+            ViewData["Message"] = "Student Profile Updated!";
+            return View();
         }
     }
 }
