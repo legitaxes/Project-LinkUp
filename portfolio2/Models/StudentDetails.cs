@@ -15,9 +15,9 @@ namespace portfolio2.Models
         [StringLength(50, ErrorMessage = "Name Cannot Exceed 50 Characters!")]
         public string Name { get; set; }
 
-        [RegularExpression("([0-9]{1,3})", ErrorMessage = "Year must be between 1 to 3 only!")]
         [Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
-        public int Year { get; set; }
+        //[RegularExpression(@"^[1-1000]{1,3}$", ErrorMessage = "Please enter a valid year between 1 and 3")]
+        public int? Year { get; set; }
 
         //[Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
         //[Display(Name = "NP Email Address")]
@@ -36,7 +36,7 @@ namespace portfolio2.Models
 
         [Required(ErrorMessage = "Please do not leave this field blank!")]
         [Display(Name = "Phone Number")]
-        public int PhoneNo { get; set; }
+        public int? PhoneNo { get; set; }
 
         //[StringLength(255, ErrorMessage = "Password Length Cannot Exceed 255 Characters!")]
         //public string Password { get; set; }

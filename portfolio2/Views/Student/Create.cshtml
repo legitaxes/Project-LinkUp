@@ -16,11 +16,6 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<div class="form-group">
-                    <label asp-for="StudentID" class="control-label"></label>
-                    <input asp-for="StudentID" class="form-control" />
-                    <span asp-validation-for="StudentID" class="text-danger"></span>
-                </div>*@
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input class="form-control" value="@Html.Display("Name")" disabled/>
@@ -28,29 +23,29 @@
             </div>
             <div class="form-group">
                 <label asp-for="Year" class="control-label"></label>
-                <input asp-for="Year" class="form-control" />
-                <span asp-validation-for="Year" class="text-danger"></span>
+                <input asp-for="Year" class="form-control" value="@Html.Display("Year")"/>
+                <span asp-validation-for="Year" class="text-danger">
+                    @if (ViewData["YearError"] != null)
+                    {
+                        @ViewData["YearError"]
+                    }
+                </span>
             </div>
             <div class="form-group">
                 <label asp-for="StudentNumber" class="control-label"></label>
                 <input class="form-control" disabled value="@Html.Display("StudentNumber")"/>
                 <span asp-validation-for="StudentNumber" class="text-danger">This field is automatically filled in for you</span>
             </div>
-            @*<div class="form-group">
-                    <label asp-for="Photo" class="control-label"></label>
-                    <input asp-for="Photo" class="form-control" hidden/>
-                    <span asp-validation-for="Photo" class="text-danger"></span>
-                </div>*@
             <div class="form-group">
                 <label asp-for="PhoneNo" class="control-label"></label>
-                <input asp-for="PhoneNo" class="form-control" />
-                <span asp-validation-for="PhoneNo" class="text-danger"></span>
+                <input asp-for="PhoneNo" class="form-control" value="@Html.Display("PhoneNo")"/>
+                <span asp-validation-for="PhoneNo" class="text-danger">
+                    @if (ViewData["PhoneError"] != null)
+                    {
+                        @ViewData["PhoneError"]
+                    }
+                </span>
             </div>
-            @*<div class="form-group">
-                    <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>*@
             <div class="form-group">
                 <label asp-for="ExternalLink" class="control-label"></label>
                 <input asp-for="ExternalLink" class="form-control" />
@@ -61,11 +56,6 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger">You can leave this blank and fill in later!</span>
             </div>
-            @*<div class="form-group">
-                    <label asp-for="Points" class="control-label"></label>
-                    <input asp-for="Points" class="form-control" hidden/>
-                    <span asp-validation-for="Points" class="text-danger"></span>
-                </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>

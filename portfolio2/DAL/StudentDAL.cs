@@ -56,6 +56,78 @@ namespace portfolio2.DAL
             return false;
         }
 
+        //get the logged in student details -- view/update profile
+        public StudentDetails GetStudentDetails(string studentnumber)
+        {
+            SqlCommand cmd = new SqlCommand(
+            "SELECT * FROM Student WHERE StudentNo = @selectedstudentnumber", conn);
+            cmd.Parameters.AddWithValue("@selectedstudentnumber", studentnumber);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "Details");
+            conn.Close();
+            StudentDetails student = new StudentDetails();
+            if (result.Tables["Details"].Rows.Count > 0)
+            {
+                DataTable table = result.Tables["Details"];
+
+                if (!DBNull.Value.Equals(table.Rows[0]["StudentID"]))
+                    student.StudentID = Convert.ToInt32(table.Rows[0]["StudentID"]);
+
+                if (!DBNull.Value.Equals(table.Rows[0]["Name"]))
+                    student.Name = table.Rows[0]["Name"].ToString();
+
+                if (!DBNull.Value.Equals(table.Rows[0]["Year"]))
+                    student.Year = Convert.ToInt32(table.Rows[0]["Year"]);
+
+                if (!DBNull.Value.Equals(table.Rows[0]["StudentNo"]))
+                    student.StudentNumber = table.Rows[0]["StudentNo"].ToString();
+
+                if (!DBNull.Value.Equals(table.Rows[0]["Photo"]))
+                    student.Photo = table.Rows[0]["Photo"].ToString();
+
+                if (!DBNull.Value.Equals(table.Rows[0]["PhoneNo"]))
+                    student.PhoneNo = Convert.ToInt32(table.Rows[0]["PhoneNo"]);
+
+                if (!DBNull.Value.Equals(table.Rows[0]["ExternalLink"]))
+                    student.ExternalLink = table.Rows[0]["ExternalLink"].ToString();
+
+                if (!DBNull.Value.Equals(table.Rows[0]["Description"]))
+                    student.Description = table.Rows[0]["Description"].ToString();
+
+                if (!DBNull.Value.Equals(table.Rows[0]["Points"]))
+                    student.Points = Convert.ToInt32(table.Rows[0]["Points"]);
+                return student;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        //updates the student profile
+        public int Update(StudentDetails student)
+        {
+            SqlCommand cmd = new SqlCommand
+            ("UPDATE Student SET Year=@year, PhoneNo=@phoneno, ExternalLink=@externallink, Description=@description" +
+            " WHERE StudentNo = @selectedstudentNo", conn);
+            cmd.Parameters.AddWithValue("@year", student.Year);
+            cmd.Parameters.AddWithValue("@phoneno", student.PhoneNo);
+            if (student.ExternalLink == null)
+                cmd.Parameters.AddWithValue("@externallink", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@externallink", student.ExternalLink);
+            if (student.Description == null)
+                cmd.Parameters.AddWithValue("@description", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@description", student.Description);
+            cmd.Parameters.AddWithValue("@selectedstudentno", student.StudentNumber);
+            conn.Open();
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+            return count;
+        }
+
         public List<StudentDetails> GetAllStudent()
         {
             SqlCommand cmd = new SqlCommand(
