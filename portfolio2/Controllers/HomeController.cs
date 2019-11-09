@@ -10,11 +10,14 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using portfolio2.Models;
+using portfolio2.DAL;
 
 namespace portfolio2.Controllers
 {
     public class HomeController : Controller
     {
+        private StudentDAL studentContext = new StudentDAL();
+
         public IActionResult Index()
         {
             return View();
@@ -58,18 +61,23 @@ namespace portfolio2.Controllers
                 string data = await response.Content.ReadAsStringAsync();
                 //Convert the JSON string into an Account object
                 Account account = JsonConvert.DeserializeObject<Account>(data);
-                HttpContext.Session.SetString("LoginID", account.Accounts.Name);
+                HttpContext.Session.SetString("LoginID", account.Student.Name);
+                HttpContext.Session.SetString("StudentID", account.Student.EmailId);
                 HttpContext.Session.SetString("Role", "Student");
                 HttpContext.Session.SetString("LoggedInTime",
                  DateTime.Now.ToString());
-                return RedirectToAction("StudentMain");
+                return RedirectToAction("Index", "Student");
             }
             return RedirectToAction("Index");
         }
         [HttpGet]
         public ActionResult StudentMain()
         {
-            return View();
+            //if student never signup on our site before
+            if (studentContext.checkStudent(HttpContext.Session.GetString("StudentID")) == false)
+                return RedirectToAction("Create", "Student");
+            else
+                return View();
         }
 
         //logout button function

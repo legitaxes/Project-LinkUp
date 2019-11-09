@@ -19,36 +19,42 @@ namespace portfolio2.Controllers
              (HttpContext.Session.GetString("Role") != "Student"))
             {
                 return RedirectToAction("Index", "Home");
-            }            //if student never signup on our site before            if (studentContext.checkStudent(HttpContext.Session.GetString("LoginID")))
+            }            //if student never signup on our site before            if (studentContext.checkStudent(HttpContext.Session.GetString("StudentID")) == false)
             {
                 return RedirectToAction("Create");
-            }                        List<Student> studentList = studentContext.GetAllStudent();
-            return View(studentList);
+            }                        //List<StudentDetails> studentList = studentContext.GetAllStudent();
+            return View();
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            //if ((HttpContext.Session.GetString("Role") == null) ||
-            //(HttpContext.Session.GetString("Role") != "Student"))
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
-            return View();
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            StudentDetails student = new StudentDetails();
+            student.StudentNumber = HttpContext.Session.GetString("StudentID");
+            student.Name = HttpContext.Session.GetString("LoginID");
+            return View(student);
         }
 
         [HttpPost]
-        public ActionResult Create(Student student)
+        public ActionResult Create(StudentDetails student)
         {
             student.Points = null;
             student.Photo = null;
+            student.Name = HttpContext.Session.GetString("LoginID");
+            student.StudentNumber = HttpContext.Session.GetString("StudentID");
             if (ModelState.IsValid)
             {
-                ViewData["Message"] = "Student Created Successfully";
+                ViewData["Message"] = "Student Profile Updated Successfully";
                 student.StudentID = studentContext.Add(student);
+                return View(student);
             }
-            ViewData["Message"] = "Student Profile Updated!";
-            return View();
+            ViewData["Message"] = "Something went wrong! Please try again!";
+            return View(student);
         }
     }
 }

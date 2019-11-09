@@ -33,21 +33,22 @@ namespace portfolio2.DAL
             conn = new SqlConnection(strConn);
         }
 
-        public bool checkStudent(string name)
+        //checks if student exists in the database.. return true / else return false
+        public bool checkStudent(string studentnumber)
         {
             SqlCommand cmd = new SqlCommand(
-             "SELECT * FROM Student WHERE Name = @selectedname", conn);
-            cmd.Parameters.AddWithValue("@selectedname", name);
+             "SELECT * FROM Student WHERE StudentNo = @selectedstudentnumber", conn);
+            cmd.Parameters.AddWithValue("@selectedstudentnumber", studentnumber);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
             conn.Open();
             da.Fill(result, "StudentDetails");
             conn.Close();
-            Student student = new Student();
+            StudentDetails student = new StudentDetails();
             foreach (DataRow row in result.Tables["StudentDetails"].Rows)
             {
-                student.Name = row["Name"].ToString().ToLower();
-                if (student.Name == name)
+                student.StudentNumber = row["StudentNo"].ToString().ToLower();
+                if (student.StudentNumber == studentnumber)
                 {
                     return true;
                 }
@@ -55,7 +56,7 @@ namespace portfolio2.DAL
             return false;
         }
 
-        public List<Student> GetAllStudent()
+        public List<StudentDetails> GetAllStudent()
         {
             SqlCommand cmd = new SqlCommand(
              "SELECT * FROM Student ORDER BY Points DESC", conn);
@@ -64,7 +65,7 @@ namespace portfolio2.DAL
             conn.Open();
             da.Fill(result, "StudentDetails");
             conn.Close();
-            List<Student> studentList = new List<Student>();
+            List<StudentDetails> studentList = new List<StudentDetails>();
             foreach (DataRow row in result.Tables["StudentDetails"].Rows)
             {
                 int? points;
@@ -73,12 +74,12 @@ namespace portfolio2.DAL
                 else
                     points = null;
                 studentList.Add(
-                    new Student
+                    new StudentDetails
                     {
                         StudentID = Convert.ToInt32(row["StudentID"]),
                         Name = row["Name"].ToString(),
                         Year = Convert.ToInt32(row["Year"]),
-                        EmailAddr = row["Email"].ToString(),
+                        StudentNumber = row["StudentNo"].ToString(),
                         Photo = row["Photo"].ToString(),
                         PhoneNo = Convert.ToInt32(row["PhoneNo"]),
                         //Password = row["Password"].ToString(),
@@ -92,15 +93,15 @@ namespace portfolio2.DAL
         }
 
         //adds the student to the database if he does not exist in the database
-        public int Add(Student student)
+        public int Add(StudentDetails student)
         {
             SqlCommand cmd = new SqlCommand
-            ("INSERT INTO Student (Name, Year, Email, Photo, PhoneNo, ExternalLink, Description, Points)" +
+            ("INSERT INTO Student (Name, Year, StudentNo, Photo, PhoneNo, ExternalLink, Description, Points)" +
             " OUTPUT INSERTED.StudentID" +
-            " VALUES(@name, @year, @email, @photo, @phoneno, @externallink, @description, @points)", conn);
+            " VALUES(@name, @year, @studentno, @photo, @phoneno, @externallink, @description, @points)", conn);
             cmd.Parameters.AddWithValue("@name", student.Name);
             cmd.Parameters.AddWithValue("@year", student.Year);
-            cmd.Parameters.AddWithValue("@email", student.EmailAddr);
+            cmd.Parameters.AddWithValue("@studentno", student.StudentNumber);
             cmd.Parameters.AddWithValue("@photo", DBNull.Value);
             cmd.Parameters.AddWithValue("@phoneno", student.PhoneNo);
             cmd.Parameters.AddWithValue("@externallink", student.ExternalLink);

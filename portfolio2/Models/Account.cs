@@ -8,10 +8,11 @@ namespace portfolio2.Models
     public class Account
     {
         public string Message { get; set; }
-        public Accounts Accounts { get; set; }
+        public Student Student { get; set; }
     }
-    public class Accounts
+    public class Student
     {
+        public string EmailId { get; set; }
         public string Name { get; set; }
     }
 }

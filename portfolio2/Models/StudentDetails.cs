@@ -6,24 +6,29 @@ using System.Threading.Tasks;
 
 namespace portfolio2.Models
 {
-    public class Student
+    public class StudentDetails
     {
         [Display(Name = "Student ID")]
         public int StudentID { get; set; }
 
-        [Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
+        //[Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
         [StringLength(50, ErrorMessage = "Name Cannot Exceed 50 Characters!")]
         public string Name { get; set; }
 
+        [RegularExpression("([0-9]{1,3})", ErrorMessage = "Year must be between 1 to 3 only!")]
         [Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
         public int Year { get; set; }
 
-        [Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
-        [Display(Name = "NP Email Address")]
-        [EmailAddress]
-        //[ValidateEmailExists(ErrorMessage = "Email Address already exists!")]
-        [StringLength(50, ErrorMessage = "Email Cannot Exceed 50 Characters!")]
-        public string EmailAddr { get; set; }
+        //[Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
+        //[Display(Name = "NP Email Address")]
+        //[EmailAddress]
+        ////[ValidateEmailExists(ErrorMessage = "Email Address already exists!")]
+        //[StringLength(50, ErrorMessage = "Email Cannot Exceed 50 Characters!")]
+        //public string EmailAddr { get; set; }
+
+        [Display(Name="Student Number")]
+        [StringLength(50, ErrorMessage ="Student Number cannot exceed 50 characters")]
+        public string StudentNumber { get; set; }
 
         [Display(Name = "Photo")]
         [StringLength(255, ErrorMessage = "File name Cannot Exceed 255 Characters!")]
