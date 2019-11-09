@@ -104,7 +104,15 @@ namespace portfolio2.DAL
             cmd.Parameters.AddWithValue("@studentno", student.StudentNumber);
             cmd.Parameters.AddWithValue("@photo", DBNull.Value);
             cmd.Parameters.AddWithValue("@phoneno", student.PhoneNo);
+            if (student.ExternalLink == null)
+            {
+                cmd.Parameters.AddWithValue("@externallink", DBNull.Value);
+            }
             cmd.Parameters.AddWithValue("@externallink", student.ExternalLink);
+            if (student.Description == null)
+            {
+                cmd.Parameters.AddWithValue("@description", DBNull.Value);
+            }
             cmd.Parameters.AddWithValue("@description", student.Description);
             cmd.Parameters.AddWithValue("@points", DBNull.Value);
             conn.Open();

@@ -34,6 +34,7 @@ namespace portfolio2.Models
         [StringLength(255, ErrorMessage = "File name Cannot Exceed 255 Characters!")]
         public string Photo { get; set; }
 
+        [Required(ErrorMessage = "Please do not leave this field blank!")]
         [Display(Name = "Phone Number")]
         public int PhoneNo { get; set; }
 
