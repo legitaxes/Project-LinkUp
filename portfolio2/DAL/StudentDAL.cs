@@ -108,12 +108,18 @@ namespace portfolio2.DAL
             {
                 cmd.Parameters.AddWithValue("@externallink", DBNull.Value);
             }
-            cmd.Parameters.AddWithValue("@externallink", student.ExternalLink);
+            else
+            {
+                cmd.Parameters.AddWithValue("@externallink", student.ExternalLink);
+            }
             if (student.Description == null)
             {
                 cmd.Parameters.AddWithValue("@description", DBNull.Value);
             }
-            cmd.Parameters.AddWithValue("@description", student.Description);
+            else
+            {
+                cmd.Parameters.AddWithValue("@description", student.Description);
+            }
             cmd.Parameters.AddWithValue("@points", DBNull.Value);
             conn.Open();
             student.StudentID = (int)cmd.ExecuteScalar();
