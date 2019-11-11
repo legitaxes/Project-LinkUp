@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using portfolio2.DAL;
-using portfolio2.Models;
+using portfolio2.Models;
+
 namespace portfolio2.Controllers
 {
     public class StudentController : Controller
@@ -19,10 +20,15 @@ namespace portfolio2.Controllers
              (HttpContext.Session.GetString("Role") != "Student"))
             {
                 return RedirectToAction("Index", "Home");
-            }            //if student never signup on our site before            if (studentContext.checkStudent(HttpContext.Session.GetString("StudentID")) == false)
+            }
+
+            //if student never signup on our site before
+            if (studentContext.checkStudent(HttpContext.Session.GetString("StudentID")) == false)
             {
                 return RedirectToAction("Create");
-            }                        //List<StudentDetails> studentList = studentContext.GetAllStudent();
+            }
+            
+            //List<StudentDetails> studentList = studentContext.GetAllStudent();
             return View();
         }
 
@@ -91,7 +97,6 @@ namespace portfolio2.Controllers
             return View(student);
         }
 
-        //view the details of the logged in user
         public ActionResult Details()
         {
             if ((HttpContext.Session.GetString("Role") == null) ||

@@ -16,7 +16,7 @@ namespace portfolio2.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
-        //[RegularExpression(@"^[1-1000]{1,3}$", ErrorMessage = "Please enter a valid year between 1 and 3")]
+        [RegularExpression("^([123])$", ErrorMessage = "Please enter a valid year between 1 and 3")]
         public int? Year { get; set; }
 
         //[Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
@@ -35,6 +35,7 @@ namespace portfolio2.Models
         public string Photo { get; set; }
 
         [Required(ErrorMessage = "Please do not leave this field blank!")]
+        [RegularExpression("^[689][0-9]{7}$", ErrorMessage = "Please enter a valid phone number")]
         [Display(Name = "Phone Number")]
         public int? PhoneNo { get; set; }
 
