@@ -91,6 +91,7 @@ namespace portfolio2.Controllers
             return View(student);
         }
 
+        //view the details of the logged in user
         public ActionResult Details()
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
