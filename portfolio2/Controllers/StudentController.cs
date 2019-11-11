@@ -12,7 +12,8 @@ namespace portfolio2.Controllers
     public class StudentController : Controller
     {
         private StudentDAL studentContext = new StudentDAL();
-
+        private CourseDAL courseContext = new CourseDAL();
+        
         // GET: Student Method
         public IActionResult Index()
         {
@@ -56,12 +57,6 @@ namespace portfolio2.Controllers
             student.Name = HttpContext.Session.GetString("LoginID");
             student.StudentNumber = HttpContext.Session.GetString("StudentID");
 
-            //check if year enter is between 1 to 3 
-            //if (student.Year != 1 || student.Year != 2 || student.Year != 3)
-            //{
-            //    ViewData["YearError"] = "Please enter a valid year between 1 and 3";
-            //    return View(student);
-            //}
             if (ModelState.IsValid)
             {
                 ViewData["Message"] = "Student Profile Updated Successfully";
@@ -97,6 +92,7 @@ namespace portfolio2.Controllers
             return View(student);
         }
 
+        //view the details of the logged in user
         public ActionResult Details()
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
@@ -105,7 +101,44 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Index", "Home");
             }
             StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentID"));
+            StudentViewModel studentVM = MapToStudentVM(student); //to be completed - 1. student details 2. student course 3. student skillset 4. student rating
             return View(student);
+        }
+
+        //to be completed - 
+        //1. student details
+        //2. student course 
+        //3. student skillset 
+        //4. student rating
+        public StudentViewModel MapToStudentVM(StudentDetails student)
+        {
+            string courseName = "";
+            int ratingcount;
+            List<Course> courseList = courseContext.getAllCourse();
+            foreach (Course course in courseList)
+            {
+                if (course.CourseID == student.CourseID)
+                {
+                    courseName = course.CourseName;
+                    break;
+                }
+            }
+            StudentViewModel studentVM = new StudentViewModel
+            {
+                StudentID = student.StudentID,
+                Name = student.Name,
+                Year = student.Year,
+                StudentNumber = student.StudentNumber,
+                Photo = student.Name + ".jpg",
+                PhoneNo = student.PhoneNo,
+                ExternalLink = student.ExternalLink,
+                Description = student.Description,
+                Points = student.Points,
+                CourseName = courseName
+                //to be done
+            };
+
+            return studentVM;
         }
     }
 }
