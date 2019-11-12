@@ -109,6 +109,63 @@ namespace portfolio2.DAL
                 return null;
             }
         }
+
+        public StudentPhoto GetPhotoDetails(int studentID)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT Name, Photo FROM Student WHERE StudentID = @selectedStudentID", conn);
+            cmd.Parameters.AddWithValue("@selectedStudentID", studentID);
+            //object “cmd” as parameter.
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+
+            //Create a DataSet object “result"
+            DataSet studentresult = new DataSet();
+
+            //Open a database connection.
+            conn.Open();
+
+            //Use DataAdapter to fetch data to a table "StaffDetails" in DataSet. 
+            da.Fill(studentresult, "StudentDetails");
+
+            //Close the database connection 
+            conn.Close();
+            StudentPhoto studentPhoto = new StudentPhoto();
+            if (studentresult.Tables["StudentDetails"].Rows.Count > 0)
+            {
+                studentPhoto.StudentID = studentID;
+                DataTable table = studentresult.Tables["StudentDetails"];
+
+                if (!DBNull.Value.Equals(table.Rows[0]["Name"]))
+                    studentPhoto.Name = table.Rows[0]["Name"].ToString();
+
+                if (!DBNull.Value.Equals(table.Rows[0]["Photo"]))
+                    studentPhoto.Photo = table.Rows[0]["Photo"].ToString();
+                return studentPhoto;
+            }
+            else
+                return null;
+        }
+
+        public int UploadPhoto(StudentPhoto student)
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE Student SET Name=@name, Photo=@photo" +
+                " WHERE StudentID=@selectedStudentID", conn);
+
+            cmd.Parameters.AddWithValue("@name", student.Name);
+            if (student.Photo != null)
+                cmd.Parameters.AddWithValue("@photo", student.Photo);
+            else
+                cmd.Parameters.AddWithValue("@photo", DBNull.Value);
+            cmd.Parameters.AddWithValue("@selectedStudentID", student.StudentID);
+            conn.Open();
+
+            int count = cmd.ExecuteNonQuery();
+
+            conn.Close();
+
+            return count;
+        }
+
         //updates the student profile
         public int Update(StudentDetails student)
         {

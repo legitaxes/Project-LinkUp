@@ -145,6 +145,56 @@ namespace portfolio2.Controllers
             return View(studentList);
         }
 
+        public ActionResult Photo()
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+           (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
+            StudentPhoto studentPhoto = studentContext.GetPhotoDetails(studentid);
+            return View(studentPhoto);
+        }
+
+        //Button on updating student profile photo
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Photo(StudentPhoto student)
+        {
+            if (student.FileToUpload != null && student.FileToUpload.Length > 0)
+            {
+                try
+                {
+                    // Find the filename extension of the file to be uploaded.
+                    string fileExt = Path.GetExtension(student.FileToUpload.FileName);
+                    // Rename the uploaded file with the staff’s name.
+                    string uploadedFile = student.StudentID + fileExt;
+                    // Get the complete path to the images folder in server
+                    string savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", uploadedFile);
+                    // Upload the file to server
+                    using (var fileSteam = new FileStream(savePath, FileMode.Create))
+                    {
+                        await student.FileToUpload.CopyToAsync(fileSteam);
+                    }
+                    student.Photo = uploadedFile;
+                    studentContext.UploadPhoto(student);
+                    ViewData["Message"] = "File uploaded successfully.";
+                }
+                catch (IOException)
+                {
+                    //File IO error, could be due to access rights denied 
+                    ViewData["Message"] = "File uploading fail!";
+                }
+                catch (Exception ex)
+                //Other type of error 
+                {
+                    ViewData["Message"] = ex.Message;
+                }
+            }
+            return View(student);
+        }
+
         public StudentViewModel MapToMultipleVMs(StudentDetails student)
         {
             string coursename = "";
