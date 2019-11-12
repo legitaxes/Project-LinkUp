@@ -29,10 +29,13 @@ namespace portfolio2.Models
         [Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
         public int Participants { get; set; }
 
+        [Display(Name = "Name of Host")]
         public string StudentName { get; set; }
 
+        [Display(Name = "Location"]
         public string LocationName { get; set; }
 
+        [Display(Name = "Category")]
         public string CategoryName { get; set; }
     }
 }
