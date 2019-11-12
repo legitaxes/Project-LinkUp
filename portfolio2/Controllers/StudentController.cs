@@ -16,6 +16,8 @@ namespace portfolio2.Controllers
     {
         private StudentDAL studentContext = new StudentDAL();
         private CourseDAL courseContext = new CourseDAL();
+        private StudentRatingDAL studentratingContext = new StudentRatingDAL();
+        private RatingDAL ratingContext = new RatingDAL();
 
         // GET: Student Method
         public IActionResult Index()
@@ -45,7 +47,7 @@ namespace portfolio2.Controllers
                 Value = "",
                 Text = "---Select Course---"
             });
-            foreach (var availablecourse in allcourselist)
+            foreach (Course availablecourse in allcourselist)
             {
                 course.Add(new SelectListItem
                 {
@@ -127,45 +129,83 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentNumber"));
-            StudentViewModel studentVM = MapToStudentVM(student); //to be completed - 1. student details 2. student course 3. student skillset 4. student rating
-            return View(student);
+            int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
+            StudentViewModel studentList = new StudentViewModel();
+            List<StudentDetails> allstudentList = studentContext.GetAllStudent();
+            foreach (StudentDetails student in allstudentList)
+            {
+                if (student.StudentID == studentid)
+                {
+                    StudentViewModel studentVM = MapToMultipleVMs(student);
+                    studentList = studentVM;
+                }
+       
+            }
+            // StudentViewModel studentVM = MapToStudentVM(student); //to be completed - 1. student details 2. student course 3. student skillset 4. student rating
+            return View(studentList);
         }
 
-        //to be completed - 
-        //1. student details
-        //2. student course 
-        //3. student skillset 
-        //4. student rating
-        public StudentViewModel MapToStudentVM(StudentDetails student)
+        public StudentViewModel MapToMultipleVMs(StudentDetails student)
         {
-            string courseName = "";
-            int ratingcount;
+            string coursename = "";
+            int totalrating = 0;
+            int amountofratings = 0;
+            int averagerating = 0;
+
             List<Course> courseList = courseContext.getAllCourse();
-            foreach (Course course in courseList)
+            foreach (Course currentcourse in courseList)
             {
-                if (course.CourseID == student.CourseID)
+                if (currentcourse.CourseID == student.CourseID)
                 {
-                    courseName = course.CourseName;
-                    break;
+                    coursename = currentcourse.CourseName;
                 }
             }
+
+            List<StudentRating> studentratingList = studentratingContext.GetAllStudentRatings();
+            List<Rating> ratingList = ratingContext.GetAllRatings();
+            foreach (StudentRating currentstudentrating in studentratingList)
+            {
+                if (currentstudentrating.StudentID == student.StudentID)
+                {
+                    foreach (Rating currentrating in ratingList)
+                    {
+                        if (currentrating.RatingID == currentstudentrating.RatingID)
+                        {
+                            totalrating = totalrating + currentrating.Stars;
+                            amountofratings++;
+                        }
+                    }
+                }
+            }
+
+            if (amountofratings > 0)
+            {
+                averagerating = totalrating / amountofratings;
+            }
+
+            else
+            {
+                averagerating = 0;
+            }
+
             StudentViewModel studentVM = new StudentViewModel
             {
                 StudentID = student.StudentID,
                 Name = student.Name,
                 Year = student.Year,
                 StudentNumber = student.StudentNumber,
-                Photo = student.Name + ".jpg",
+                Photo = student.Photo,
                 PhoneNo = student.PhoneNo,
+                Interest = student.Interest,
                 ExternalLink = student.ExternalLink,
                 Description = student.Description,
                 Points = student.Points,
-                CourseName = courseName
-                //to be done
+                CourseID = student.CourseID,
+                CourseName = coursename,               
+                Rating = averagerating,
+                TotalRatings = amountofratings
             };
-
             return studentVM;
-        }
+        }      
     }
 }

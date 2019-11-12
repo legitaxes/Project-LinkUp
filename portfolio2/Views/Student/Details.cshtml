@@ -1,4 +1,4 @@
-﻿@model portfolio2.Models.StudentDetails
+﻿@model portfolio2.Models.StudentViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -12,52 +12,94 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.StudentNumber)
+            @Html.DisplayNameFor(model => model.StudentID)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.StudentNumber)
+            @Html.DisplayFor(model => model.StudentID)
         </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Year)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Year)
         </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Photo)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Photo)
         </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.PhoneNo)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.PhoneNo)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Interest)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Interest)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.ExternalLink)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.ExternalLink)
         </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Points)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Points)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CourseID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CourseID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CourseName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CourseName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Rating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalRatings)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TotalRatings)
         </dd>
     </dl>
 </div>

@@ -33,6 +33,7 @@ namespace portfolio2.DAL
             conn = new SqlConnection(strConn);
         }
 
+
         //checks if student exists in the database.. return true / else return false
         public bool checkStudent(string studentnumber)
         {
@@ -168,6 +169,7 @@ namespace portfolio2.DAL
             }
             return studentList;
         }
+
 
         //adds the student to the database if he does not exist in the database
         public int Add(StudentDetails student)

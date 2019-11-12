@@ -11,11 +11,12 @@ using Microsoft.AspNetCore.Http;
 
 namespace portfolio2.DAL
 {
-    public class LocationDAL
+    public class StudentRatingDAL
     {
         private IConfiguration Configuration { get; set; }
         private SqlConnection conn;
-        public LocationDAL()
+        //Constructor
+        public StudentRatingDAL()
         {
             //Locate the appsettings.json file
             var builder = new ConfigurationBuilder()
@@ -32,31 +33,25 @@ namespace portfolio2.DAL
             conn = new SqlConnection(strConn);
         }
 
-        public List<Location> GetAllLocations()
+        public List<StudentRating> GetAllStudentRatings()
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM Location", conn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM StudentRating", conn);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
             conn.Open();
-            da.Fill(result, "LocationList");
+            da.Fill(result, "StudentRatingList");
             conn.Close();
-            List<Location> locationList = new List<Location>();
-            foreach (DataRow row in result.Tables["LocationList"].Rows)
+            List<StudentRating> studentratingList = new List<StudentRating>();
+            foreach (DataRow row in result.Tables["StudentRatingList"].Rows)
             {
-                string photo = "";
-                if (!DBNull.Value.Equals(row["Photo"]))
-                    photo = row["Photo"].ToString();
-                else
-                    photo = "stocklocation.jpg";
-                locationList.Add(
-                    new Location
+                studentratingList.Add(
+                    new StudentRating
                     {
-                        LocationID = Convert.ToInt32(row["LocationID"]),
-                        LocationName = row["LocationName"].ToString(),
-                        Photo = photo
+                        StudentID = Convert.ToInt32(row["StudentID"]),
+                        RatingID = Convert.ToInt32(row["RatingID"])
                     });
             }
-            return locationList;
+            return studentratingList;
         }
     }
 }

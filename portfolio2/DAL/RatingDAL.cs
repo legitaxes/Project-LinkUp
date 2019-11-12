@@ -11,11 +11,12 @@ using Microsoft.AspNetCore.Http;
 
 namespace portfolio2.DAL
 {
-    public class LocationDAL
+    public class RatingDAL
     {
         private IConfiguration Configuration { get; set; }
         private SqlConnection conn;
-        public LocationDAL()
+        //Constructor
+        public RatingDAL()
         {
             //Locate the appsettings.json file
             var builder = new ConfigurationBuilder()
@@ -32,31 +33,28 @@ namespace portfolio2.DAL
             conn = new SqlConnection(strConn);
         }
 
-        public List<Location> GetAllLocations()
+        public List<Rating> GetAllRatings()
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM Location", conn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Rating", conn);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
             conn.Open();
-            da.Fill(result, "LocationList");
+            da.Fill(result, "RatingList");
             conn.Close();
-            List<Location> locationList = new List<Location>();
-            foreach (DataRow row in result.Tables["LocationList"].Rows)
+            List<Rating> ratingList = new List<Rating>();
+            foreach (DataRow row in result.Tables["RatingList"].Rows)
             {
-                string photo = "";
-                if (!DBNull.Value.Equals(row["Photo"]))
-                    photo = row["Photo"].ToString();
-                else
-                    photo = "stocklocation.jpg";
-                locationList.Add(
-                    new Location
+                ratingList.Add(
+                    new Rating
                     {
-                        LocationID = Convert.ToInt32(row["LocationID"]),
-                        LocationName = row["LocationName"].ToString(),
-                        Photo = photo
+                        RatingID = Convert.ToInt32(row["RatingID"]),
+                        Description = row["Description"].ToString(),
+                        Stars = Convert.ToInt32(row["Stars"]),
+                        RatingDate = Convert.ToDateTime(row["RatingDate"]),
+                        SessionID = Convert.ToInt32(row["SessionID"])
                     });
             }
-            return locationList;
+            return ratingList;
         }
     }
 }
