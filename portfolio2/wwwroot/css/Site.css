@@ -1,4 +1,9 @@
-﻿body {
+﻿h1 {
+    font-family : Arial;
+    font-size: xx-large;
+}
+
+body {
     font-family : Arial;
     font-size : 14px;
 }
@@ -21,7 +26,6 @@
 }
 
 #mainContainer {
-    border: 1px solid #000000;
     margin: auto;
     width: 80%;
     padding: 4px;
@@ -94,3 +98,4 @@ fieldset legend{
         border: none;
     }
 }
+

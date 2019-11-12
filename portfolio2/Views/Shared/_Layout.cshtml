@@ -14,7 +14,7 @@
     <script src="~/js/bootstrap.min.js"></script> <!-- Reference to customized styling for this website -->
     <link rel="stylesheet" type="text/css" href="~/css/styles.css">
 
-    <title>Hello, world!</title>
+    <title>LinkUp</title>
 </head>
 
 <body>
@@ -25,24 +25,6 @@
         </div>
     </div>
 
-    <!-- 2nd row -->
-    <div class="row">
-        <div class="col-sm-12">
-            <p style="padding:2px 15px;">
-                @{
-                        string userId = "Anonymous"; string userRole = "Unknown";
-                        if (Context.Session.GetString("Role") != null) { userRole = Context.Session.GetString("Role"); }
-                        if (Context.Session.GetString("LoginID") != null)
-                        {
-                            userId = Context.Session.GetString("LoginID");
-                        }
-                }
-                Welcome,&nbsp;
-                <span style="font-weight:bold">@userId</span>&nbsp;
-                (Role: @userRole).&nbsp;
-            </p>
-        </div>
-    </div>
     <!-- 3rd row -->
     <div class="row">
         <div class="col-sm-12">
@@ -55,8 +37,8 @@
             <hr />
             <footer>
                 <p style="padding-right:10px;">
-                    WEB Practical Exercises - &copy;@DateTime.Today.Year
-                    School of ICT, Ngee Ann Polytechnic
+                    LinkUp - &copy;@DateTime.Today.Year
+                    Ligma balls LMAOOOO Joe mama gay
                 </p>
             </footer>
         </div>
