@@ -92,19 +92,19 @@ namespace portfolio2.DAL
             return rowCount;
         }
 
-        public int UpdateSkillSets(int StudentID, int skillsetID)
+        public int UpdateSkillSets(int StudentID, int SkillsetID)
         {
             //Create a SqlCommand object, with a SQL statement to delete
             //all skillset records, and a connection object to open
             //the database.
-            SqlCommand cmd2 = new SqlCommand("INSERT INTO StudentSkillset(StudentID,SkillsetID) VALUES(@selectedStudentID,@SkillsetID)", conn);
-            cmd2.Parameters.AddWithValue("@selectedStudentID", StudentID);
-            cmd2.Parameters.AddWithValue("@SkillsetID", skillsetID);
+            SqlCommand cmd = new SqlCommand("INSERT INTO StudentSkillSet(StudentID,SkillSetID) VALUES(@selectedStudentID,@SkillsetID)", conn);
+            cmd.Parameters.AddWithValue("@selectedStudentID", StudentID);
+            cmd.Parameters.AddWithValue("@SkillsetID", SkillsetID);
             //Open a database connection
             conn.Open();
             int rowCount = 0;
             //Execute the DELETE SQL to remove the staff record.
-            rowCount = cmd2.ExecuteNonQuery();
+            rowCount = cmd.ExecuteNonQuery();
             //Close database connection.
             conn.Close();
             return rowCount;

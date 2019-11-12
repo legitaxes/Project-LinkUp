@@ -89,7 +89,7 @@ namespace portfolio2.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(StudentDetails student)
+        public ActionResult Create(StudentDetails student, bool Skillsetcheck)
         {
             student.Points = null;
             student.Photo = null;
@@ -100,6 +100,11 @@ namespace portfolio2.Controllers
             ViewBag.List = allskillsetList;
             foreach (var skillset in ViewBag.List)
             {
+                if (Skillsetcheck == true)
+                {
+                    skillset.IsChecked = true;
+                }
+
                 if (skillset.IsChecked == true)
                 {
                     studentskillsetContext.UpdateSkillSets(studentid, skillset.SkillSetID);

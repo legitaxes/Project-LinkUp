@@ -66,6 +66,7 @@ namespace portfolio2.Controllers
                 Account account = JsonConvert.DeserializeObject<Account>(data);
                 HttpContext.Session.SetString("LoginID", account.Student.Name);
                 HttpContext.Session.SetString("StudentID", account.Student.EmailId);
+                
                 HttpContext.Session.SetString("Role", "Student");
                 HttpContext.Session.SetString("LoggedInTime",
                  DateTime.Now.ToString());
