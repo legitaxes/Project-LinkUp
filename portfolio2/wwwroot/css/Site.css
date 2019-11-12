@@ -8,6 +8,11 @@ body {
     font-size : 14px;
 }
 
+body, html {
+    width: 100%;
+    overflow-x: hidden;
+}
+
 .PageTitle {
     text-align:center;
     font-weight: bold;
@@ -27,7 +32,6 @@ body {
 
 #mainContainer {
     margin: auto;
-    width: 80%;
     padding: 4px;
 }
 
