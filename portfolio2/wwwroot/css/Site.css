@@ -1,6 +1,16 @@
-﻿body {
+﻿h1 {
+    font-family : Arial;
+    font-size: xx-large;
+}
+
+body {
     font-family : Arial;
     font-size : 14px;
+}
+
+body, html {
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .PageTitle {
@@ -21,9 +31,7 @@
 }
 
 #mainContainer {
-    border: 1px solid #000000;
     margin: auto;
-    width: 80%;
     padding: 4px;
 }
 
@@ -94,3 +102,4 @@ fieldset legend{
         border: none;
     }
 }
+

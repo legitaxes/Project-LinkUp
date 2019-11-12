@@ -1,34 +1,33 @@
-﻿
-@{
-    Layout = null;
+﻿@{
+    ViewData["Title"] = "LinkUP Homepage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <!-- Unicode character encoding - multi-language compatibility -->
-        <meta charset="utf-8">
+<head>
+    <!-- Unicode character encoding - multi-language compatibility -->
+    <meta charset="utf-8">
 
-        <!-- Set the initial view zooming scale for mobile device -->
-        <meta name="viewport" content="width = device-width,
+    <!-- Set the initial view zooming scale for mobile device -->
+    <meta name="viewport" content="width = device-width,
  initial-scale = 1" />
 
-        <title>NP Book Rentals</title>
+    <title>LinkUp</title>
 
-        <!-- Reference to customized styling for this website -->
-        <link rel="stylesheet" type="text/css" href="~/css/Site.css">
-    </head>
-    <body>
-        <div class="container" id="mainContainer">
-            <!-- 1st row -->
-            <div class="flex-container">
-                <!-- Flexbox for logo, auto-expand in the container -->
-                <div style="flex:auto;">
-                    <img id="imgNPLogo" src="~/images/logo.png" style="width: 25%" />
-                </div>
-                <!-- Flexbox for staff login -->
-                @*<div>
+    <!-- Reference to customized styling for this website -->
+    <link rel="stylesheet" type="text/css" href="~/css/Site.css">
+
+</head>
+<body>
+
+
+    <div class="container" id="mainContainer">
+        <!-- 1st row -->
+        <div class="flex-container">
+            <!-- Flexbox for staff login -->
+            @*<div>
                     <form method="post" action="~/Home/Login">
                         <fieldset class="loginFieldset">
                             <legend>Staff Login</legend>
@@ -46,25 +45,55 @@
                         </fieldset>
                     </form>
                 </div>*@
-                <!-- Flexbox for student login -->
-                <div>
-                    <fieldset class="loginFieldset">
-                        <legend>Student Login</legend>
-                        <p>
-                            <a href="~/Home/StudentLogin" class="myButton">Microsoft Login</a>
-                        </p>
-                    </fieldset>
-                </div>
-            </div>
-            <!-- 2nd row -->
-            @*<div>
-                <div style="text-align: center;">
+            <!-- Flexbox for student login -->
+            <div>
+                <fieldset class="loginFieldset">
+                    <legend>Login</legend>
                     <p>
-                        <img id="imgLogo" src="~/images/logo.jpg"
-                             style="width: 100%" />
+                        <a href="~/Home/StudentLogin" class="myButton">Login With Your Microsoft Account</a>
                     </p>
-                </div>
-            </div>*@
+                </fieldset>
+            </div>
         </div>
-    </body>
+        <!-- 2nd row -->
+        <div>
+            <div style="text-align: center;">
+                <h1>Xtra help. Xtra easy.</h1>
+                <p>
+                    <img id="imgLogo" src="~/images/hero.jpg"
+                         style="width: 100%" />
+                </p>
+                <h2>LinkUp is a matchmaking service that connects NP students with each other for the purposes of tutoring.</h2>
+                @*<img class="mySlides" src="~/images/coding.jpg" style="width: 100%">
+                    <img class="mySlides" src="~/images/art.jpg" style="width: 100%">
+                    <img class="mySlides" src="~/images/music.png" style="width: 100%">
+                    <img class="mySlides" src="~/images/sports.jpg" style="width: 100%">
+                    <img class="mySlides" src="~/images/languages.jpg" style="width: 100%">
+                    <img class="mySlides" src="~/images/lifeskills.png" style="width: 100%">
+                    <img class="mySlides" src="~/images/career.png" style="width: 100%">
+                    <img class="mySlides" src="~/images/acads.jpeg" style="width: 100%">*@
+                <br />
+            <h1>Imagine having a  tutor for every topic under the sun. Now stop imagining.</h1>
+            </div>
+
+        </div>
+    </div>
+
+    @*<script>
+            var myIndex = 0;
+            carousel();
+
+            function carousel() {
+                var i;
+                var x = document.getElementsByClassName("mySlides");
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.display = "none";
+                }
+                myIndex++;
+                if (myIndex > x.length) { myIndex = 1 }
+                x[myIndex - 1].style.display = "block";
+                setTimeout(carousel, 2000); // Change image every 2 seconds
+            }
+        </script>*@
+</body>
 </html>

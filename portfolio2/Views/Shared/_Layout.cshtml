@@ -13,55 +13,30 @@
     <script src="~/js/popper.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script> <!-- Reference to customized styling for this website -->
     <link rel="stylesheet" type="text/css" href="~/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="~/css/Site.css">
 
-    <title>Hello, world!</title>
+    <title>LinkUp</title>
 </head>
 
 <body>
+    @await Html.PartialAsync("_Menu.cshtml")
 
-    <div class="row">
-        <div class="col-sm-12">
-            @await Html.PartialAsync("_Menu.cshtml")
-        </div>
+    <div class="container">
+        @RenderBody()
     </div>
 
-    <!-- 2nd row -->
-    <div class="row">
-        <div class="col-sm-12">
-            <p style="padding:2px 15px;">
-                @{
-                        string userId = "Anonymous"; string userRole = "Unknown";
-                        if (Context.Session.GetString("Role") != null) { userRole = Context.Session.GetString("Role"); }
-                        if (Context.Session.GetString("LoginID") != null)
-                        {
-                            userId = Context.Session.GetString("LoginID");
-                        }
-                }
-                Welcome,&nbsp;
-                <span style="font-weight:bold">@userId</span>&nbsp;
-                (Role: @userRole).&nbsp;
-            </p>
-        </div>
-    </div>
-    <!-- 3rd row -->
-    <div class="row">
-        <div class="col-sm-12">
-            @RenderBody()
-        </div>
-    </div>
-    <!-- 4th row -->
+        <!-- 4th row -->
     <div class="row">
         <div class="col-sm-12" style="text-align: right">
             <hr />
             <footer>
                 <p style="padding-right:10px;">
-                    WEB Practical Exercises - &copy;@DateTime.Today.Year
-                    School of ICT, Ngee Ann Polytechnic
+                    LinkUp - &copy;@DateTime.Today.Year
+                    Ligma balls LMAOOOO Joe mama gay
                 </p>
             </footer>
         </div>
     </div>
-
 
 </body>
 </html>
