@@ -157,7 +157,8 @@ namespace portfolio2.DAL
                         //Password = row["Password"].ToString(),
                         ExternalLink = row["ExternalLink"].ToString(),
                         Description = row["Description"].ToString(),
-                        Points = points
+                        Points = points,
+                        CourseID = Convert.ToInt32(row["CourseID"])
                     }
                 );
             }
