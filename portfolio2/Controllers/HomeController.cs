@@ -83,7 +83,7 @@ namespace portfolio2.Controllers
                 return View();
         }
 
-        public ActionResult ViewSession()
+        public ActionResult Session()
         {
             List<Session> sessionList = sessionContext.GetAllSessions();
             List<SessionViewModel> sessionDetailsList = MapToSessionVM(sessionList);
