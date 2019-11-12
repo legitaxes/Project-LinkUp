@@ -159,6 +159,7 @@ namespace portfolio2.DAL
                         StudentNumber = row["StudentNo"].ToString(),
                         Photo = row["Photo"].ToString(),
                         PhoneNo = Convert.ToInt32(row["PhoneNo"]),
+                        Interest = row["Interest"].ToString(),
                         //Password = row["Password"].ToString(),
                         ExternalLink = row["ExternalLink"].ToString(),
                         Description = row["Description"].ToString(),
