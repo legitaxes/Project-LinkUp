@@ -10,7 +10,7 @@ namespace portfolio2.Models
     {
         public int SessionID { get; set; }
 
-        [Display(Name = "Session Date")]
+        [Display(Name = "Date")]
         [DataType(DataType.Date)] //-default html5 calendarpicker
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}")]
         public DateTime SessionDate { get; set; }
@@ -29,10 +29,10 @@ namespace portfolio2.Models
         [Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
         public int Participants { get; set; }
 
-        [Display(Name = "Name of Host")]
+        [Display(Name = "Host")]
         public string StudentName { get; set; }
 
-        [Display(Name = "Location"]
+        [Display(Name = "Location")]
         public string LocationName { get; set; }
 
         [Display(Name = "Category")]

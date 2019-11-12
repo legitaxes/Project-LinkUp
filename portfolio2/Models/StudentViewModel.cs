@@ -39,6 +39,9 @@ namespace portfolio2.Models
         [Display(Name = "Phone Number")]
         public int? PhoneNo { get; set; }
 
+        [StringLength(255, ErrorMessage = "Name Cannot Exceed 255 Characters!")]
+        public string Interest { get; set; }
+
         [Display(Name = "External Link")]
         [StringLength(255, ErrorMessage = "Name Cannot Exceed 255 Characters!")]
         public string ExternalLink { get; set; }
@@ -51,9 +54,6 @@ namespace portfolio2.Models
 
         [Display(Name = "Course")]
         public string CourseName { get; set; }
-
-        [Display(Name = "Skills")]
-        public string SkillSet { get; set; }
 
         [Display(Name = "Ratings")]
         public string Rating { get; set; }

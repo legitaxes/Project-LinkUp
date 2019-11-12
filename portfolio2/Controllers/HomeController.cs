@@ -72,7 +72,9 @@ namespace portfolio2.Controllers
                 HttpContext.Session.SetString("Role", "Student");
                 HttpContext.Session.SetString("LoggedInTime",
                  DateTime.Now.ToString());
-                return RedirectToAction("Index", "Student");
+                if (studentContext.checkStudent(HttpContext.Session.GetString("StudentNumber")) == false)
+                    return RedirectToAction("Create", "Student");
+                return RedirectToAction("Session");
             }
             return RedirectToAction("Index");
         }

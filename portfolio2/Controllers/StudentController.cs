@@ -16,7 +16,6 @@ namespace portfolio2.Controllers
     {
         private StudentDAL studentContext = new StudentDAL();
         private CourseDAL courseContext = new CourseDAL();
-        private StudentSkillSetDAL studentskillsetContext = new StudentSkillSetDAL();
 
         // GET: Student Method
         public IActionResult Index()
@@ -81,15 +80,13 @@ namespace portfolio2.Controllers
             student.Name = HttpContext.Session.GetString("LoginID");
             student.PhoneNo = null;
             ViewData["Courselist"] = DropDownCourse();
-            int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
-            List<StudentSkillSetViewModel> allskillsetList = studentskillsetContext.GetAllSkillSets();
-            ViewBag.List = allskillsetList;
+            //int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
             student.Year = null;
             return View(student);
         }
 
         [HttpPost]
-        public ActionResult Create(StudentDetails student, bool Skillsetcheck)
+        public ActionResult Create(StudentDetails student)
         {
             student.Points = null;
             student.Photo = null;
@@ -99,21 +96,12 @@ namespace portfolio2.Controllers
             {
                 ViewData["Message"] = "Student Profile Updated Successfully";
                 student.StudentID = studentContext.Add(student);
-
-                int studentid = student.StudentID;
-                List<StudentSkillSetViewModel> allskillsetList = studentskillsetContext.GetAllSkillSets();
-                ViewBag.List = allskillsetList;
-                foreach (var skillset in ViewBag.List)
-                {
-                    if (skillset.IsChecked == true)
-                    {
-                        studentskillsetContext.UpdateSkillSets(studentid, skillset.SkillSetID);
-                    }
-                }
-
+                HttpContext.Session.SetInt32("StudentID", student.StudentID);
+                ViewData["Courselist"] = DropDownCourse();
                 return View(student);
             }
             ViewData["Message"] = "Something went wrong! Please try again!";
+            ViewData["Courselist"] = DropDownCourse();
             return View(student);
         }
 

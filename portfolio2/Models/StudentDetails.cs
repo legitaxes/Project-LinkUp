@@ -19,13 +19,6 @@ namespace portfolio2.Models
         [RegularExpression("^([123])$", ErrorMessage = "Please enter a valid year between 1 and 3")]
         public int? Year { get; set; }
 
-        //[Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
-        //[Display(Name = "NP Email Address")]
-        //[EmailAddress]
-        ////[ValidateEmailExists(ErrorMessage = "Email Address already exists!")]
-        //[StringLength(50, ErrorMessage = "Email Cannot Exceed 50 Characters!")]
-        //public string EmailAddr { get; set; }
-
         [Display(Name="Student Number")]
         [StringLength(50, ErrorMessage ="Student Number cannot exceed 50 characters")]
         public string StudentNumber { get; set; }
@@ -52,6 +45,7 @@ namespace portfolio2.Models
 
         public int? Points { get; set; }
         
+        [Display(Name="Course Name")]
         public int CourseID { get; set; }
     }
 }

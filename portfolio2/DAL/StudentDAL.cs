@@ -109,10 +109,14 @@ namespace portfolio2.DAL
         public int Update(StudentDetails student)
         {
             SqlCommand cmd = new SqlCommand
-            ("UPDATE Student SET Year=@year, PhoneNo=@phoneno, ExternalLink=@externallink, Description=@description" +
+            ("UPDATE Student SET Year=@year, PhoneNo=@phoneno, Interest=@interest, ExternalLink=@externallink, Description=@description" +
             " WHERE StudentNo = @selectedstudentNo", conn);
             cmd.Parameters.AddWithValue("@year", student.Year);
             cmd.Parameters.AddWithValue("@phoneno", student.PhoneNo);
+            if (student.Interest == null)
+                cmd.Parameters.AddWithValue("@interest", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@interest", student.Interest);
             if (student.ExternalLink == null)
                 cmd.Parameters.AddWithValue("@externallink", DBNull.Value);
             else
@@ -169,14 +173,22 @@ namespace portfolio2.DAL
         public int Add(StudentDetails student)
         {
             SqlCommand cmd = new SqlCommand
-            ("INSERT INTO Student (Name, Year, StudentNo, Photo, PhoneNo, ExternalLink, Description, Points, CourseID)" +
+            ("INSERT INTO Student (Name, Year, StudentNo, Photo, PhoneNo, Interest, ExternalLink, Description, Points, CourseID)" +
             " OUTPUT INSERTED.StudentID" +
-            " VALUES(@name, @year, @studentno, @photo, @phoneno, @externallink, @description, @points, @courseID)", conn);
+            " VALUES(@name, @year, @studentno, @photo, @phoneno, @interest, @externallink, @description, @points, @courseID)", conn);
             cmd.Parameters.AddWithValue("@name", student.Name);
             cmd.Parameters.AddWithValue("@year", student.Year);
             cmd.Parameters.AddWithValue("@studentno", student.StudentNumber);
             cmd.Parameters.AddWithValue("@photo", DBNull.Value);
             cmd.Parameters.AddWithValue("@phoneno", student.PhoneNo);
+            if (student.Interest == null)
+            {
+                cmd.Parameters.AddWithValue("@interest", DBNull.Value);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@interest", student.Interest);
+            }
             if (student.ExternalLink == null)
             {
                 cmd.Parameters.AddWithValue("@externallink", DBNull.Value);
