@@ -16,9 +16,18 @@
   padding-left:5px;
 }
 
-
 .navbar .login{
   padding-top: 5px;
   padding-right: 5px;
   padding-left: 20px;
+}
+
+.navbar.sticky-top {
+    top: 0;
+    position: fixed;
+    width: 100%;
+}
+
+.container {
+    margin-top: 72.06px;
 }
