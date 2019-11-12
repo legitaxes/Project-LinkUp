@@ -1,4 +1,4 @@
-﻿@*LOGGED IN LAYOUT*@
+﻿@*LOGGED OUT LAYOUT*@
 
 <!doctype html>
 <html lang="en">
@@ -24,13 +24,13 @@
 </head>
 
 <body>
-    @await Html.PartialAsync("_Menu.cshtml")
+    @await Html.PartialAsync("_SignIn.cshtml")
 
     <div class="container">
         @RenderBody()
     </div>
 
-        <!-- 4th row -->
+    <!-- 4th row -->
     <div class="row">
         <div class="col-sm-12" style="text-align: right">
             <hr />
