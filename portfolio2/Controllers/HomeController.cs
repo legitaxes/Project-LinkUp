@@ -84,30 +84,30 @@ namespace portfolio2.Controllers
         public ActionResult ViewSession()
         {
             List<Session> sessionList = sessionContext.GetAllSessions();
-            List<SessionViewModel> sessionDetailsList = MapToSessionVM(sessionList);
+            //List<SessionViewModel> sessionDetailsList = MapToSessionVM(sessionList);
             return View();
         }
 
-        public List<SessionViewModel> MapToSessionVM(List<Session> sessionList)
-        {
-            string studentName = "";
-            string locationName = "";
-            string categoryName = "";
-            List<StudentDetails> studentList = studentContext.GetAllStudent();
+        //public List<SessionViewModel> MapToSessionVM(List<Session> sessionList)
+        //{
+        //    string studentName = "";
+        //    string locationName = "";
+        //    string categoryName = "";
+        //    List<StudentDetails> studentList = studentContext.GetAllStudent();
             
-            foreach (StudentDetails student in studentList)
-            {
-                foreach (Session session in sessionList)
-                {
-                    if (session.StudentID == student.StudentID)
-                    {
-                        studentName = student.Name;
-                        break;
-                    }
-                }
+        //    foreach (StudentDetails student in studentList)
+        //    {
+        //        foreach (Session session in sessionList)
+        //        {
+        //            if (session.StudentID == student.StudentID)
+        //            {
+        //                studentName = student.Name;
+        //                break;
+        //            }
+        //        }
                 
-            }
-        }
+        //    }
+        //}
 
         //logout button function
         public ActionResult LogOut()
