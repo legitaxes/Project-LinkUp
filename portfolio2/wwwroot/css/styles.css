@@ -1,25 +1,43 @@
+/* NAVBAR */
 
-.navbar {
-    background-color: #9395D3;
-    font-size: 20px;
+.navbar{
+  background-color: #563d7c;
 }
 
-.navbar a{
-  color: #FBF9FF !important;
+.navbar-dark .navbar-nav .nav-link {
+  color: #cbbde2;
+  font-size: 18px;
 }
 
-.navbar .dropdown-menu a{
-  color: #44474a !important;
+.loggedout li{
+  padding-right: 10px;
 }
 
-.navbar li{
-  padding-left:5px;
+
+.loginbtn .btn{
+  font-size: 18px;
+  border-radius: 5px;
+  border: 2px solid #ffe484;
+  font-weight: 500;
+  color: #ffe484;
 }
 
-.navbar .login{
-  padding-top: 5px;
-  padding-right: 5px;
-  padding-left: 20px;
+.loginbtn .btn:hover{
+  background-color: #ffe484;
+  color: #563d7c;
+}
+
+.avatar{
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-right: 0;
+}
+
+.avatar img{
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 
 .navbar.sticky-top {
