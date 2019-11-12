@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using portfolio2.DAL;
 using portfolio2.Models;
+using System.IO;
 
 namespace portfolio2.Controllers
 {
@@ -13,7 +16,8 @@ namespace portfolio2.Controllers
     {
         private StudentDAL studentContext = new StudentDAL();
         private CourseDAL courseContext = new CourseDAL();
-        
+        private StudentSkillSetDAL studentskillsetContext = new StudentSkillSetDAL();
+
         // GET: Student Method
         public IActionResult Index()
         {
@@ -24,13 +28,44 @@ namespace portfolio2.Controllers
             }
 
             //if student never signup on our site before
-            if (studentContext.checkStudent(HttpContext.Session.GetString("StudentID")) == false)
+            if (studentContext.checkStudent(HttpContext.Session.GetString("StudentNumber")) == false)
             {
                 return RedirectToAction("Create");
             }
             
             //List<StudentDetails> studentList = studentContext.GetAllStudent();
             return View();
+        }
+
+        private List<SelectListItem> DropDownCourse()
+        {
+            List<SelectListItem> course = new List<SelectListItem>();
+            course.Add(new SelectListItem
+            {
+                Value = "",
+                Text = "---Select Course---"
+            });
+            course.Add(new SelectListItem
+            {
+                Value = "1",
+                Text = "Information Technology"
+            });
+            course.Add(new SelectListItem
+            {
+                Value = "2",
+                Text = "Robotics Technology"
+            });
+            course.Add(new SelectListItem
+            {
+                Value = "3",
+                Text = "Financial Informatics"
+            });
+            course.Add(new SelectListItem
+            {
+                Value = "4",
+                Text = "Machine Learning"
+            });
+            return course;
         }
 
         [HttpGet]
@@ -42,9 +77,13 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Index", "Home");
             }
             StudentDetails student = new StudentDetails();
-            student.StudentNumber = HttpContext.Session.GetString("StudentID");
+            student.StudentNumber = HttpContext.Session.GetString("StudentNumber");
             student.Name = HttpContext.Session.GetString("LoginID");
             student.PhoneNo = null;
+            ViewData["Courselist"] = DropDownCourse();
+            int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
+            List<StudentSkillSetViewModel> allskillsetList = studentskillsetContext.GetAllSkillSets();
+            ViewBag.List = allskillsetList;
             student.Year = null;
             return View(student);
         }
@@ -55,8 +94,17 @@ namespace portfolio2.Controllers
             student.Points = null;
             student.Photo = null;
             student.Name = HttpContext.Session.GetString("LoginID");
-            student.StudentNumber = HttpContext.Session.GetString("StudentID");
-
+            student.StudentNumber = HttpContext.Session.GetString("StudentNumber");
+            int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
+            List<StudentSkillSetViewModel> allskillsetList = studentskillsetContext.GetAllSkillSets();
+            ViewBag.List = allskillsetList;
+            foreach (var skillset in ViewBag.List)
+            {
+                if (skillset.IsChecked == true)
+                {
+                    studentskillsetContext.UpdateSkillSets(studentid, skillset.SkillSetID);
+                }
+            }
             if (ModelState.IsValid)
             {
                 ViewData["Message"] = "Student Profile Updated Successfully";
@@ -76,7 +124,7 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentID"));
+            StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentNumber"));
             return View(student);
         }
         [HttpPost]
@@ -100,7 +148,7 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentID"));
+            StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentNumber"));
             StudentViewModel studentVM = MapToStudentVM(student); //to be completed - 1. student details 2. student course 3. student skillset 4. student rating
             return View(student);
         }
