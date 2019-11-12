@@ -169,9 +169,9 @@ namespace portfolio2.DAL
         public int Add(StudentDetails student)
         {
             SqlCommand cmd = new SqlCommand
-            ("INSERT INTO Student (Name, Year, StudentNo, Photo, PhoneNo, ExternalLink, Description, Points)" +
+            ("INSERT INTO Student (Name, Year, StudentNo, Photo, PhoneNo, ExternalLink, Description, Points, CourseID)" +
             " OUTPUT INSERTED.StudentID" +
-            " VALUES(@name, @year, @studentno, @photo, @phoneno, @externallink, @description, @points)", conn);
+            " VALUES(@name, @year, @studentno, @photo, @phoneno, @externallink, @description, @points, @courseID)", conn);
             cmd.Parameters.AddWithValue("@name", student.Name);
             cmd.Parameters.AddWithValue("@year", student.Year);
             cmd.Parameters.AddWithValue("@studentno", student.StudentNumber);
@@ -194,6 +194,7 @@ namespace portfolio2.DAL
                 cmd.Parameters.AddWithValue("@description", student.Description);
             }
             cmd.Parameters.AddWithValue("@points", DBNull.Value);
+            cmd.Parameters.AddWithValue("@courseID", student.CourseID);
             conn.Open();
             student.StudentID = (int)cmd.ExecuteScalar();
             conn.Close();
