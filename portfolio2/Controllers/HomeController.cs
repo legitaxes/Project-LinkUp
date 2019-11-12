@@ -65,8 +65,9 @@ namespace portfolio2.Controllers
                 //Convert the JSON string into an Account object
                 Account account = JsonConvert.DeserializeObject<Account>(data);
                 HttpContext.Session.SetString("LoginID", account.Student.Name);
-                HttpContext.Session.SetString("StudentID", account.Student.EmailId);
-                
+                HttpContext.Session.SetString("StudentNumber", account.Student.EmailId);
+                StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentNumber"));
+                HttpContext.Session.SetInt32("StudentID", student.StudentID);
                 HttpContext.Session.SetString("Role", "Student");
                 HttpContext.Session.SetString("LoggedInTime",
                  DateTime.Now.ToString());
@@ -78,7 +79,7 @@ namespace portfolio2.Controllers
         public ActionResult StudentMain()
         {
             //if student never signup on our site before
-            if (studentContext.checkStudent(HttpContext.Session.GetString("StudentID")) == false)
+            if (studentContext.checkStudent(HttpContext.Session.GetString("StudentNumber")) == false)
                 return RedirectToAction("Create", "Student");
             else
                 return View();
