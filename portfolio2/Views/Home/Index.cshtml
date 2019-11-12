@@ -25,10 +25,10 @@
             <div class="flex-container">
                 <!-- Flexbox for logo, auto-expand in the container -->
                 <div style="flex:auto;">
-                    <img id="imgNPLogo" src="~/images/nplogo.gif" />
+                    <img id="imgNPLogo" src="~/images/logo.png" style="width: 25%" />
                 </div>
                 <!-- Flexbox for staff login -->
-                <div>
+                @*<div>
                     <form method="post" action="~/Home/Login">
                         <fieldset class="loginFieldset">
                             <legend>Staff Login</legend>
@@ -45,7 +45,7 @@
                             <span style="color:red;">@TempData["Message"]</span>
                         </fieldset>
                     </form>
-                </div>
+                </div>*@
                 <!-- Flexbox for student login -->
                 <div>
                     <fieldset class="loginFieldset">
@@ -57,14 +57,14 @@
                 </div>
             </div>
             <!-- 2nd row -->
-            <div>
+            @*<div>
                 <div style="text-align: center;">
                     <p>
                         <img id="imgLogo" src="~/images/logo.jpg"
                              style="width: 100%" />
                     </p>
                 </div>
-            </div>
+            </div>*@
         </div>
     </body>
 </html>
