@@ -95,25 +95,22 @@ namespace portfolio2.Controllers
             student.Photo = null;
             student.Name = HttpContext.Session.GetString("LoginID");
             student.StudentNumber = HttpContext.Session.GetString("StudentNumber");
-            int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
-            List<StudentSkillSetViewModel> allskillsetList = studentskillsetContext.GetAllSkillSets();
-            ViewBag.List = allskillsetList;
-            foreach (var skillset in ViewBag.List)
-            {
-                if (Skillsetcheck == true)
-                {
-                    skillset.IsChecked = true;
-                }
-
-                if (skillset.IsChecked == true)
-                {
-                    studentskillsetContext.UpdateSkillSets(studentid, skillset.SkillSetID);
-                }
-            }
             if (ModelState.IsValid)
             {
                 ViewData["Message"] = "Student Profile Updated Successfully";
                 student.StudentID = studentContext.Add(student);
+
+                int studentid = student.StudentID;
+                List<StudentSkillSetViewModel> allskillsetList = studentskillsetContext.GetAllSkillSets();
+                ViewBag.List = allskillsetList;
+                foreach (var skillset in ViewBag.List)
+                {
+                    if (skillset.IsChecked == true)
+                    {
+                        studentskillsetContext.UpdateSkillSets(studentid, skillset.SkillSetID);
+                    }
+                }
+
                 return View(student);
             }
             ViewData["Message"] = "Something went wrong! Please try again!";
