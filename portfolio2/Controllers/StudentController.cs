@@ -28,7 +28,7 @@ namespace portfolio2.Controllers
             }
 
             //if student never signup on our site before
-            if (studentContext.checkStudent(HttpContext.Session.GetString("StudentID")) == false)
+            if (studentContext.checkStudent(HttpContext.Session.GetString("StudentNumber")) == false)
             {
                 return RedirectToAction("Create");
             }
@@ -77,7 +77,7 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Index", "Home");
             }
             StudentDetails student = new StudentDetails();
-            student.StudentNumber = HttpContext.Session.GetString("StudentID");
+            student.StudentNumber = HttpContext.Session.GetString("StudentNumber");
             student.Name = HttpContext.Session.GetString("LoginID");
             student.PhoneNo = null;
             ViewData["Courselist"] = DropDownCourse();
@@ -94,7 +94,7 @@ namespace portfolio2.Controllers
             student.Points = null;
             student.Photo = null;
             student.Name = HttpContext.Session.GetString("LoginID");
-            student.StudentNumber = HttpContext.Session.GetString("StudentID");
+            student.StudentNumber = HttpContext.Session.GetString("StudentNumber");
             int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
             List<StudentSkillSetViewModel> allskillsetList = studentskillsetContext.GetAllSkillSets();
             ViewBag.List = allskillsetList;
@@ -124,7 +124,7 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentID"));
+            StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentNumber"));
             return View(student);
         }
         [HttpPost]
@@ -148,7 +148,7 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentID"));
+            StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentNumber"));
             StudentViewModel studentVM = MapToStudentVM(student); //to be completed - 1. student details 2. student course 3. student skillset 4. student rating
             return View(student);
         }
