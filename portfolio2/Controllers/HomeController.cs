@@ -81,7 +81,7 @@ namespace portfolio2.Controllers
                 return View();
         }
 
-        public ActionResult ViewSession()
+        /*public ActionResult ViewSession()
         {
             List<Session> sessionList = sessionContext.GetAllSessions();
             List<SessionViewModel> sessionDetailsList = MapToSessionVM(sessionList);
@@ -108,6 +108,7 @@ namespace portfolio2.Controllers
                 
             }
         }
+        */
 
         //logout button function
         public ActionResult LogOut()

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using portfolio2.DAL;
 using portfolio2.Models;
+using System.IO;
 
 namespace portfolio2.Controllers
 {
@@ -13,7 +16,8 @@ namespace portfolio2.Controllers
     {
         private StudentDAL studentContext = new StudentDAL();
         private CourseDAL courseContext = new CourseDAL();
-        
+        private StudentSkillSetDAL studentskillsetContext = new StudentSkillSetDAL();
+
         // GET: Student Method
         public IActionResult Index()
         {
@@ -33,6 +37,37 @@ namespace portfolio2.Controllers
             return View();
         }
 
+        private List<SelectListItem> DropDownCourse()
+        {
+            List<SelectListItem> course = new List<SelectListItem>();
+            course.Add(new SelectListItem
+            {
+                Value = "",
+                Text = "---Select Course---"
+            });
+            course.Add(new SelectListItem
+            {
+                Value = "1",
+                Text = "Information Technology"
+            });
+            course.Add(new SelectListItem
+            {
+                Value = "2",
+                Text = "Robotics Technology"
+            });
+            course.Add(new SelectListItem
+            {
+                Value = "3",
+                Text = "Financial Informatics"
+            });
+            course.Add(new SelectListItem
+            {
+                Value = "4",
+                Text = "Machine Learning"
+            });
+            return course;
+        }
+
         [HttpGet]
         public ActionResult Create()
         {
@@ -45,6 +80,10 @@ namespace portfolio2.Controllers
             student.StudentNumber = HttpContext.Session.GetString("StudentID");
             student.Name = HttpContext.Session.GetString("LoginID");
             student.PhoneNo = null;
+            ViewData["Courselist"] = DropDownCourse();
+            int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
+            List<StudentSkillSetViewModel> allskillsetList = studentskillsetContext.GetAllSkillSets();
+            ViewBag.List = allskillsetList;
             student.Year = null;
             return View(student);
         }
@@ -56,7 +95,16 @@ namespace portfolio2.Controllers
             student.Photo = null;
             student.Name = HttpContext.Session.GetString("LoginID");
             student.StudentNumber = HttpContext.Session.GetString("StudentID");
-
+            int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
+            List<StudentSkillSetViewModel> allskillsetList = studentskillsetContext.GetAllSkillSets();
+            ViewBag.List = allskillsetList;
+            foreach (var skillset in ViewBag.List)
+            {
+                if (skillset.IsChecked == true)
+                {
+                    studentskillsetContext.UpdateSkillSets(studentid, skillset.SkillSetID);
+                }
+            }
             if (ModelState.IsValid)
             {
                 ViewData["Message"] = "Student Profile Updated Successfully";
