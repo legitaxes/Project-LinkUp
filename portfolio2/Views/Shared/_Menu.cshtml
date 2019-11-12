@@ -1,4 +1,4 @@
-﻿<nav class="navbar navbar-dark navbar-expand-sm">
+﻿<nav class="navbar navbar-dark navbar-expand-sm sticky-top">
     <a class="navbar-brand" href="#"><img src="~/images/logo.png" alt="LinkUp logo" width="120"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -44,8 +44,9 @@
                             }
                         }
                         <span style="font-weight:bold">@userId</span>&nbsp;
-                       (@Context.Session.GetString("StudentID"))
+                        (@Context.Session.GetString("StudentID"))
                     </p>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Profile</a>
                     <a class="dropdown-item" href="#">Leaderboard</a>
                     <a class="dropdown-item" asp-controller="Home" asp-action="LogOut">Log Out</a>

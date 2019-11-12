@@ -13,25 +13,19 @@
     <script src="~/js/popper.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script> <!-- Reference to customized styling for this website -->
     <link rel="stylesheet" type="text/css" href="~/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="~/css/Site.css">
 
     <title>LinkUp</title>
 </head>
 
 <body>
+    @await Html.PartialAsync("_Menu.cshtml")
 
-    <div class="row">
-        <div class="col-sm-12">
-            @await Html.PartialAsync("_Menu.cshtml")
-        </div>
+    <div class="container">
+        @RenderBody()
     </div>
 
-    <!-- 3rd row -->
-    <div class="row">
-        <div class="col-sm-12">
-            @RenderBody()
-        </div>
-    </div>
-    <!-- 4th row -->
+        <!-- 4th row -->
     <div class="row">
         <div class="col-sm-12" style="text-align: right">
             <hr />
@@ -43,7 +37,6 @@
             </footer>
         </div>
     </div>
-
 
 </body>
 </html>
