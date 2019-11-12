@@ -39,31 +39,20 @@ namespace portfolio2.Controllers
         private List<SelectListItem> DropDownCourse()
         {
             List<SelectListItem> course = new List<SelectListItem>();
+            List<Course> allcourselist = courseContext.getAllCourse();
             course.Add(new SelectListItem
             {
                 Value = "",
                 Text = "---Select Course---"
             });
-            course.Add(new SelectListItem
+            foreach (var availablecourse in allcourselist)
             {
-                Value = "1",
-                Text = "Information Technology"
-            });
-            course.Add(new SelectListItem
-            {
-                Value = "2",
-                Text = "Robotics Technology"
-            });
-            course.Add(new SelectListItem
-            {
-                Value = "3",
-                Text = "Financial Informatics"
-            });
-            course.Add(new SelectListItem
-            {
-                Value = "4",
-                Text = "Machine Learning"
-            });
+                course.Add(new SelectListItem
+                {
+                    Value = availablecourse.CourseID.ToString(),
+                    Text = availablecourse.CourseName
+                });
+            }        
             return course;
         }
 
