@@ -91,6 +91,9 @@ namespace portfolio2.DAL
                 if (!DBNull.Value.Equals(table.Rows[0]["PhoneNo"]))
                     student.PhoneNo = Convert.ToInt32(table.Rows[0]["PhoneNo"]);
 
+                if (!DBNull.Value.Equals(table.Rows[0]["Interest"]))
+                    student.Interest = table.Rows[0]["Interest"].ToString();
+
                 if (!DBNull.Value.Equals(table.Rows[0]["ExternalLink"]))
                     student.ExternalLink = table.Rows[0]["ExternalLink"].ToString();
 
