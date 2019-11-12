@@ -1,68 +1,67 @@
-﻿
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
+﻿<!doctype html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <link href="~/css/Site.css" rel="stylesheet" />
-    <title>@ViewData["Title"] - LinkUp</title>
-    <!-- Reference to Bootstrap CSS, JavaScript/JQuery files -->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <link rel="stylesheet" href="~/css/styles.css">
+    @*Reference to Bootstrap CSS, Javascript/JQuery*@
     <link href="~/css/bootstrap.min.css" rel="stylesheet" />
     <script src="~/js/jquery-3.3.1.min.js"></script>
     <script src="~/js/popper.min.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
-    <!-- Reference to customized styling for this website -->
-    <link rel="stylesheet" type="text/css" href="~/css/Site.css">
+    <script src="~/js/bootstrap.min.js"></script> <!-- Reference to customized styling for this website -->
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css">
+
+    <title>Hello, world!</title>
 </head>
+
 <body>
-    <!-- Bootstrap container, centralise the container between margins -->
-    <div class="container">
-        <!-- 1st row -->
-        <div class="row">
-            <div class="col-sm-12">
-                @await Html.PartialAsync("_Menu.cshtml")
-            </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            @await Html.PartialAsync("_Menu.cshtml")
         </div>
-        <!-- 2nd row -->
-        <div class="row">
-            <div class="col-sm-12"> 
-                <p style="padding:2px 15px;">
-                    @{ 
+    </div>
+
+    <!-- 2nd row -->
+    <div class="row">
+        <div class="col-sm-12">
+            <p style="padding:2px 15px;">
+                @{
                         string userId = "Anonymous"; string userRole = "Unknown";
                         if (Context.Session.GetString("Role") != null) { userRole = Context.Session.GetString("Role"); }
                         if (Context.Session.GetString("LoginID") != null)
                         {
                             userId = Context.Session.GetString("LoginID");
                         }
-                     } 
-                     Welcome,&nbsp;
-                    <span style="font-weight:bold">@userId</span>&nbsp; 
-                    (Role: @userRole).&nbsp;
-                </p>
-            </div>
-        </div>
-        <!-- 3rd row -->
-        <div class="row">
-            <div class="col-sm-12">
-                @RenderBody()
-            </div>
-        </div>
-        <!-- 4th row -->
-        <div class="row">
-            <div class="col-sm-12" style="text-align: right">
-                <hr />
-                <footer>
-                    <p style="padding-right:10px;">
-                        WEB Practical Exercises - &copy;@DateTime.Today.Year
-                        School of ICT, Ngee Ann Polytechnic
-                    </p>
-                </footer>
-            </div>
+                }
+                Welcome,&nbsp;
+                <span style="font-weight:bold">@userId</span>&nbsp;
+                (Role: @userRole).&nbsp;
+            </p>
         </div>
     </div>
+    <!-- 3rd row -->
+    <div class="row">
+        <div class="col-sm-12">
+            @RenderBody()
+        </div>
+    </div>
+    <!-- 4th row -->
+    <div class="row">
+        <div class="col-sm-12" style="text-align: right">
+            <hr />
+            <footer>
+                <p style="padding-right:10px;">
+                    WEB Practical Exercises - &copy;@DateTime.Today.Year
+                    School of ICT, Ngee Ann Polytechnic
+                </p>
+            </footer>
+        </div>
+    </div>
+
+
 </body>
 </html>
