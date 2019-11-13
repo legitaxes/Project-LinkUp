@@ -67,8 +67,11 @@ namespace portfolio2.Controllers
                 HttpContext.Session.SetString("LoginID", account.Student.Name);
                 HttpContext.Session.SetString("StudentNumber", account.Student.EmailId);
                 StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentNumber"));
-                if(student != null)
+                if (student != null)
+                {
                     HttpContext.Session.SetInt32("StudentID", student.StudentID);
+                    HttpContext.Session.SetString("Photo", student.Photo);
+                }
                 HttpContext.Session.SetString("Role", "Student");
                 HttpContext.Session.SetString("LoggedInTime",
                  DateTime.Now.ToString());

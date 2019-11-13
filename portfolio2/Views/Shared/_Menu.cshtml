@@ -40,7 +40,14 @@
             }
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle avatar" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="~/images/Profilepictures/@(userId).jpg" alt="Avatar">
+                    @if (Context.Session.GetString("Photo") != null)
+                    {
+                        <img src="~/images/Profilepictures/@(userId).jpg" alt="Avatar">
+                    }
+                    else
+                    {
+                        <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" alt="Avatar">
+                    }
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                     <p style="padding:2px 15px;">

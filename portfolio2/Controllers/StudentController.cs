@@ -88,6 +88,7 @@ namespace portfolio2.Controllers
                 ViewData["Message"] = "Student Profile Updated Successfully";
                 student.StudentID = studentContext.Add(student);
                 HttpContext.Session.SetInt32("StudentID", student.StudentID);
+                HttpContext.Session.SetString("Photo", student.Photo);
                 ViewData["Courselist"] = DropDownCourse();
                 return View(student);
             }
