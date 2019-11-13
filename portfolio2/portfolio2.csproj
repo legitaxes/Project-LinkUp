@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\images\Profilepictures\" />
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
