@@ -88,6 +88,7 @@ namespace portfolio2.Controllers
                 ViewData["Message"] = "Student Profile Updated Successfully";
                 student.StudentID = studentContext.Add(student);
                 HttpContext.Session.SetInt32("StudentID", student.StudentID);
+                HttpContext.Session.SetString("Photo", student.Photo);
                 ViewData["Courselist"] = DropDownCourse();
                 return View(student);
             }
@@ -169,9 +170,9 @@ namespace portfolio2.Controllers
                     // Find the filename extension of the file to be uploaded.
                     string fileExt = Path.GetExtension(student.FileToUpload.FileName);
                     // Rename the uploaded file with the staff’s name.
-                    string uploadedFile = student.StudentID + fileExt;
+                    string uploadedFile = student.Name + fileExt;
                     // Get the complete path to the images folder in server
-                    string savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", uploadedFile);
+                    string savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\Profilepictures", uploadedFile);
                     // Upload the file to server
                     using (var fileSteam = new FileStream(savePath, FileMode.Create))
                     {

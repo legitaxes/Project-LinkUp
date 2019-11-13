@@ -27,26 +27,26 @@ namespace portfolio2.Controllers
         }
 
         //login action method for homepage --- to be worked on --- need to include hashing and implementation of db
-        [HttpPost]
-        public ActionResult Login(IFormCollection formData)
-        {
-            // Read inputs from textboxes
-            // Email address converted to lowercase
-            string loginID = formData["txtLoginID"].ToString().ToLower();
-            string password = formData["txtPassword"].ToString();
-            if (loginID == "abc@npbook.com" && password == "pass1234")
-            {
-                HttpContext.Session.SetString("Role", "Student");
-                HttpContext.Session.SetString("LoginName", loginID);
-                //HttpContext.Session.SetInt32("ID", lecturer.LecturerId.ToString());  //remember to add
-                return RedirectToAction("StudentMain");
-            }
-            else
-            {
-                TempData["Message"] = "Invalid Login Credentials!";
-                return RedirectToAction("Index");
-            }
-        }
+        //[HttpPost]
+        //public ActionResult Login(IFormCollection formData)
+        //{
+        //    // Read inputs from textboxes
+        //    // Email address converted to lowercase
+        //    string loginID = formData["txtLoginID"].ToString().ToLower();
+        //    string password = formData["txtPassword"].ToString();
+        //    if (loginID == "abc@npbook.com" && password == "pass1234")
+        //    {
+        //        HttpContext.Session.SetString("Role", "Student");
+        //        HttpContext.Session.SetString("LoginName", loginID);
+        //        //HttpContext.Session.SetInt32("ID", lecturer.LecturerId.ToString());  //remember to add
+        //        return RedirectToAction("StudentMain");
+        //    }
+        //    else
+        //    {
+        //        TempData["Message"] = "Invalid Login Credentials!";
+        //        return RedirectToAction("Index");
+        //    }
+        //}
         [Authorize]
         public async Task<ActionResult> StudentLogin()
         {
@@ -67,14 +67,17 @@ namespace portfolio2.Controllers
                 HttpContext.Session.SetString("LoginID", account.Student.Name);
                 HttpContext.Session.SetString("StudentNumber", account.Student.EmailId);
                 StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentNumber"));
-                if(student != null)
+                if (student != null)
+                {
                     HttpContext.Session.SetInt32("StudentID", student.StudentID);
+                    HttpContext.Session.SetString("Photo", student.Photo);
+                }
                 HttpContext.Session.SetString("Role", "Student");
                 HttpContext.Session.SetString("LoggedInTime",
                  DateTime.Now.ToString());
                 if (studentContext.checkStudent(HttpContext.Session.GetString("StudentNumber")) == false)
                     return RedirectToAction("Create", "Student");
-                return RedirectToAction("Session");
+                return RedirectToAction("Index","Session");
             }
             return RedirectToAction("Index");
         }
@@ -88,64 +91,64 @@ namespace portfolio2.Controllers
                 return View();
         }
 
-        public ActionResult Session()
-        {
-            List<Session> sessionList = sessionContext.GetAllSessions();
-            List<SessionViewModel> sessionDetailsList = MapToSessionVM(sessionList);
-            return View(sessionDetailsList);
-        }
+        //public ActionResult Session()
+        //{
+        //    List<Session> sessionList = sessionContext.GetAllSessions();
+        //    List<SessionViewModel> sessionDetailsList = MapToSessionVM(sessionList);
+        //    return View(sessionDetailsList);
+        //}
 
-        public List<SessionViewModel> MapToSessionVM(List<Session> sessionList)
-        {
-            string studentName = "";
-            string locationName = "";
-            string categoryName = "";
-            List<StudentDetails> studentList = studentContext.GetAllStudent();
-            List<Location> locationList = locationContext.GetAllLocations();
-            List<Category> categoryList = categoryContext.GetAllCategory();
-            List<SessionViewModel> sessionViewModelList = new List<SessionViewModel>();
-            foreach (Session session in sessionList)
-            {
-                foreach (StudentDetails student in studentList)
-                {
-                    if (session.StudentID == student.StudentID)
-                    {
-                        studentName = student.Name;
-                        break;
-                    }
-                }
-                foreach (Location location in locationList)
-                {
-                    if (session.LocationID == location.LocationID)
-                    {
-                        locationName = location.LocationName;
-                        break;
-                    }
-                }
-                foreach (Category category in categoryList)
-                {
-                    if (category.CategoryID == session.CategoryID)
-                    {
-                        categoryName = category.CategoryName;
-                    }
-                }
-                sessionViewModelList.Add(
-                    new SessionViewModel
-                    {
-                        SessionID = session.SessionID,
-                        SessionDate = session.SessionDate,
-                        Name = session.Name,
-                        Description = session.Description,
-                        Photo = session.Photo,
-                        Hours = session.Hours,
-                        Participants = session.Participants,
-                        StudentName = studentName,
-                        LocationName = locationName,
-                        CategoryName = categoryName
-                    });
-            }
-            return sessionViewModelList;
-        }
+        //public List<SessionViewModel> MapToSessionVM(List<Session> sessionList)
+        //{
+        //    string studentName = "";
+        //    string locationName = "";
+        //    string categoryName = "";
+        //    List<StudentDetails> studentList = studentContext.GetAllStudent();
+        //    List<Location> locationList = locationContext.GetAllLocations();
+        //    List<Category> categoryList = categoryContext.GetAllCategory();
+        //    List<SessionViewModel> sessionViewModelList = new List<SessionViewModel>();
+        //    foreach (Session session in sessionList)
+        //    {
+        //        foreach (StudentDetails student in studentList)
+        //        {
+        //            if (session.StudentID == student.StudentID)
+        //            {
+        //                studentName = student.Name;
+        //                break;
+        //            }
+        //        }
+        //        foreach (Location location in locationList)
+        //        {
+        //            if (session.LocationID == location.LocationID)
+        //            {
+        //                locationName = location.LocationName;
+        //                break;
+        //            }
+        //        }
+        //        foreach (Category category in categoryList)
+        //        {
+        //            if (category.CategoryID == session.CategoryID)
+        //            {
+        //                categoryName = category.CategoryName;
+        //            }
+        //        }
+        //        sessionViewModelList.Add(
+        //            new SessionViewModel
+        //            {
+        //                SessionID = session.SessionID,
+        //                SessionDate = session.SessionDate,
+        //                Name = session.Name,
+        //                Description = session.Description,
+        //                Photo = session.Photo,
+        //                Hours = session.Hours,
+        //                Participants = session.Participants,
+        //                StudentName = studentName,
+        //                LocationName = locationName,
+        //                CategoryName = categoryName
+        //            });
+        //    }
+        //    return sessionViewModelList;
+        //}
 
         //logout button function
         public ActionResult LogOut()
