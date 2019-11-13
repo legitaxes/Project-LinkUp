@@ -29,26 +29,7 @@
     <div class="container" id="mainContainer">
         <!-- 1st row -->
         <div class="flex-container">
-            <!-- Flexbox for staff login -->
-            @*<div>
-                    <form method="post" action="~/Home/Login">
-                        <fieldset class="loginFieldset">
-                            <legend>Staff Login</legend>
-                            <label for="txtLoginID">Login ID:</label>
-                            <input type="email" name="txtLoginID"
-                                   id="txtLoginID" required /><br />
-                            <label for="txtPassword">Password:</label>
-                            <input type="password" name="txtPassword"
-                                   id="txtPassword" style="width:100px"
-                                   required />
-                            <input type="submit" id="btnStaffLogin"
-                                   class="myButton" value="Login" />
-                            <br />
-                            <span style="color:red;">@TempData["Message"]</span>
-                        </fieldset>
-                    </form>
-                </div>*@
-            <!-- Flexbox for student login -->
+             @*Flexbox for student login 
             <div>
                 <fieldset class="loginFieldset">
                     <legend>Login</legend>
@@ -56,7 +37,7 @@
                         <a href="~/Home/StudentLogin" class="myButton">Login With Your Microsoft Account</a>
                     </p>
                 </fieldset>
-            </div>
+            </div>*@
         </div>
         <!-- 2nd row -->
         <div>
@@ -67,14 +48,6 @@
                     <img id="imgLogo" src="~/images/hero.jpg"
                          style="width: 100%" />
                 </p>
-                @*<img class="mySlides" src="~/images/coding.jpg" style="width: 100%">
-                    <img class="mySlides" src="~/images/art.jpg" style="width: 100%">
-                    <img class="mySlides" src="~/images/music.png" style="width: 100%">
-                    <img class="mySlides" src="~/images/sports.jpg" style="width: 100%">
-                    <img class="mySlides" src="~/images/languages.jpg" style="width: 100%">
-                    <img class="mySlides" src="~/images/lifeskills.png" style="width: 100%">
-                    <img class="mySlides" src="~/images/career.png" style="width: 100%">
-                    <img class="mySlides" src="~/images/acads.jpeg" style="width: 100%">*@
                 <br />
             <h1>Imagine having a  tutor for every topic under the sun. Now stop imagining.</h1>
             </div>
@@ -82,21 +55,5 @@
         </div>
     </div>
 
-    @*<script>
-            var myIndex = 0;
-            carousel();
-
-            function carousel() {
-                var i;
-                var x = document.getElementsByClassName("mySlides");
-                for (i = 0; i < x.length; i++) {
-                    x[i].style.display = "none";
-                }
-                myIndex++;
-                if (myIndex > x.length) { myIndex = 1 }
-                x[myIndex - 1].style.display = "block";
-                setTimeout(carousel, 2000); // Change image every 2 seconds
-            }
-        </script>*@
 </body>
 </html>
