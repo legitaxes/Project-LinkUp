@@ -1,5 +1,6 @@
 ﻿@*LOG OUT MAIN PAGE*@
 
+@model IEnumerable<portfolio2.Models.Category>
 
 @{
     ViewData["Title"] = "LinkUP Homepage";
@@ -51,98 +52,136 @@
 
                 <h1>For every topic, a tutor.</h1>
                 <h2>Check out the broad range of topics our student volunteer tutors can teach</h2>
-                <main class="cards">
-                    <article class="card">
-                        <img src="~/images/Categories/academic.jpg" alt="Sample photo">
-                        <div class="text">
-                            <div class="text">
-                                <h3>Academics</h3>
-                                <p>Meet students that are more academically driven and learn a thing or two</p>
-                            </div>
-                            <button onclick="window.location.href = 'https://youtube.com';">View more</button>
+                <section class="gallery-block cards-gallery">
+                    <div class="container">
+                        <div class="row">
+                            @foreach (var item in Model)
+                            {
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="card border-0 transform-on-hover">
+                                        <a class="lightbox" asp-route-id="@Html.DisplayFor(modelItem => item.CategoryID)" asp-controller="Category" asp-action="Filtered"><img src="~/images/Categories/@Html.DisplayFor(modelItem => item.CategoryPhoto)" class="card-img-top" /></a>
+                                        <div class="card-body">
+                                            <h6>@Html.DisplayFor(modelItem => item.CategoryName)</h6>
+                                            <p class="text-muted card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*<tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CategoryID)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CategoryName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CategoryPhoto)
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                        </td>
+                                    </tr>*@
+                            }
                         </div>
-                    </article>
-                    <article class="card">
-                        <img src="~/images/Categories/artsandcraft.jpg" alt="Sample photo">
-                        <div class="text">
+                    </div>
+                </section>
+                @*<main class="cards">
+                        <article class="card">
+                            <img src="~/images/Categories/academic.jpg" alt="Sample photo">
                             <div class="text">
-                                <h3>Arts and Crafts</h3>
-                                <p>Meet creative students to widen your creativity and learn how to create different masterpieces</p>
+                                <div class="text">
+                                    <h3>Academics</h3>
+                                    <p>Meet students that are more academically driven and learn a thing or two</p>
+                                </div>
+                                <button onclick="window.location.href = 'https://youtube.com';">View more</button>
                             </div>
-                            <button onclick="window.location.href = 'https://youtube.com';">View more</button>
-                        </div>
-                    </article>
-                    <article class="card">
-                        <img src="~/images/Categories/Career.jpg" alt="Sample photo">
-                        <div class="text">
+                        </article>
+                        <article class="card">
+                            <img src="~/images/Categories/artsandcraft.jpg" alt="Sample photo">
                             <div class="text">
-                                <h3>Career</h3>
-                                <p>Meet students that are keen in entrepreneurship and potentially start a business together</p>
+                                <div class="text">
+                                    <h3>Arts and Crafts</h3>
+                                    <p>Meet creative students to widen your creativity and learn how to create different masterpieces</p>
+                                </div>
+                                <button onclick="window.location.href = 'https://youtube.com';">View more</button>
                             </div>
-                            <button onclick="window.location.href = 'https://youtube.com';">View more</button>
-                        </div>
-                    </article>
-                    <article class="card">
-                        <img src="~/images/Categories/Languages.jpg" alt="Sample photo">
-                        <div class="text">
+                        </article>
+                        <article class="card">
+                            <img src="~/images/Categories/Career.jpg" alt="Sample photo">
                             <div class="text">
-                                <h3>Languages</h3>
-                                <p>Meet multilingual individuals and learn how to converse in a different language</p>
+                                <div class="text">
+                                    <h3>Career</h3>
+                                    <p>Meet students that are keen in entrepreneurship and potentially start a business together</p>
+                                </div>
+                                <button onclick="window.location.href = 'https://youtube.com';">View more</button>
                             </div>
-                            <button onclick="window.location.href = 'https://youtube.com';">View more</button>
-                        </div>
-                    </article>
-                    <article class="card">
-                        <img src="~/images/Categories/lifeskills.jpg" alt="Sample photo">
-                        <div class="text">
+                        </article>
+                        <article class="card">
+                            <img src="~/images/Categories/Languages.jpg" alt="Sample photo">
                             <div class="text">
-                                <h3>Life Skills</h3>
-                                <p>Meet students and learn essential life skills</p>
+                                <div class="text">
+                                    <h3>Languages</h3>
+                                    <p>Meet multilingual individuals and learn how to converse in a different language</p>
+                                </div>
+                                <button onclick="window.location.href = 'https://youtube.com';">View more</button>
                             </div>
-                            <button onclick="window.location.href = 'https://youtube.com';">View more</button>
-                        </div>
-                    </article>
-                    <article class="card">
-                        <img src="~/images/Categories/Music.jpg" alt="Sample photo">
-                        <div class="text">
+                        </article>
+                        <article class="card">
+                            <img src="~/images/Categories/lifeskills.jpg" alt="Sample photo">
                             <div class="text">
-                                <h3>Music</h3>
-                                <p>Meet students with musical talents and string along</p>
+                                <div class="text">
+                                    <h3>Life Skills</h3>
+                                    <p>Meet students and learn essential life skills</p>
+                                </div>
+                                <button onclick="window.location.href = 'https://youtube.com';">View more</button>
                             </div>
-                            <button onclick="window.location.href = 'https://youtube.com';">View more</button>
-                        </div>
-                    </article>
-                    <article class="card">
-                        <img src="~/images/Categories/sportsandfitness.jpg" alt="Sample photo">
-                        <div class="text">
+                        </article>
+                        <article class="card">
+                            <img src="~/images/Categories/Music.jpg" alt="Sample photo">
                             <div class="text">
-                                <h3>Sports</h3>
-                                <p>Meet gym rats and athletes, learn a new sport and stay active</p>
+                                <div class="text">
+                                    <h3>Music</h3>
+                                    <p>Meet students with musical talents and string along</p>
+                                </div>
+                                <button onclick="window.location.href = 'https://youtube.com';">View more</button>
                             </div>
-                            <button onclick="window.location.href = 'https://youtube.com';">View more</button>
-                        </div>
-                    </article>
-                    <article class="card">
-                        <img src="~/images/Categories/Technology.jpg" alt="Sample photo">
-                        <div class="text">
+                        </article>
+                        <article class="card">
+                            <img src="~/images/Categories/sportsandfitness.jpg" alt="Sample photo">
                             <div class="text">
-                                <h3>Technology</h3>
-                                <p>Meet tech savvy students that are proficient programmers and software developers</p>
+                                <div class="text">
+                                    <h3>Sports</h3>
+                                    <p>Meet gym rats and athletes, learn a new sport and stay active</p>
+                                </div>
+                                <button onclick="window.location.href = 'https://youtube.com';">View more</button>
                             </div>
-                            <button onclick="window.location.href = 'https://youtube.com';">View more</button>
-                        </div>
-                    </article>
-                    <article class="card">
-                        <img src="~/images/Categories/gaming.jpg" alt="Sample photo">
-                        <div class="text">
+                        </article>
+                        <article class="card">
+                            <img src="~/images/Categories/Technology.jpg" alt="Sample photo">
                             <div class="text">
-                                <h3>Gaming</h3>
-                                <p>Meet students with a passion for gaming and learn new strategies and mechanics for various games</p>
+                                <div class="text">
+                                    <h3>Technology</h3>
+                                    <p>Meet tech savvy students that are proficient programmers and software developers</p>
+                                </div>
+                                <button onclick="window.location.href = 'https://youtube.com';">View more</button>
                             </div>
-                            <button onclick="window.location.href = 'https://youtube.com';">View more</button>
-                        </div>
-                    </article>
-                </main>
+                        </article>
+                        <article class="card">
+                            <img src="~/images/Categories/gaming.jpg" alt="Sample photo">
+                            <div class="text">
+                                <div class="text">
+                                    <h3>Gaming</h3>
+                                    <p>Meet students with a passion for gaming and learn new strategies and mechanics for various games</p>
+                                </div>
+                                <button onclick="window.location.href = 'https://youtube.com';">View more</button>
+                            </div>
+                        </article>
+                    </main>*@
 
             </div>
 
@@ -176,22 +215,22 @@
                 flex-direction: column;
             }
 
-            .card > .text > .text {
-                flex-grow: 2;
-            }
-
-                .card .text > button {
-                    background: gray;
-                    border: 0;
-                    color: white;
-                    padding: 10px;
-                    width: 100%;
+                .card > .text > .text {
+                    flex-grow: 2;
                 }
 
-.button {
-    transform: translateY(-100%);
-    display: inline-block;
-}
+            .card .text > button {
+                background: gray;
+                border: 0;
+                color: white;
+                padding: 10px;
+                width: 100%;
+            }
+
+        .button {
+            transform: translateY(-100%);
+            display: inline-block;
+        }
     </style>
 
 </body>
