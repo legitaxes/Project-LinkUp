@@ -66,5 +66,24 @@ namespace portfolio2.DAL
             }
             return sessionList;
         }
+        public int CreateSession(Session session)
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO Session (SessionDate, Name, Description, Photo, Hours, Participants, StudentID, LocationID, CategoryID) " + 
+                "OUTPUT INSERTED.SessionID " + 
+                "VALUES(@sessiondate, @name, @description, @photo, @hours, @participants, @studentid, @locationid, @categoryid)", conn);
+            cmd.Parameters.AddWithValue("@sessiondate", session.SessionDate);
+            cmd.Parameters.AddWithValue("@name", session.Name);
+            cmd.Parameters.AddWithValue("@description", session.Description);
+            cmd.Parameters.AddWithValue("@photo", DBNull.Value);
+            cmd.Parameters.AddWithValue("@hours", session.Hours);
+            cmd.Parameters.AddWithValue("@participants", session.Participants);
+            cmd.Parameters.AddWithValue("@studentid", session.StudentID);
+            cmd.Parameters.AddWithValue("@locationid", session.LocationID);
+            cmd.Parameters.AddWithValue("@categoryid", session.CategoryID);
+            conn.Open();
+            session.SessionID = (int)cmd.ExecuteScalar();
+            conn.Close();
+            return session.SessionID;
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace portfolio2.Models
         public DateTime DateCreated { get; set; }
 
         [Display(Name = "Session Date")]
-        [DataType(DataType.Date)] //-default html5 calendarpicker
+        [DataType(DataType.DateTime)] //-default html5 calendarpicker
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}")]
         public DateTime SessionDate { get; set; }
 
@@ -33,7 +33,7 @@ namespace portfolio2.Models
         [Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
         public int Participants { get; set; }
             
-        public int StudentID { get; set; }
+        public int? StudentID { get; set; }
 
         public int LocationID { get; set; }
 

@@ -106,7 +106,6 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-
             StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentNumber"));
             return View(student);
         }

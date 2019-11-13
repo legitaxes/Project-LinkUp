@@ -84,5 +84,27 @@ namespace portfolio2.Controllers
             ViewData["LocationList"] = locationContext.GetLocationList();
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Create(Session session)
+        {
+            session.StudentID = HttpContext.Session.GetInt32("StudentID");
+            session.Photo = null;
+            ViewData["CategoryList"] = categoryContext.GetCategoryList();
+            ViewData["LocationList"] = locationContext.GetLocationList();
+            session.Participants = 0;
+            System.Diagnostics.Debug.WriteLine(session);
+            if (ModelState.IsValid)
+            {
+                session.SessionID = sessionContext.CreateSession(session);
+                ViewData["Message"] = "Session Posted Successfully";
+                return View(session);
+            }
+            else
+            {
+                ViewData["Message"] = "There is something wrong. Please Try Again!";
+                return View(session);
+            }
+        }
     }
 }
