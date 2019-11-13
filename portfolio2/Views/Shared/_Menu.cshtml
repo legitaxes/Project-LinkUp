@@ -42,7 +42,8 @@
                 <a class="nav-link dropdown-toggle avatar" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     @if (Context.Session.GetString("Photo") != null)
                     {
-                        <img src="~/images/Profilepictures/@(userId).jpg" alt="Avatar">
+                        string imageFileName = Context.Session.GetString("Photo");
+                        <img src="~/images/Profilepictures/@imageFileName" alt="Avatar">
                     }
                     else
                     {
