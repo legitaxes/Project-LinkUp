@@ -1,7 +1,7 @@
 ﻿@*LOGGED IN NAVBAR*@
 
 <nav class="navbar navbar-dark navbar-expand-sm sticky-top">
-    <a class="navbar-brand" asp-controller="Home" asp-action="Session"><img src="~/images/logo.png" alt="LinkUp logo" width="120"></a>
+    <a class="navbar-brand" asp-controller="Session" asp-action="Index"><img src="~/images/logo.png" alt="LinkUp logo" width="120"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -13,7 +13,7 @@
                     Sessions
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" asp-controller="Home" asp-action="Session">All Sessions</a>
+                    <a class="dropdown-item" asp-controller="Session" asp-action="Index">All Sessions</a>
                     <a class="dropdown-item" href="#">My Sessions</a>
                     <a class="dropdown-item" href="#">Create Session</a>
                 </div>
@@ -40,7 +40,14 @@
             }
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle avatar" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="~/images/Profilepictures/@imageFileName" alt="Avatar">
+                    @if (Context.Session.GetString("Photo") != null)
+                    {
+                        <img src="~/images/Profilepictures/@(userId).jpg" alt="Avatar">
+                    }
+                    else
+                    {
+                        <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" alt="Avatar">
+                    }
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                     <p style="padding:2px 15px;">
