@@ -23,7 +23,8 @@ namespace portfolio2.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            List<Category> categoryList = categoryContext.GetAllCategory();
+            return View(categoryList);
         }
 
         //login action method for homepage --- to be worked on --- need to include hashing and implementation of db
