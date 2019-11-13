@@ -66,6 +66,42 @@ namespace portfolio2.DAL
             }
             return sessionList;
         }
+
+        public List<Session> GetMySession(int? studentID)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE StudentID = @selectedstudentid", conn);
+            cmd.Parameters.AddWithValue("@selectedstudentid", studentID);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "MySessionList");
+            conn.Close();
+            List<Session> sessionList = new List<Session>();
+            foreach (DataRow row in result.Tables["MySessionList"].Rows)
+            {
+                string photo = "";
+                if (!DBNull.Value.Equals(row["Photo"]))
+                    photo = row["Photo"].ToString();
+                else
+                    photo = "stocksession.jpg";
+                sessionList.Add(
+                    new Session
+                    {
+                        SessionID = Convert.ToInt32(row["SessionID"]),
+                        SessionDate = Convert.ToDateTime(row["SessionDate"]),
+                        Name = row["Name"].ToString(),
+                        Description = row["Description"].ToString(),
+                        Photo = photo,
+                        Hours = Convert.ToInt32(row["Hours"]),
+                        Participants = Convert.ToInt32(row["Participants"]),
+                        StudentID = Convert.ToInt32(row["StudentID"]),
+                        LocationID = Convert.ToInt32(row["LocationID"]),
+                        CategoryID = Convert.ToInt32(row["CategoryID"])
+                    });
+            }
+            return sessionList;
+        }
+
         public int CreateSession(Session session)
         {
             SqlCommand cmd = new SqlCommand("INSERT INTO Session (SessionDate, Name, Description, Photo, Hours, Participants, StudentID, LocationID, CategoryID) " + 

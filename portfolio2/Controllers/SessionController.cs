@@ -106,5 +106,16 @@ namespace portfolio2.Controllers
                 return View(session);
             }
         }
+        public ActionResult MySession()
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            List<Session> sessionList = sessionContext.GetMySession(HttpContext.Session.GetInt32("StudentID"));
+            List<SessionViewModel> sessionDetailsList = MapToSessionVM(sessionList);
+            return View(sessionDetailsList);
+        }
     }
 }

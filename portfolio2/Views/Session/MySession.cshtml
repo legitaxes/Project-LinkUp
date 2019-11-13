@@ -1,0 +1,10 @@
+﻿@model IEnumerable<portfolio2.Models.SessionViewModel>
+
+@{
+    ViewData["Title"] = "MySession";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="PageTitle">View My Sessions</h4>
+
+<partial name="~/Views/Session/_ViewSession.cshtml" model="@Model" />
