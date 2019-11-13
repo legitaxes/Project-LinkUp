@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using portfolio2.DAL;
 using portfolio2.Models;
@@ -72,6 +73,16 @@ namespace portfolio2.Controllers
             }
             return sessionViewModelList;
         }
-
+        public ActionResult Create()
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            ViewData["CategoryList"] = categoryContext.GetCategoryList();
+            ViewData["LocationList"] = locationContext.GetLocationList();
+            return View();
+        }
     }
 }

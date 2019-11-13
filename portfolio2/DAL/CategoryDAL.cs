@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using portfolio2.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace portfolio2.DAL
 {
@@ -54,6 +55,28 @@ namespace portfolio2.DAL
                         CategoryName = row["CategoryName"].ToString(),
                         Description = row["Description"].ToString(),
                         CategoryPhoto = row["CategoryPhoto"].ToString()
+                    });
+            }
+            return categoryList;
+        }
+        public List<SelectListItem> GetCategoryList()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT CategoryID, CategoryName FROM Category " +
+            "ORDER BY CategoryID ASC", conn);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "CategoryNameList");
+            conn.Close();
+
+            List<SelectListItem> categoryList = new List<SelectListItem>();
+            foreach (DataRow row in result.Tables["CategoryNameList"].Rows)
+            {
+                categoryList.Add(
+                    new SelectListItem
+                    {
+                        Value = row["CategoryID"].ToString(),
+                        Text = row["CategoryName"].ToString()
                     });
             }
             return categoryList;
