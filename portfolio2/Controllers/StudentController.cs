@@ -18,6 +18,7 @@ namespace portfolio2.Controllers
         private CourseDAL courseContext = new CourseDAL();
         private StudentRatingDAL studentratingContext = new StudentRatingDAL();
         private RatingDAL ratingContext = new RatingDAL();
+        private LocationDAL locationContext = new LocationDAL();
 
         // GET: Student Method
         public IActionResult Index()
@@ -46,7 +47,6 @@ namespace portfolio2.Controllers
             {
                 Value = "",
                 Text = "---Select Course---",
-                Disabled = true
             });
             foreach (Course availablecourse in allcourselist)
             {
@@ -138,7 +138,7 @@ namespace portfolio2.Controllers
             {
                 if (student.StudentID == studentid)
                 {
-                    StudentViewModel studentVM = MapToMultipleVMs(student);
+                    StudentViewModel studentVM = MapToCourseAndRating(student);
                     studentList = studentVM;
                 }
        
@@ -198,7 +198,7 @@ namespace portfolio2.Controllers
             return View(student);
         }
 
-        public StudentViewModel MapToMultipleVMs(StudentDetails student)
+        public StudentViewModel MapToCourseAndRating(StudentDetails student)
         {
             string coursename = "";
             int totalrating = 0;
@@ -259,6 +259,49 @@ namespace portfolio2.Controllers
                 TotalRatings = amountofratings
             };
             return studentVM;
-        }      
+        }
+
+        private List<SelectListItem> DropDownLocation()
+        {
+            List<SelectListItem> location = new List<SelectListItem>();
+            List<Location> alllocationlist = locationContext.GetAllLocations();
+            location.Add(new SelectListItem
+            {
+                Value = "",
+                Text = "---Select Location---",
+            });
+            foreach (Location currentlocation in alllocationlist)
+            {
+                location.Add(new SelectListItem
+                {
+                    Value = currentlocation.LocationID.ToString(),
+                    Text = currentlocation.LocationName
+                });
+            }
+            return location;
+        }
+
+        public ActionResult MakeRequest()
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+                (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            ViewData["Locationlist"] = DropDownLocation();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult MakeRequest(Request request)
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            ViewData["Locationlist"] = DropDownLocation();
+            return View();
+        }
     }
 }
