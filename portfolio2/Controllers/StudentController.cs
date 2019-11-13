@@ -180,6 +180,7 @@ namespace portfolio2.Controllers
                     }
                     student.Photo = uploadedFile;
                     studentContext.UploadPhoto(student);
+                    HttpContext.Session.SetString("Photo", student.Photo);
                     ViewData["Message"] = "File uploaded successfully.";
                 }
                 catch (IOException)
