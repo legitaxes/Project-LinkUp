@@ -45,7 +45,8 @@ namespace portfolio2.Controllers
             course.Add(new SelectListItem
             {
                 Value = "",
-                Text = "---Select Course---"
+                Text = "---Select Course---",
+                Disabled = true
             });
             foreach (Course availablecourse in allcourselist)
             {
@@ -54,7 +55,7 @@ namespace portfolio2.Controllers
                     Value = availablecourse.CourseID.ToString(),
                     Text = availablecourse.CourseName
                 });
-            }        
+            }
             return course;
         }
 
