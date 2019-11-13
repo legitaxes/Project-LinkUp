@@ -36,8 +36,14 @@
             @Html.DisplayNameFor(model => model.Photo)
         </dt>
         <dd>
-            @{ string imageFileName = Model.Photo; }
-            <img src="~/images/Profilepictures/@imageFileName" style="width:50px" />
+            @if (Context.Session.GetString("Photo") != null)
+            {
+                <img src="~/images/Profilepictures/@(Context.Session.GetString("Photo"))">
+            }
+            else
+            {
+                <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg">
+            }
         </dd>
 
         <dt>
