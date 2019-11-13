@@ -29,15 +29,15 @@
     <div class="container" id="mainContainer">
         <!-- 1st row -->
         <div class="flex-container">
-             @*Flexbox for student login 
-            <div>
-                <fieldset class="loginFieldset">
-                    <legend>Login</legend>
-                    <p>
-                        <a href="~/Home/StudentLogin" class="myButton">Login With Your Microsoft Account</a>
-                    </p>
-                </fieldset>
-            </div>*@
+            @*Flexbox for student login
+                <div>
+                    <fieldset class="loginFieldset">
+                        <legend>Login</legend>
+                        <p>
+                            <a href="~/Home/StudentLogin" class="myButton">Login With Your Microsoft Account</a>
+                        </p>
+                    </fieldset>
+                </div>*@
         </div>
         <!-- 2nd row -->
         <div>
@@ -48,12 +48,141 @@
                     <img id="imgLogo" src="~/images/hero.jpg"
                          style="width: 100%" />
                 </p>
-                <br />
-            <h1>Imagine having a  tutor for every topic under the sun. Now stop imagining.</h1>
+
+                <h1>For every topic, a tutor.</h1>
+
+                <main class="cards">
+                    <article class="card">
+                        <img src="~/images/Categories/Academics.jpg" alt="Sample photo">
+                        <div class="text">
+                            <div class="text">
+                                <h3>Academics</h3>
+                                <p>Meet students that are more academically driven and learn a thing or two</p>
+                            </div>
+                            <button onclick="window.location.href = 'https://youtube.com';">Perle Pussy pics</button>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <img src="~/images/Categories/Arts and crafts.jpg" alt="Sample photo">
+                        <div class="text">
+                            <div class="text">
+                                <h3>Arts and Crafts</h3>
+                                <p>Meet creative students to widen your creativity and learn how to create different masterpieces</p>
+                            </div>
+                            <button onclick="window.location.href = 'https://youtube.com';">Perle Pussy pics</button>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <img src="~/images/Categories/Career.jpg" alt="Sample photo">
+                        <div class="text">
+                            <div class="text">
+                                <h3>Career</h3>
+                                <p>Meet students that are keen in entrepreneurship and potentially start a business together</p>
+                            </div>
+                            <button onclick="window.location.href = 'https://youtube.com';">Perle Pussy pics</button>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <img src="~/images/Categories/Languages.jpg" alt="Sample photo">
+                        <div class="text">
+                            <div class="text">
+                                <h3>Languages</h3>
+                                <p>Meet multilingual individuals and learn how to converse in a different language</p>
+                            </div>
+                            <button onclick="window.location.href = 'https://youtube.com';">Perle Pussy pics</button>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <img src="~/images/Categories/Life skills.jpg" alt="Sample photo">
+                        <div class="text">
+                            <div class="text">
+                                <h3>Life Skills</h3>
+                                <p>Meet students and learn essential life skills</p>
+                            </div>
+                            <button onclick="window.location.href = 'https://youtube.com';">Perle Pussy pics</button>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <img src="~/images/Categories/Music.jpg" alt="Sample photo">
+                        <div class="text">
+                            <div class="text">
+                                <h3>Music</h3>
+                                <p>Meet students with musical talents and string along</p>
+                            </div>
+                            <button onclick="window.location.href = 'https://youtube.com';">Perle Pussy pics</button>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <img src="~/images/Categories/Sports and fitness.jpg" alt="Sample photo">
+                        <div class="text">
+                            <div class="text">
+                                <h3>Sports</h3>
+                                <p>Meet gym rats and athletes, learn a new sport and stay active</p>
+                            </div>
+                            <button onclick="window.location.href = 'https://youtube.com';">Perle Pussy pics</button>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <img src="~/images/Categories/Technology.jpg" alt="Sample photo">
+                        <div class="text">
+                            <div class="text">
+                                <h3>Technology</h3>
+                                <p>Meet tech savvy students that are proficient programmers and software developers </p>
+                            </div>
+                            <button onclick="window.location.href = 'https://youtube.com';">Perle Pussy pics</button>
+                        </div>
+                    </article>
+                </main>
+
             </div>
 
         </div>
     </div>
+
+    <style>
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+        }
+
+        .card {
+            display: inline-flex;
+            flex-direction: column;
+            flex: 0 0 200px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
+        }
+
+            .card img {
+                max-width: 100%;
+            }
+
+            .card > .text {
+                padding: 0 20px 20px;
+                flex-grow: 3;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .card > .text > .text {
+                flex-grow: 2;
+            }
+
+                .card .text > button {
+                    background: gray;
+                    border: 0;
+                    color: white;
+                    padding: 10px;
+                    width: 100%;
+                }
+
+.button {
+    transform: translateY(-100%);
+    display: inline-block;
+}
+    </style>
 
 </body>
 </html>
