@@ -171,7 +171,7 @@ namespace portfolio2.Controllers
                     // Rename the uploaded file with the staff’s name.
                     string uploadedFile = student.Name + fileExt;
                     // Get the complete path to the images folder in server
-                    string savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", uploadedFile);
+                    string savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\Profilepictures", uploadedFile);
                     // Upload the file to server
                     using (var fileSteam = new FileStream(savePath, FileMode.Create))
                     {
