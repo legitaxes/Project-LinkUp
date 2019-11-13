@@ -27,6 +27,7 @@ namespace portfolio2.Models
 
         public string Photo { get; set; }
 
+        [Display(Name = "Number of Hours")]
         [Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
         public int Hours { get; set; }
 

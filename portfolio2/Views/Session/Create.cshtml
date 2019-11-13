@@ -5,6 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@if (ViewData["Message"] != null)
+{
+    <h3 class="text-danger" style="text-align:center;">@ViewData["Message"]</h3>
+}
+
 <h4 class="PageTitle">Create Session</h4>
 <hr />
 <div class="row">
@@ -32,26 +37,24 @@
                 <span asp-validation-for="Hours" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                <label asp-for="Participants" class="control-label"></label>
-                <input asp-for="Participants" class="form-control" />
-                <span asp-validation-for="Participants" class="text-danger"></span>
-            </div>*@
+                    <label asp-for="Participants" class="control-label"></label>
+                    <input asp-for="Participants" class="form-control" />
+                    <span asp-validation-for="Participants" class="text-danger"></span>
+                </div>*@
             @*<div class="form-group">
-                <label asp-for="StudentID" class="control-label"></label>
-                <input asp-for="StudentID" class="form-control" />
-                <span asp-validation-for="StudentID" class="text-danger"></span>
-            </div>*@
+                    <label asp-for="StudentID" class="control-label"></label>
+                    <input asp-for="StudentID" class="form-control" />
+                    <span asp-validation-for="StudentID" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <label asp-for="LocationID" class="control-label"></label>
                 <select asp-for="LocationID"
-                        asp-items="@ViewData["LocationList"] as List<SelectListItem>">
-                </select>
+                        asp-items="@ViewData["LocationList"] as List<SelectListItem>"></select>
             </div>
             <div class="form-group">
                 <label asp-for="CategoryID" class="control-label"></label>
                 <select asp-for="CategoryID"
-                        asp-items="@ViewData["CategoryList"] as List<SelectListItem>">
-    `           </select>
+                        asp-items="@ViewData["CategoryList"] as List<SelectListItem>"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

@@ -11,7 +11,7 @@ namespace portfolio2.Models
         public int SessionID { get; set; }
 
         [Display(Name = "Date")]
-        [DataType(DataType.Date)] //-default html5 calendarpicker
+        [DataType(DataType.DateTime)] //-default html5 calendarpicker
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}")]
         public DateTime SessionDate { get; set; }
 
