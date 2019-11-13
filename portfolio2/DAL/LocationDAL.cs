@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using portfolio2.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace portfolio2.DAL
 {
@@ -54,6 +55,28 @@ namespace portfolio2.DAL
                         LocationID = Convert.ToInt32(row["LocationID"]),
                         LocationName = row["LocationName"].ToString(),
                         Photo = photo
+                    });
+            }
+            return locationList;
+        }
+
+        public List<SelectListItem> GetLocationList()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT LocationID, LocationName FROM Location" +
+                " ORDER BY LocationID ASC", conn);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "LocationNameList");
+            conn.Close();
+            List<SelectListItem> locationList = new List<SelectListItem>();
+            foreach (DataRow row in result.Tables["LocationNameList"].Rows)
+            {
+                locationList.Add(
+                    new SelectListItem
+                    {
+                        Value = row["LocationID"].ToString(),
+                        Text = row["LocationName"].ToString()
                     });
             }
             return locationList;

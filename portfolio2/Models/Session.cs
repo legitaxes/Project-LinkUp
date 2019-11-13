@@ -10,11 +10,15 @@ namespace portfolio2.Models
     {
         public int SessionID { get; set; }
 
+        [Display(Name = "Created on")]
+        public DateTime DateCreated { get; set; }
+
         [Display(Name = "Session Date")]
         [DataType(DataType.Date)] //-default html5 calendarpicker
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}")]
         public DateTime SessionDate { get; set; }
 
+        [Display(Name="Title")]
         [Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
         public string Name { get; set; }
 
