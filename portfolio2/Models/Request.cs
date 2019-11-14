@@ -19,8 +19,11 @@ namespace portfolio2.Models
         [Display(Name = "Title")]
         public string Title { get; set; }
 
-        [Display(Name = "Availability")]
-        public DateTime Availability { get; set; }
+        [Display(Name = "Availability From")]
+        public DateTime AvailabilityFrom { get; set; }
+
+        [Display(Name = "Availability To")]
+        public DateTime AvailabilityTo { get; set; }
 
         [Display(Name = "Points earned")]
         public int PointsEarned { get; set; }

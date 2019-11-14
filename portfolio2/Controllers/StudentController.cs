@@ -19,6 +19,7 @@ namespace portfolio2.Controllers
         private StudentRatingDAL studentratingContext = new StudentRatingDAL();
         private RatingDAL ratingContext = new RatingDAL();
         private LocationDAL locationContext = new LocationDAL();
+        private RequestDAL requestContext = new RequestDAL();
 
         // GET: Student Method
         public IActionResult Index()
@@ -274,7 +275,7 @@ namespace portfolio2.Controllers
                 location.Add(new SelectListItem
                 {
                     Value = currentlocation.LocationID.ToString(),
-                    Text = currentlocation.LocationName
+                    Text = currentlocation.LocationName,
                 });
             }
             return location;
@@ -287,7 +288,15 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
             ViewData["Locationlist"] = DropDownLocation();
+            List<StudentDetails> studentList = studentContext.GetAllStudent();
+            foreach (StudentDetails student in studentList)
+                if(student.StudentID == studentid)
+                {
+                    int ID = student.StudentID;
+                    ViewData["ID"] = ID;
+                }       
             return View();
         }
 
@@ -299,8 +308,20 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            int hours = Convert.ToInt32((request.AvailabilityTo - request.AvailabilityFrom).TotalHours);
+            int points = hours * 10;
+            request.DateRequest = DateTime.Now;
+            request.PointsEarned = points;
+            request.Status = 'N';
+            request.StudentID = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
+            if (ModelState.IsValid)
+            {
+                request.RequestID = requestContext.AddRequest(request);
+                return View(request);
+            }
             ViewData["Locationlist"] = DropDownLocation();
             return View();
+
         }
     }
 }

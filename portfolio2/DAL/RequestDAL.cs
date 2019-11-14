@@ -33,19 +33,25 @@ namespace portfolio2.DAL
             conn = new SqlConnection(strConn);
         }
 
-        /*public void AddRequest()
+        public int AddRequest(Request request)
         {
-
             SqlCommand cmd = new SqlCommand
-            ("INSERT INTO Request (Name, Year, StudentNo, Photo, PhoneNo, Interest, ExternalLink, Description, Points, CourseID)" +
-            " OUTPUT INSERTED.StudentID" +
-            " VALUES(@name, @year, @studentno, @photo, @phoneno, @interest, @externallink, @description, @points, @courseID)", conn);
-            cmd.Parameters.AddWithValue("@name", student.Name);
-            cmd.Parameters.AddWithValue("@year", student.Year);
-            cmd.Parameters.AddWithValue("@studentno", student.StudentNumber);
-            cmd.Parameters.AddWithValue("@photo", DBNull.Value);
-            cmd.Parameters.AddWithValue("@phoneno", student.PhoneNo);
-
-        }*/
+            ("INSERT INTO Request (DateRequest, Description, Title, AvailabilityFrom, AvailabilityTo, PointsEarned, Status, LocationID, StudentID)" +
+            " OUTPUT INSERTED.RequestID" +
+            " VALUES(@daterequest, @description, @title, @availabilityfrom, @availabilityto, @pointsearned, @status, @locationid, @studentid)", conn);
+            cmd.Parameters.AddWithValue("@daterequest", request.DateRequest);
+            cmd.Parameters.AddWithValue("@description", request.Description);
+            cmd.Parameters.AddWithValue("@title", request.Title);
+            cmd.Parameters.AddWithValue("@availabilityfrom", request.AvailabilityFrom);
+            cmd.Parameters.AddWithValue("@availabilityto", request.AvailabilityTo);
+            cmd.Parameters.AddWithValue("@pointsearned", request.PointsEarned);
+            cmd.Parameters.AddWithValue("@status", request.Status);
+            cmd.Parameters.AddWithValue("@locationid", request.LocationID);
+            cmd.Parameters.AddWithValue("@studentid", request.StudentID);
+            conn.Open();
+            request.RequestID = (int)cmd.ExecuteScalar();
+            conn.Close();
+            return request.RequestID;
+        }
     }
 }
