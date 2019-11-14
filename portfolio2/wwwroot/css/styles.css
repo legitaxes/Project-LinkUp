@@ -83,8 +83,8 @@ body{
 
 
 
-
 /*PROFILE PAGE*/
+
 
 .emp-profile{
   border: 2px solid #A2A3BB;
@@ -135,13 +135,12 @@ body{
 }
 .profile-work{
     padding: 14%;
-    margin-top: -15%;
+    margin-top: 10px;
 }
 .profile-work p{
     font-size: 12px;
     color: #818182;
     font-weight: 600;
-    margin-top: 10%;
 }
 .profile-work a{
     text-decoration: none;
