@@ -59,6 +59,7 @@ namespace portfolio2.DAL
                         Photo = photo,
                         Hours = Convert.ToInt32(row["Hours"]),
                         Participants = Convert.ToInt32(row["Participants"]),
+                        Status = Convert.ToChar(row["Status"]),
                         StudentID = Convert.ToInt32(row["StudentID"]),
                         LocationID = Convert.ToInt32(row["LocationID"]),
                         CategoryID = Convert.ToInt32(row["CategoryID"])
@@ -94,6 +95,7 @@ namespace portfolio2.DAL
                         Photo = photo,
                         Hours = Convert.ToInt32(row["Hours"]),
                         Participants = Convert.ToInt32(row["Participants"]),
+                        Status = Convert.ToChar(row["Status"]),
                         StudentID = Convert.ToInt32(row["StudentID"]),
                         LocationID = Convert.ToInt32(row["LocationID"]),
                         CategoryID = Convert.ToInt32(row["CategoryID"])
@@ -110,7 +112,7 @@ namespace portfolio2.DAL
             cmd.Parameters.AddWithValue("@sessiondate", session.SessionDate);
             cmd.Parameters.AddWithValue("@name", session.Name);
             cmd.Parameters.AddWithValue("@description", session.Description);
-            cmd.Parameters.AddWithValue("@photo", DBNull.Value);
+            cmd.Parameters.AddWithValue("@photo", session.Photo);
             cmd.Parameters.AddWithValue("@hours", session.Hours);
             cmd.Parameters.AddWithValue("@participants", session.Participants);
             cmd.Parameters.AddWithValue("@studentid", session.StudentID);

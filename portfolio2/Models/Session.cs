@@ -33,7 +33,9 @@ namespace portfolio2.Models
 
         [Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
         public int Participants { get; set; }
-            
+        
+        public char Status { get; set; }
+
         public int? StudentID { get; set; }
 
         public int LocationID { get; set; }

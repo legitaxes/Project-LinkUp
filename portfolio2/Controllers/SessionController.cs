@@ -66,6 +66,7 @@ namespace portfolio2.Controllers
                         Photo = session.Photo,
                         Hours = session.Hours,
                         Participants = session.Participants,
+                        Status = session.Status,
                         StudentName = studentName,
                         LocationName = locationName,
                         CategoryName = categoryName
@@ -89,16 +90,17 @@ namespace portfolio2.Controllers
         public ActionResult Create(Session session)
         {
             session.StudentID = HttpContext.Session.GetInt32("StudentID");
-            session.Photo = null;
+            session.Photo = "stocksession.jpg";
             ViewData["CategoryList"] = categoryContext.GetCategoryList();
             ViewData["LocationList"] = locationContext.GetLocationList();
             session.Participants = 0;
             System.Diagnostics.Debug.WriteLine(session);
+            session.Status = 'N';
             if (ModelState.IsValid)
             {
                 session.SessionID = sessionContext.CreateSession(session);
                 ViewData["Message"] = "Session Posted Successfully";
-                return View(session);
+                return RedirectToAction("UploadSessionPhoto");
             }
             else
             {
