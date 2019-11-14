@@ -49,3 +49,11 @@
 .container {
     margin-top: 72.06px;
 }
+
+footer {
+    background-color: #563d7c;
+}
+
+footer .footer-copyright{
+    color: white;
+}
