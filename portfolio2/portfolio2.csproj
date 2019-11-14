@@ -5,7 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\Sessions\" />
+    <Compile Remove="wwwroot\images\Sessions\**" />
+    <Content Remove="wwwroot\images\Sessions\**" />
+    <EmbeddedResource Remove="wwwroot\images\Sessions\**" />
+    <None Remove="wwwroot\images\Sessions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
