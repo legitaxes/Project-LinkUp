@@ -159,3 +159,11 @@ body{
     font-weight: 600;
     color: #0062cc;
 }
+
+footer {
+    background-color: #563d7c;
+}
+
+footer .footer-copyright{
+    color: white;
+}
