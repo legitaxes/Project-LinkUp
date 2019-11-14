@@ -1,0 +1,75 @@
+﻿@model portfolio2.Models.SessionPhoto
+
+@{
+    ViewData["Title"] = "UploadSessionPhoto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>UploadSessionPhoto</h2>
+
+<h4>SessionPhoto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UploadSessionPhoto">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="SessionID" class="form-control" readonly hidden />
+            <div class="form-group">
+                <label asp-for="SessionDate" class="control-label"></label>
+                <input asp-for="SessionDate" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="Hours" class="control-label"></label>
+                <input asp-for="Hours" class="form-control" />
+                <span asp-validation-for="Hours" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Participants" class="control-label"></label>
+                <input asp-for="Participants" class="form-control" />
+                <span asp-validation-for="Participants" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Photo" class="control-label"></label>
+                <input asp-for="Photo" class="form-control" hidden readonly />
+                <div><img src="~/images/Sessions/@Model.Photo" /></div>
+            </div>
+            <div class="form-group">
+                <label asp-for="FileToUpload">New Photo (jpg format)</label>
+                <input asp-for="FileToUpload" accept="image/jpeg" />
+            </div>
+            <div class="form-group">
+                <input asp-for="StudentName" class="form-control" hidden readonly />
+                <span asp-validation-for="StudentName" class="text-danger" readonly></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LocationName" class="control-label"></label>
+                <input asp-for="LocationName" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryName" class="control-label"></label>
+                <input asp-for="CategoryName" class="form-control" hidden />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

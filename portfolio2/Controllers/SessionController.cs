@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -74,6 +75,52 @@ namespace portfolio2.Controllers
             }
             return sessionViewModelList;
         }
+        public SessionPhoto MapToSingleSessionVM(Session session)
+        {
+            string studentName = "";
+            string locationName = "";
+            string categoryName = "";
+            List<StudentDetails> studentList = studentContext.GetAllStudent();
+            List<Location> locationList = locationContext.GetAllLocations();
+            List<Category> categoryList = categoryContext.GetAllCategory();
+            foreach (StudentDetails student in studentList)
+            {
+                if (session.StudentID == student.StudentID)
+                {
+                    studentName = student.Name;
+                    break;
+                }
+            }
+            foreach (Location location in locationList)
+            {
+                if (session.LocationID == location.LocationID)
+                {
+                    locationName = location.LocationName;
+                    break;
+                }
+            }
+            foreach (Category category in categoryList)
+            {
+                if (category.CategoryID == session.CategoryID)
+                {
+                    categoryName = category.CategoryName;
+                }
+            }
+            SessionPhoto newSession = new SessionPhoto();
+            newSession.SessionID = session.SessionID;
+            newSession.SessionDate = session.SessionDate;
+            newSession.Name = session.Name;
+            newSession.Description = session.Description;
+            newSession.Photo = session.Photo;
+            newSession.Hours = session.Hours;
+            newSession.Participants = session.Participants;
+            newSession.Status = session.Status;
+            newSession.StudentName = studentName;
+            newSession.LocationName = locationName;
+            newSession.CategoryName = categoryName;
+            return newSession;
+        }
+
         public ActionResult Create()
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
@@ -100,6 +147,8 @@ namespace portfolio2.Controllers
             {
                 session.SessionID = sessionContext.CreateSession(session);
                 ViewData["Message"] = "Session Posted Successfully";
+                session.DateCreated = DateTime.Now;
+                TempData["Session"] = session;
                 return RedirectToAction("UploadSessionPhoto");
             }
             else
@@ -118,6 +167,48 @@ namespace portfolio2.Controllers
             List<Session> sessionList = sessionContext.GetMySession(HttpContext.Session.GetInt32("StudentID"));
             List<SessionViewModel> sessionDetailsList = MapToSessionVM(sessionList);
             return View(sessionDetailsList);
+        }
+
+        public ActionResult UploadSessionPhoto()
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            Session session = TempData["Session"] as Session;
+            SessionPhoto newSession = MapToSingleSessionVM(session);
+            return View(session);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadSessionPhoto(SessionPhoto session)
+        {
+            if (session.FileToUpload != null && session.FileToUpload.Length > 0)
+            {
+                try
+                { // Find the filename extension of the file to be uploaded.
+                    string fileExt = Path.GetExtension(session.FileToUpload.FileName);
+                    string uploadedFile = session.SessionID + fileExt;
+                    string savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\sessions", uploadedFile);
+                    using (var fileSteam = new FileStream(savePath, FileMode.Create))
+                    {
+                        await session.FileToUpload.CopyToAsync(fileSteam);
+                    }
+                    session.Photo = uploadedFile;
+                    ViewData["Message"] = "File uploaded successfully.";
+                }
+                catch (IOException)
+                {
+                    ViewData["Message"] = "File uploading fail!";
+                }
+                catch (Exception ex)
+                {
+                    ViewData["Message"] = ex.Message;
+                }
+            }
+            return View(session);
         }
     }
 }
