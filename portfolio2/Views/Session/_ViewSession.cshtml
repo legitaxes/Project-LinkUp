@@ -37,44 +37,193 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SessionID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SessionDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Photo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hours)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Participants)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocationName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SessionID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SessionDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Photo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Participants)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LocationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+
+
+@*HTML CODE*@
+
+
+<section class="search">
+    <div class="container">
+        <div class="logo">
+            <img src="logo.png" class="rounded mx-auto d-block" alt="LinkUp Logo">
+        </div>
+
+        <div class="col-lg-10 mx-auto">
+            <form>
+                <div class="row mb-4">
+                    <div class="form-group form-group-lg col-md-2">
+                        <select class="custom-select custom-select-lg" name="">
+                            <option selected value="sessions">Sessions</option>
+                            <option value="users">Users</option>
+
+                        </select>
+                    </div>
+                    <div class="input-group input-group-lg mb-4 col-md-10">
+                        <input type="search" placeholder="Search for a user or session..." aria-describedby="button-addon5" class="form-control">
+                        <div class="input-group-append">
+                            <button id="button-addon5" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+            <div class="requestbutton text-center">
+                <a href="#" class="btn text-primary">Didn’t find your session? Request now!<a>
+            </div>
+        </div>
+
+        <!-- Underlined search bars with buttons -->
+
+    </div>
+    </div>
+
+</section>
+
+
+
+
+<section class="explore">
+    <div class="container">
+        <div class="row mb-3">
+            <div class="col">
+                <h1>Explore LinkUp!</h1>
+                <p class="text-muted">Find what you want to learn!</p>
+            </div>
+            <div class="col text-right">
+                <a href="#" class="btn btn-outline-dark">See All Categories</a>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-lg-3">
+                <div class="card text-center">
+                    <a class="lightbox" href="images/F1.jpg"><img src="photo.jpg" class="card-img-top"></a>
+                    <div class="card-body">
+                        <h6>Lorem Ipsum</h6>
+                        <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card text-center">
+                    <a class="lightbox" href="images/F2.jpg"><img src="photo.jpg" class="card-img-top"></a>
+                    <div class="card-body">
+                        <h6>Lorem Ipsum</h6>
+                        <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card text-center">
+                    <a class="lightbox" href="images/F3.jpg"><img src="photo.jpg" class="card-img-top"></a>
+                    <div class="card-body">
+                        <h6>Lorem Ipsum</h6>
+                        <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card text-center">
+                    <a class="lightbox" href="images/F3.jpg"><img src="photo.jpg" class="card-img-top"></a>
+                    <div class="card-body">
+                        <h6>Lorem Ipsum</h6>
+                        <p class="text-muted card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+</section>
+
+
+
+<section class="sessions">
+    <div class="container">
+        <div class="row mb-3">
+            <div class="col">
+                <h1>Trending Sessions</h1>
+                <p class="text-muted">Browse recent listings added into the mix</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+
+
+
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card">
+                    <a class="lightbox" href="images/F1.jpg"><img src="photo.jpg" class="card-img-top"></a>
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Date & Time: | [Hours] | [Location]</h6>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Category: </li>
+                        <li class="list-group-item">Participants</li>
+                    </ul>
+                    <div class="card-body">
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+
+            
+
+
+
+
+        </div>
+    </div>
+</section>

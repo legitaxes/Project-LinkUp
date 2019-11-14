@@ -59,6 +59,7 @@ namespace portfolio2.DAL
                         Photo = photo,
                         Hours = Convert.ToInt32(row["Hours"]),
                         Participants = Convert.ToInt32(row["Participants"]),
+                        Status = Convert.ToChar(row["Status"]),
                         StudentID = Convert.ToInt32(row["StudentID"]),
                         LocationID = Convert.ToInt32(row["LocationID"]),
                         CategoryID = Convert.ToInt32(row["CategoryID"])
@@ -67,6 +68,22 @@ namespace portfolio2.DAL
             return sessionList;
         }
 
+        //public SessionViewModel GetSessionDetails(SessionViewModel session)
+        //{
+        //    SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE SessionID = @selectedsessionid", conn);
+        //    cmd.Parameters.AddWithValue("@selectedsessionid", session.SessionID);
+        //    SqlDataAdapter da = new SqlDataAdapter(cmd);
+        //    DataSet result = new DataSet();
+        //    conn.Open();
+        //    da.Fill(result, "SessionDetails");
+        //    conn.Close();
+        //    SessionViewModel sessionDetails = new SessionViewModel();
+        //    if (result.Tables["SessionDetails"].Rows.Count > 0)
+        //    {
+
+        //    }
+
+        //}
         public List<Session> GetMySession(int? studentID)
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE StudentID = @selectedstudentid", conn);
@@ -94,6 +111,7 @@ namespace portfolio2.DAL
                         Photo = photo,
                         Hours = Convert.ToInt32(row["Hours"]),
                         Participants = Convert.ToInt32(row["Participants"]),
+                        Status = Convert.ToChar(row["Status"]),
                         StudentID = Convert.ToInt32(row["StudentID"]),
                         LocationID = Convert.ToInt32(row["LocationID"]),
                         CategoryID = Convert.ToInt32(row["CategoryID"])
@@ -110,7 +128,7 @@ namespace portfolio2.DAL
             cmd.Parameters.AddWithValue("@sessiondate", session.SessionDate);
             cmd.Parameters.AddWithValue("@name", session.Name);
             cmd.Parameters.AddWithValue("@description", session.Description);
-            cmd.Parameters.AddWithValue("@photo", DBNull.Value);
+            cmd.Parameters.AddWithValue("@photo", session.Photo);
             cmd.Parameters.AddWithValue("@hours", session.Hours);
             cmd.Parameters.AddWithValue("@participants", session.Participants);
             cmd.Parameters.AddWithValue("@studentid", session.StudentID);
