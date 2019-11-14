@@ -22,7 +22,6 @@
                             <button id="button-addon5" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
-
                 </div>
 
             </form>
@@ -111,7 +110,7 @@
                         <a class="lightbox" href="images/F1.jpg"><img src="~/images/Sessions/@Html.DisplayFor(modelItem => item.Photo)" class="card-img-top"></a>
                         <div class="card-body">
                             <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.SessionDate) | No. of Hours: @Html.DisplayFor(modelItem => item.Hours) | @Html.DisplayFor(modelItem => item.LocationName)</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.SessionDate) | Hours: @Html.DisplayFor(modelItem => item.Hours) | @Html.DisplayFor(modelItem => item.LocationName)</h6>
                             <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
                         </div>
                         <ul class="list-group list-group-flush">
