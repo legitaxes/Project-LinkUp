@@ -148,8 +148,10 @@ namespace portfolio2.Controllers
                 session.SessionID = sessionContext.CreateSession(session);
                 ViewData["Message"] = "Session Posted Successfully";
                 session.DateCreated = DateTime.Now;
-                TempData["Session"] = session;
-                return RedirectToAction("UploadSessionPhoto");
+                //TempData["Session"] = session;
+                return View(session);
+
+                //return RedirectToAction("UploadSessionPhoto");
             }
             else
             {

@@ -1,90 +1,5 @@
 ﻿@model IEnumerable<portfolio2.Models.SessionViewModel>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.SessionID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SessionDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Photo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Hours)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Participants)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StudentName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LocationName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SessionID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SessionDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Photo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Hours)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Participants)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StudentName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LocationName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CategoryName)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-
-
-@*HTML CODE*@
-
-
 <section class="search">
     <div class="container">
         <div class="logo">
@@ -107,7 +22,6 @@
                             <button id="button-addon5" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
-
                 </div>
 
             </form>
@@ -119,13 +33,8 @@
         <!-- Underlined search bars with buttons -->
 
     </div>
-    </div>
 
 </section>
-
-
-
-
 <section class="explore">
     <div class="container">
         <div class="row mb-3">
@@ -182,11 +91,8 @@
             </div>
 
         </div>
-
+    </div>
 </section>
-
-
-
 <section class="sessions">
     <div class="container">
         <div class="row mb-3">
@@ -195,35 +101,73 @@
                 <p class="text-muted">Browse recent listings added into the mix</p>
             </div>
         </div>
-
         <div class="row mb-3">
+            @foreach (var item in Model)
+            {
 
-
-
-
-            <div class="col-md-6 col-lg-3">
-                <div class="card">
-                    <a class="lightbox" href="images/F1.jpg"><img src="photo.jpg" class="card-img-top"></a>
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Date & Time: | [Hours] | [Location]</h6>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Category: </li>
-                        <li class="list-group-item">Participants</li>
-                    </ul>
-                    <div class="card-body">
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card">
+                        <a class="lightbox" href="images/F1.jpg"><img src="~/images/Sessions/@Html.DisplayFor(modelItem => item.Photo)" class="card-img-top"></a>
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.SessionDate) | Duration: @Html.DisplayFor(modelItem => item.Hours) | @Html.DisplayFor(modelItem => item.LocationName)</h6>
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Category: @Html.DisplayFor(modelItem => item.CategoryName)</li>
+                            <li class="list-group-item">Participants: @Html.DisplayFor(modelItem => item.Participants)</li>
+                        </ul>
+                        <div class="card-body">
+                            <a asp-controller="Session" asp-action="Details" asp-route-id="@Html.DisplayFor(modelItem => item.SessionID)" class="btn btn-primary">View Session Details</a>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            
-
-
-
-
+                @*<tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SessionID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SessionDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Photo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Participants)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LocationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>*@
+            }
         </div>
+
+
+            @*HTML CODE*@
+
+
+
+
     </div>
 </section>
