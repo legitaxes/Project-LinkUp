@@ -68,6 +68,22 @@ namespace portfolio2.DAL
             return sessionList;
         }
 
+        //public SessionViewModel GetSessionDetails(SessionViewModel session)
+        //{
+        //    SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE SessionID = @selectedsessionid", conn);
+        //    cmd.Parameters.AddWithValue("@selectedsessionid", session.SessionID);
+        //    SqlDataAdapter da = new SqlDataAdapter(cmd);
+        //    DataSet result = new DataSet();
+        //    conn.Open();
+        //    da.Fill(result, "SessionDetails");
+        //    conn.Close();
+        //    SessionViewModel sessionDetails = new SessionViewModel();
+        //    if (result.Tables["SessionDetails"].Rows.Count > 0)
+        //    {
+
+        //    }
+
+        //}
         public List<Session> GetMySession(int? studentID)
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE StudentID = @selectedstudentid", conn);
