@@ -62,23 +62,24 @@
                         </div>
                     </div>
                 </section>*@
-
-                    <div class="gallery-block cards-gallery">
-                        <div class="row">
-                            @foreach (var item in Model)
-                            {
-                                <div class="col-md-6 col-lg-4">
-                                    <div class="card border-0 transform-on-hover">
-                                        <a class="lightbox" asp-route-id="@Html.DisplayFor(modelItem => item.CategoryID)" asp-controller="Category" asp-action="Filtered"><img src="~/images/Categories/@Html.DisplayFor(modelItem => item.CategoryPhoto)" class="card-img-top" /></a>
-                                        <div class="card-body">
-                                            <h6>@Html.DisplayFor(modelItem => item.CategoryName)</h6>
-                                            <p class="text-muted card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-                                        </div>
+                <div class="gallery-block cards-gallery">
+                    @{int i = 1; }
+                    <div class="row">
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card border-0 transform-on-hover">
+                                    <a class="lightbox" asp-route-id="@i" asp-controller="Category" asp-action="Filtered"><img src="~/images/Categories/@Html.DisplayFor(modelItem => item.CategoryPhoto)" class="card-img-top" /></a>
+                                    <div class="card-body">
+                                        <h6>@Html.DisplayFor(modelItem => item.CategoryName)</h6>
+                                        <p class="text-muted card-text">@Html.DisplayFor(modelItem => item.Description)</p>
                                     </div>
                                 </div>
-                            }
-                        </div>
+                            </div>
+                            i++;
+                        }
                     </div>
+                </div>
 
                 <h1>Just as rewarding for volunteers as it is for learners.</h1>
                 <h2>Accumulate points whenever you volunteer and exchange them for rewards.</h2>

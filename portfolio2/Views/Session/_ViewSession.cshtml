@@ -100,16 +100,16 @@
     <div class="container">
         <div class="row mb-3">
             <div class="col">
-                @if (Context.Session.GetInt32("StudentID") == null)
-                {
+                @*@if (Context.Session.GetInt32("StudentID") == null)*@
+                @*{*@
                     <h1> Trending Sessions </h1>
                     <p class="text-muted">Browse recent listings added into the mix</p>
-                }
+                @*}
                 else
-                {
+                {*@
                     <h1> My Sessions </h1>
                     <p class="text-muted">Browse your listings</p>
-                }
+                @*}*@
             </div>
         </div>
         <div class="row mb-3">
