@@ -1,0 +1,10 @@
+﻿@model IEnumerable<portfolio2.Models.RequestViewModel>
+@{
+    ViewData["Title"] = "My Requests";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="PageTitle">View All Requests</h4>
+
+<partial name="~/Views/Student/_ViewRequests.cshtml" model="@Model" />
+

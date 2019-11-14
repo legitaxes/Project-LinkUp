@@ -53,5 +53,68 @@ namespace portfolio2.DAL
             conn.Close();
             return request.RequestID;
         }
+
+        public List<Request> GetAllRequests()
+        {
+            SqlCommand cmd = new SqlCommand(
+             "SELECT * FROM Request ORDER BY RequestID DESC", conn);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "Request");
+            conn.Close();
+            List<Request> requestList = new List<Request>();
+            foreach (DataRow row in result.Tables["Request"].Rows)
+            {
+                requestList.Add(
+                    new Request
+                    {
+                        RequestID = Convert.ToInt32(row["RequestID"]),
+                        DateRequest = Convert.ToDateTime(row["DateRequest"]),
+                        Description = row["Description"].ToString(),
+                        Title = row["Title"].ToString(),
+                        AvailabilityFrom = Convert.ToDateTime(row["AvailabilityFrom"]),
+                        AvailabilityTo = Convert.ToDateTime(row["AvailabilityTo"]),
+                        PointsEarned = Convert.ToInt32(row["PointsEarned"]),
+                        Status = Convert.ToChar(row["Status"]),
+                        LocationID = Convert.ToInt32(row["LocationID"]),
+                        StudentID = Convert.ToInt32(row["StudentID"])
+                    }
+                );
+            }
+            return requestList;
+        }
+
+        public List<Request> GetMyRequests(int? studentid)
+        {
+            SqlCommand cmd = new SqlCommand(
+             "SELECT * FROM Request WHERE StudentID = @selectedstudentid", conn);
+            cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "Request");
+            conn.Close();
+            List<Request> requestList = new List<Request>();
+            foreach (DataRow row in result.Tables["Request"].Rows)
+            {
+                requestList.Add(
+                    new Request
+                    {
+                        RequestID = Convert.ToInt32(row["RequestID"]),
+                        DateRequest = Convert.ToDateTime(row["DateRequest"]),
+                        Description = row["Description"].ToString(),
+                        Title = row["Title"].ToString(),
+                        AvailabilityFrom = Convert.ToDateTime(row["AvailabilityFrom"]),
+                        AvailabilityTo = Convert.ToDateTime(row["AvailabilityTo"]),
+                        PointsEarned = Convert.ToInt32(row["PointsEarned"]),
+                        Status = Convert.ToChar(row["Status"]),
+                        LocationID = Convert.ToInt32(row["LocationID"]),
+                        StudentID = Convert.ToInt32(row["StudentID"])
+                    }
+                );
+            }
+            return requestList;
+        }
     }
 }

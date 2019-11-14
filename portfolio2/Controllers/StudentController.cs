@@ -35,7 +35,7 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Create");
             }
-            
+
             //List<StudentDetails> studentList = studentContext.GetAllStudent();
             return View();
         }
@@ -141,7 +141,7 @@ namespace portfolio2.Controllers
                     StudentViewModel studentVM = MapToCourseAndRating(student);
                     studentList = studentVM;
                 }
-       
+
             }
             // StudentViewModel studentVM = MapToStudentVM(student); //to be completed - 1. student details 2. student course 3. student skillset 4. student rating
             return View(studentList);
@@ -254,7 +254,7 @@ namespace portfolio2.Controllers
                 Description = student.Description,
                 Points = student.Points,
                 CourseID = student.CourseID,
-                CourseName = coursename,               
+                CourseName = coursename,
                 Rating = averagerating,
                 TotalRatings = amountofratings
             };
@@ -292,11 +292,11 @@ namespace portfolio2.Controllers
             ViewData["Locationlist"] = DropDownLocation();
             List<StudentDetails> studentList = studentContext.GetAllStudent();
             foreach (StudentDetails student in studentList)
-                if(student.StudentID == studentid)
+                if (student.StudentID == studentid)
                 {
                     int ID = student.StudentID;
                     ViewData["ID"] = ID;
-                }       
+                }
             return View();
         }
 
@@ -318,10 +318,77 @@ namespace portfolio2.Controllers
             {
                 request.RequestID = requestContext.AddRequest(request);
                 return View(request);
+                ViewData["Locationlist"] = DropDownLocation();
             }
             ViewData["Locationlist"] = DropDownLocation();
             return View();
+        }
 
+        public ActionResult MyRequests()
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            List<Request> allrequestsList = requestContext.GetMyRequests(HttpContext.Session.GetInt32("StudentID"));
+            List<RequestViewModel> allrequestviewmodelList = MapToStudentAndLocation(allrequestsList);
+            return View(allrequestviewmodelList);
+        }
+
+        public ActionResult AllRequests()
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            List<Request> allrequestsList = requestContext.GetAllRequests();
+            List<RequestViewModel> allrequestviewmodelList= MapToStudentAndLocation(allrequestsList);
+            return View(allrequestviewmodelList);
+        }
+
+        public List<RequestViewModel> MapToStudentAndLocation(List<Request> allrequestList)
+        {
+            string name = "";
+            string locationname = "";
+            List<StudentDetails> allstudentList = studentContext.GetAllStudent();
+            List<Location> alllocationList = locationContext.GetAllLocations();
+            List<RequestViewModel> requestVM = new List<RequestViewModel>();
+            foreach (Request currentrequest in allrequestList)
+            {
+                foreach (StudentDetails currentstudent in allstudentList)
+                {
+                    if (currentstudent.StudentID == currentrequest.StudentID)
+                    {
+                        name = currentstudent.Name;
+                        foreach (Location currentlocation in alllocationList)
+                        {
+                            if (currentlocation.LocationID == currentrequest.LocationID)
+                            {
+                                locationname = currentlocation.LocationName;
+                            }
+                        }
+                    }
+                }
+                requestVM.Add(
+                    new RequestViewModel
+                {
+                    RequestID = currentrequest.RequestID,
+                    DateRequest = currentrequest.DateRequest,
+                    Description = currentrequest.Description,
+                    Title = currentrequest.Title,
+                    AvailabilityFrom = currentrequest.AvailabilityFrom,
+                    AvailabilityTo = currentrequest.AvailabilityTo,
+                    PointsEarned = currentrequest.PointsEarned,
+                    Status = currentrequest.Status,
+                    LocationID = currentrequest.LocationID,
+                    StudentID = currentrequest.StudentID,
+                    Name = name,
+                    LocationName = locationname,
+                });
+            }
+            return requestVM;
         }
     }
 }
