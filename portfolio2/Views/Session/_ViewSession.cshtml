@@ -36,8 +36,8 @@
 
 </section>
 
-@if (Context.Session.GetInt32("StudentID") == null)
-{
+@*@if (Context.Session.GetInt32("StudentID") == null)
+{*@
     <section class="explore">
         <div class="container">
             <div class="row mb-3">
@@ -95,7 +95,7 @@
             </div>
         </div>
     </section>
-}
+@*}*@
 <section class="sessions">
     <div class="container">
         <div class="row mb-3">
@@ -114,8 +114,7 @@
         </div>
         <div class="row mb-3">
             @foreach (var item in Model)
-                {
-
+             {
                 <div class="col-md-6 col-lg-3">
                     <div class="card h-100">
                         <a class="lightbox" href="images/F1.jpg"><img src="~/images/Sessions/@Html.DisplayFor(modelItem => item.Photo)" class="card-img-top"></a>
@@ -129,7 +128,7 @@
                             <li class="list-group-item">Participants: @Html.DisplayFor(modelItem => item.Participants)</li>
                         </ul>
                         <div class="card-body">
-                            <a asp-controller="Session" asp-action="Details" asp-route-id="@Html.DisplayFor(modelItem => item.SessionID)" class="btn btn-primary">View Session Details</a>
+                            <a asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID" class="btn btn-primary">View Session Details</a>
                         </div>
                     </div>
                 </div>
@@ -171,7 +170,7 @@
                     @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                 </td>
             </tr>*@
-            }
+             }
         </div>
 
 
