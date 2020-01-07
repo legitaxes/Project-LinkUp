@@ -54,7 +54,7 @@
             <div class="row">
                 <div class="col-md-6 col-lg-3">
                     <div class="card h-100 text-center">
-                        <a class="lightbox" asp-controller="Category" asp-action="#"><img src="~/images/Categories/Technology.jpg" class="card-img-top"></a>
+                        <a class="lightbox" asp-controller="Category" asp-action="Filtered" asp-route-id="1"><img src="~/images/Categories/Technology.jpg" class="card-img-top"></a>
                         <div class="card-body">
                             <h6>Technology</h6>
                             <p class="text-muted card-text">Meet tech savvy students that are proficient programmers, software developers and enhance your knowledge on Technology</p>
@@ -64,7 +64,7 @@
 
                 <div class="col-md-6 col-lg-3">
                     <div class="card h-100 text-center">
-                        <a class="lightbox" asp-controller="Category" asp-action="#"><img src="~/images/Categories/artsandcraft.jpg" class="card-img-top"></a>
+                        <a class="lightbox" asp-controller="Category" asp-action="Filtered" asp-route-id="2"><img src="~/images/Categories/artsandcraft.jpg" class="card-img-top"></a>
                         <div class="card-body">
                             <h6>Arts and Craft</h6>
                             <p class="text-muted card-text">Meet creative students to widen your creativity and learn how to create different masterpieces</p>
@@ -74,7 +74,7 @@
 
                 <div class="col-md-6 col-lg-3">
                     <div class="card h-100 text-center">
-                        <a class="lightbox" asp-controller="Category" asp-action="#"><img src="~/images/Categories/Music.jpg" class="card-img-top"></a>
+                        <a class="lightbox" asp-controller="Category" asp-action="Filtered" asp-route-id="3"><img src="~/images/Categories/Music.jpg" class="card-img-top"></a>
                         <div class="card-body">
                             <h6>Music</h6>
                             <p class="text-muted card-text">Meet students with musical talents and string along</p>
@@ -84,7 +84,7 @@
 
                 <div class="col-md-6 col-lg-3">
                     <div class="card h-100 text-center">
-                        <a class="lightbox" href="images/F3.jpg"><img src="~/images/Categories/sportsandfitness.jpg" class="card-img-top"></a>
+                        <a class="lightbox" asp-controller="Category" asp-action="Filtered" asp-route-id="4"><img src="~/images/Categories/sportsandfitness.jpg" class="card-img-top"></a>
                         <div class="card-body">
                             <h6>Sports and Fitness</h6>
                             <p class="text-muted card-text">Meet gym rats and athletes to learn a new sport and stay active</p>
@@ -132,52 +132,8 @@
                         </div>
                     </div>
                 </div>
-
-                @*<tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SessionID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SessionDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Photo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Hours)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Participants)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StudentName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LocationName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CategoryName)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
-            </tr>*@
              }
         </div>
-
-
-            @*HTML CODE*@
-
-
-
 
     </div>
 </section>

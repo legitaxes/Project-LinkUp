@@ -139,5 +139,43 @@ namespace portfolio2.DAL
             conn.Close();
             return session.SessionID;
         }
+
+        public List<Session> FilteredSession(int? categoryID)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE CategoryID = @selectedcategoryID", conn);
+            cmd.Parameters.AddWithValue("@selectedcategoryID", categoryID);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "SessionList");
+            conn.Close();
+            List<Session> sessionList = new List<Session>();
+            foreach (DataRow row in result.Tables["SessionList"].Rows)
+            {
+                string photo = "";
+                if (!DBNull.Value.Equals(row["Photo"]))
+                    photo = row["Photo"].ToString();
+                else
+                    photo = "stocksession.jpg";
+                sessionList.Add(
+                    new Session
+                    {
+                        SessionID = Convert.ToInt32(row["SessionID"]),
+                        SessionDate = Convert.ToDateTime(row["SessionDate"]),
+                        Name = row["Name"].ToString(),
+                        Description = row["Description"].ToString(),
+                        Photo = photo,
+                        Hours = Convert.ToInt32(row["Hours"]),
+                        Participants = Convert.ToInt32(row["Participants"]),
+                        Status = Convert.ToChar(row["Status"]),
+                        StudentID = Convert.ToInt32(row["StudentID"]),
+                        LocationID = Convert.ToInt32(row["LocationID"]),
+                        CategoryID = Convert.ToInt32(row["CategoryID"])
+                    });
+            }
+            return sessionList;
+        }
+
     }
 }
+
