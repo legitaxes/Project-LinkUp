@@ -75,6 +75,24 @@ namespace portfolio2.Controllers
             }
             return sessionViewModelList;
         }
+        public ActionResult Details(int id)
+        {
+            Session session = sessionContext.GetSessionDetails(id);
+            SessionPhoto currentSession = MapToSingleSessionVM(session);
+            ViewData["Session"] = true;
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                ViewData["Session"] = false;
+            }
+            return View(currentSession);
+        }
+        [HttpPost]
+        public ActionResult Details(SessionViewModel session)
+        {
+
+            return View();
+        }
         public SessionPhoto MapToSingleSessionVM(Session session)
         {
             string studentName = "";

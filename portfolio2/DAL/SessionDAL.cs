@@ -68,22 +68,49 @@ namespace portfolio2.DAL
             return sessionList;
         }
 
-        //public SessionViewModel GetSessionDetails(SessionViewModel session)
-        //{
-        //    SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE SessionID = @selectedsessionid", conn);
-        //    cmd.Parameters.AddWithValue("@selectedsessionid", session.SessionID);
-        //    SqlDataAdapter da = new SqlDataAdapter(cmd);
-        //    DataSet result = new DataSet();
-        //    conn.Open();
-        //    da.Fill(result, "SessionDetails");
-        //    conn.Close();
-        //    SessionViewModel sessionDetails = new SessionViewModel();
-        //    if (result.Tables["SessionDetails"].Rows.Count > 0)
-        //    {
-
-        //    }
-
-        //}
+        public Session GetSessionDetails(int sessionID)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE SessionID = @selectedsessionid", conn);
+            cmd.Parameters.AddWithValue("@selectedsessionid", sessionID);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "SessionDetails");
+            conn.Close();
+            Session sessionDetails = new Session();
+            if (result.Tables["SessionDetails"].Rows.Count > 0)
+            {
+                sessionDetails.SessionID = sessionID;
+                DataTable table = result.Tables["SessionDetails"];
+                if (!DBNull.Value.Equals(table.Rows[0]["DateCreated"]))
+                    sessionDetails.DateCreated = Convert.ToDateTime(table.Rows[0]["DateCreated"]);
+                if (!DBNull.Value.Equals(table.Rows[0]["SessionDate"]))
+                    sessionDetails.SessionDate = Convert.ToDateTime(table.Rows[0]["SessionDate"]);
+                if (!DBNull.Value.Equals(table.Rows[0]["Name"]))
+                    sessionDetails.Name = table.Rows[0]["Name"].ToString();
+                if (!DBNull.Value.Equals(table.Rows[0]["Description"]))
+                    sessionDetails.Description = table.Rows[0]["Description"].ToString();
+                if (!DBNull.Value.Equals(table.Rows[0]["Photo"]))
+                    sessionDetails.Photo = table.Rows[0]["Photo"].ToString();
+                if (!DBNull.Value.Equals(table.Rows[0]["Hours"]))
+                    sessionDetails.Hours = Convert.ToInt32(table.Rows[0]["Hours"]);
+                if (!DBNull.Value.Equals(table.Rows[0]["Participants"]))
+                    sessionDetails.Participants = Convert.ToInt32(table.Rows[0]["Participants"]);
+                if (!DBNull.Value.Equals(table.Rows[0]["Status"]))
+                    sessionDetails.Status = Convert.ToChar(table.Rows[0]["Status"]);
+                if (!DBNull.Value.Equals(table.Rows[0]["StudentID"]))
+                    sessionDetails.StudentID = Convert.ToInt32(table.Rows[0]["StudentID"]);
+                if (!DBNull.Value.Equals(table.Rows[0]["LocationID"]))
+                    sessionDetails.LocationID = Convert.ToInt32(table.Rows[0]["LocationID"]);
+                if (!DBNull.Value.Equals(table.Rows[0]["CategoryID"]))
+                    sessionDetails.CategoryID = Convert.ToInt32(table.Rows[0]["CategoryID"]);
+                return sessionDetails;
+            }
+            else
+            {
+                return null;
+            }
+        }
         public List<Session> GetMySession(int? studentID)
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE StudentID = @selectedstudentid", conn);

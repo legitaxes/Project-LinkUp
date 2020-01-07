@@ -1,0 +1,108 @@
+﻿@model portfolio2.Models.SessionPhoto
+
+@{
+    ViewData["Title"] = "Details";
+    if (Context.Session.GetInt32("StudentID") != null)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_SignInLayout.cshtml";
+    }
+}
+<h2>Details</h2>
+
+<div>
+    <h4>SessionViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SessionID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SessionID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SessionDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SessionDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Photo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Photo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Hours)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Hours)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Participants)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Participants)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StudentName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LocationName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LocationName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CategoryName)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @if ((bool)ViewData["Session"] == true)
+    {
+    <form asp-action="Details" method="post" onsubmit="return confirm('Are you sure you want to signup?');">
+        <input asp-for="SessionID" readonly hidden value="@Model.SessionID" />
+        <input asp-for="SessionDate" readonly hidden value="@Model.SessionDate" />
+        <input asp-for="Name" readonly hidden value="@Model.Name" />
+        <input asp-for="Description" readonly hidden value="@Model.Description" />
+        <input asp-for="Photo" readonly hidden value="@Model.Photo" />
+        <input asp-for="Hours" readonly hidden value="@Model.Hours" />
+        <input asp-for="Participants" readonly hidden value="@Model.Participants" />
+        <input asp-for="Status" readonly hidden value="@Model.Status" />
+        <input asp-for="StudentName" readonly hidden value="@Model.StudentName" />
+        <input asp-for="LocationName" readonly hidden value="@Model.LocationName" />
+        <input asp-for="CategoryName" readonly hidden value="@Model.CategoryName" />
+        <input type="submit" value="Sign Up For This Session" />
+    </form> @: |
+    }
+    <a asp-action="Index">Back to List</a>
+</div>

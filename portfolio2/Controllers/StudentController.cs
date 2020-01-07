@@ -317,8 +317,8 @@ namespace portfolio2.Controllers
             if (ModelState.IsValid)
             {
                 request.RequestID = requestContext.AddRequest(request);
-                return View(request);
                 ViewData["Locationlist"] = DropDownLocation();
+                return View(request);
             }
             ViewData["Locationlist"] = DropDownLocation();
             return View();
