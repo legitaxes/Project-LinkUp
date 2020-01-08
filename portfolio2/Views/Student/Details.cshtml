@@ -7,114 +7,114 @@
 
 @*<h2>Details</h2>
 
-<div>
-    <h4>StudentDetails</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.StudentID)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.StudentID)
-        </dd>
+    <div>
+        <h4>StudentDetails</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.StudentID)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.StudentID)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Year)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Year)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Year)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Year)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Photo)
-        </dt>
-        <dd>
-            @if (Context.Session.GetString("Photo") != null)
-            {
-                <img src="~/images/Profilepictures/@(Context.Session.GetString("Photo"))">
-            }
-            else
-            {
-                <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg">
-            }
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Photo)
+            </dt>
+            <dd>
+                @if (Context.Session.GetString("Photo") != null)
+                {
+                    <img src="~/images/Profilepictures/@(Context.Session.GetString("Photo"))">
+                }
+                else
+                {
+                    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg">
+                }
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNo)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNo)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PhoneNo)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PhoneNo)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Interest)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Interest)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Interest)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Interest)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ExternalLink)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ExternalLink)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ExternalLink)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ExternalLink)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Points)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Points)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Points)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Points)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CourseID)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CourseID)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CourseID)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CourseID)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CourseName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CourseName)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CourseName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CourseName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Rating)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Rating)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Rating)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Rating)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TotalRatings)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TotalRatings)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Update", "Update", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Upload Photo", "Photo", new { /* id = Model.PrimaryKey */}) |
-    <a asp-action="Index">Back to List</a>
-</div>*@
+            <dt>
+                @Html.DisplayNameFor(model => model.TotalRatings)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.TotalRatings)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        @Html.ActionLink("Update", "Update", new { /* id = Model.PrimaryKey */ }) |
+        @Html.ActionLink("Upload Photo", "Photo", new { /* id = Model.PrimaryKey */}) |
+        <a asp-action="Index">Back to List</a>
+    </div>*@
 
 
 @*HTML CODE*@
@@ -130,7 +130,7 @@
                     }
                     else
                     {
-                        <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" alt="Profile Picture" >
+                        <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" alt="Profile Picture">
                     }
                 </div>
             </div>
@@ -202,14 +202,14 @@
                                 <p>@Html.DisplayFor(model => model.CourseName)</p>
                             </div>
                         </div>
-                        @*<div class="row">
+                        <div class="row">
                             <div class="col-md-6">
                                 <label>Email</label>
                             </div>
                             <div class="col-md-6">
                                 <p>motherfucker@gmail.com</p>
                             </div>
-                        </div>*@
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <label>Phone</label>

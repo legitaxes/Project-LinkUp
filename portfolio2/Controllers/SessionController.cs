@@ -79,6 +79,11 @@ namespace portfolio2.Controllers
         {
             Session session = sessionContext.GetSessionDetails(id);
             SessionPhoto currentSession = MapToSingleSessionVM(session);
+            bool owner = sessionContext.CheckSessionOwner(id, HttpContext.Session.GetInt32("StudentID"));
+            if (owner == true)
+            {
+                ViewData["Owner"] = "This is the session owner";
+            }
             ViewData["Session"] = true;
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
