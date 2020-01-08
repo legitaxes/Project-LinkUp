@@ -35,9 +35,11 @@ namespace portfolio2.Controllers
             }
             List<Session> sessionList = sessionContext.FilteredSession(id);
             List<SessionViewModel> sessionDetailsList = MapToSessionVM(sessionList);
+            Category cat = categoryContext.GetCategoryName(id);
+            ViewData["CategoryName"] = cat.CategoryName;
             if (sessionDetailsList.Count == 0)
             {
-                ViewData["Message"] = "It Doesn't Seem Like There Is Any Session Under This Category...";
+                ViewData["Message"] = "It Doesn't Seem Like There Is Any Session Under ";
             }
             return View(sessionDetailsList);
         }

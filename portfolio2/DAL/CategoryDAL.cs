@@ -32,6 +32,29 @@ namespace portfolio2.DAL
             //Connection String read.
             conn = new SqlConnection(strConn);
         }
+        public Category GetCategoryName(int? id)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Category WHERE CategoryID = @selectedcatid", conn);
+            cmd.Parameters.AddWithValue("@selectedcatid", id);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "CategoryList");
+            conn.Close();
+            Category cat = new Category();
+            if (result.Tables["CategoryList"].Rows.Count > 0)
+            {
+                DataTable table = result.Tables["CategoryList"];
+                if (!DBNull.Value.Equals(table.Rows[0]["CategoryName"]))
+                    cat.CategoryName = table.Rows[0]["CategoryName"].ToString();
+                return cat;
+            }
+            else
+            {
+                return null;
+            }
+            //need to find out how to query for single row
+        }
         public List<Category> GetAllCategory()
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM Category", conn);
