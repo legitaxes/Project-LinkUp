@@ -67,7 +67,30 @@ namespace portfolio2.DAL
             }
             return sessionList;
         }
-
+        public bool CheckSessionOwner(int sessionID, int? studentID)
+        {
+            if (studentID == null)
+            {
+                return false;
+            }
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE SessionID = @selectedsessionid AND StudentID = @selectedstudentid", conn);
+            cmd.Parameters.AddWithValue("@selectedsessionid", sessionID);
+            cmd.Parameters.AddWithValue("@selectedstudentid", studentID);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "SessionDetails");
+            conn.Close();
+            Session sessionDetails = new Session();
+            if (result.Tables["SessionDetails"].Rows.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public Session GetSessionDetails(int sessionID)
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE SessionID = @selectedsessionid", conn);
