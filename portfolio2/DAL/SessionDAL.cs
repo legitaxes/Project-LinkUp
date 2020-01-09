@@ -145,6 +145,7 @@ namespace portfolio2.DAL
                 return false;
             }
         }
+
         public Session GetSessionDetails(int sessionID)
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE SessionID = @selectedsessionid", conn);
@@ -188,9 +189,50 @@ namespace portfolio2.DAL
                 return null;
             }
         }
+
+        public List<Session> GetSignedUpSession(int? studentID)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT s.SessionID, s.SessionDate, s.Name, s.Description, s.Photo, s.Hours, s.Participants, s.Points, s.Status, s.StudentID, s.LocationID, s.CategoryID " +
+                "FROM StudentBooking sb INNER JOIN Booking b ON sb.BookingID = b.BookingID " +
+                "INNER JOIN Session s ON s.SessionID = b.SessionID " +
+                "WHERE sb.StudentID = @selectedstudentID", conn);
+            cmd.Parameters.AddWithValue("@selectedstudentid", studentID);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "SignedUpSessionList");
+            conn.Close();
+            List<Session> sessionList = new List<Session>();
+            foreach (DataRow row in result.Tables["SignedUpSessionList"].Rows)
+            {
+                string photo = "";
+                if (!DBNull.Value.Equals(row["Photo"]))
+                    photo = row["Photo"].ToString();
+                else
+                    photo = "stocksession.jpg";
+                sessionList.Add(
+                    new Session
+                    {
+                        SessionID = Convert.ToInt32(row["SessionID"]),
+                        SessionDate = Convert.ToDateTime(row["SessionDate"]),
+                        Name = row["Name"].ToString(),
+                        Description = row["Description"].ToString(),
+                        Photo = photo,
+                        Hours = Convert.ToInt32(row["Hours"]),
+                        Participants = Convert.ToInt32(row["Participants"]),
+                        Points = Convert.ToInt32(row["Points"]),
+                        Status = Convert.ToChar(row["Status"]),
+                        StudentID = Convert.ToInt32(row["StudentID"]),
+                        LocationID = Convert.ToInt32(row["LocationID"]),
+                        CategoryID = Convert.ToInt32(row["CategoryID"])
+                    });
+            }
+            return sessionList;
+        }
+
         public List<Session> GetMySession(int? studentID)
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE StudentID = @selectedstudentid", conn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE StudentID = @selectedstudentID", conn);
             cmd.Parameters.AddWithValue("@selectedstudentid", studentID);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
@@ -215,6 +257,7 @@ namespace portfolio2.DAL
                         Photo = photo,
                         Hours = Convert.ToInt32(row["Hours"]),
                         Participants = Convert.ToInt32(row["Participants"]),
+                        Points = Convert.ToInt32(row["Points"]),
                         Status = Convert.ToChar(row["Status"]),
                         StudentID = Convert.ToInt32(row["StudentID"]),
                         LocationID = Convert.ToInt32(row["LocationID"]),
@@ -226,14 +269,15 @@ namespace portfolio2.DAL
 
         public int CreateSession(Session session)
         {
-            SqlCommand cmd = new SqlCommand("INSERT INTO Session (SessionDate, Name, Description, Photo, Hours, Participants, StudentID, LocationID, CategoryID) " + 
+            SqlCommand cmd = new SqlCommand("INSERT INTO Session (SessionDate, Name, Description, Photo, Hours, Points, Participants, StudentID, LocationID, CategoryID) " + 
                 "OUTPUT INSERTED.SessionID " + 
-                "VALUES(@sessiondate, @name, @description, @photo, @hours, @participants, @studentid, @locationid, @categoryid)", conn);
+                "VALUES(@sessiondate, @name, @description, @photo, @hours, @points, @participants, @studentid, @locationid, @categoryid)", conn);
             cmd.Parameters.AddWithValue("@sessiondate", session.SessionDate);
             cmd.Parameters.AddWithValue("@name", session.Name);
             cmd.Parameters.AddWithValue("@description", session.Description);
             cmd.Parameters.AddWithValue("@photo", session.Photo);
             cmd.Parameters.AddWithValue("@hours", session.Hours);
+            cmd.Parameters.AddWithValue("@points", (15 * session.Hours) / 2);
             cmd.Parameters.AddWithValue("@participants", session.Participants);
             cmd.Parameters.AddWithValue("@studentid", session.StudentID);
             cmd.Parameters.AddWithValue("@locationid", session.LocationID);

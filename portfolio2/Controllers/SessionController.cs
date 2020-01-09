@@ -24,7 +24,8 @@ namespace portfolio2.Controllers
             List<SessionViewModel> sessionDetailsList = MapToSessionVM(sessionList);
             return View(sessionDetailsList);
         }
-        public List<SessionViewModel> MapToSessionVM(List<Session> sessionList)
+
+        public List<SessionViewModel> MapToSessionVM(List<Session> sessionList) //maps a list of sessions
         {
             string studentName = "";
             string locationName = "";
@@ -68,6 +69,7 @@ namespace portfolio2.Controllers
                         Photo = session.Photo,
                         Hours = session.Hours,
                         Participants = session.Participants,
+                        Points = session.Points,
                         Status = session.Status,
                         StudentName = studentName,
                         LocationName = locationName,
@@ -76,40 +78,44 @@ namespace portfolio2.Controllers
             }
             return sessionViewModelList;
         }
+
         public ActionResult Details(int id)
         {
             Session session = sessionContext.GetSessionDetails(id);
             SessionPhoto currentSession = MapToSingleSessionVM(session);
             bool checksignup = sessionContext.CheckSignUp(id, HttpContext.Session.GetInt32("StudentID"));
-            if (checksignup == true)
+            if (checksignup == true) //checks whether the user have already signed up for the session
             {
                 ViewData["CheckSignUp"] = "The User have signed up";
             }
             bool owner = sessionContext.CheckSessionOwner(id, HttpContext.Session.GetInt32("StudentID"));
-            if (owner == true)
+            if (owner == true) //checks whether the session is created by the user
             {
                 ViewData["Owner"] = "This is the session owner";
             }
             
-            if ((HttpContext.Session.GetString("Role") == null) ||
+            if ((HttpContext.Session.GetString("Role") == null) || //checks whether the user is logged in
             (HttpContext.Session.GetString("Role") != "Student"))
             {
                 ViewData["Session"] = "This is not logged in";
             }
             return View(currentSession);
         }
+
         [HttpPost]
         public ActionResult Details(SessionViewModel session)
         {
             int bookingID = sessionContext.CreateBooking(session.SessionID, session.Hours); //this creates a booking in the Booking Table
             sessionContext.CreateStudentBooking(HttpContext.Session.GetInt32("StudentID"), bookingID); //this updates the StudentBooking Table
-            sessionContext.UpdateSessionParticipant(session.Participants, session.SessionID); //this increases participant count
+            sessionContext.UpdateSessionParticipant(session.Participants + 1, session.SessionID); //this increases participant count
             return RedirectToAction("SignUp");
         }
-        public ActionResult SignUp()
+
+        public ActionResult SignUp() //this page is used to show a message of the user successfully signing up
         {
             return View();
         }
+
         public SessionPhoto MapToSingleSessionVM(Session session)
         {
             string studentName = "";
@@ -149,6 +155,7 @@ namespace portfolio2.Controllers
             newSession.Photo = session.Photo;
             newSession.Hours = session.Hours;
             newSession.Participants = session.Participants;
+            newSession.Points = session.Points;
             newSession.Status = session.Status;
             newSession.StudentName = studentName;
             newSession.LocationName = locationName;
@@ -156,15 +163,15 @@ namespace portfolio2.Controllers
             return newSession;
         }
 
-        public ActionResult Create()
+        public ActionResult Create() //create a session page
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewData["CategoryList"] = categoryContext.GetCategoryList();
-            ViewData["LocationList"] = locationContext.GetLocationList();
+            ViewData["CategoryList"] = categoryContext.GetCategoryList(); //fills in category list 
+            ViewData["LocationList"] = locationContext.GetLocationList(); //fills in location list
             return View();
         }
 
@@ -194,7 +201,8 @@ namespace portfolio2.Controllers
                 return View(session);
             }
         }
-        public ActionResult MySession()
+
+        public ActionResult MySession() //views session that user has created
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
@@ -202,6 +210,18 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Index", "Home");
             }
             List<Session> sessionList = sessionContext.GetMySession(HttpContext.Session.GetInt32("StudentID"));
+            List<SessionViewModel> sessionDetailsList = MapToSessionVM(sessionList);
+            return View(sessionDetailsList);
+        }
+
+        public ActionResult SessionJoined() //views sessions user has joined
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            List<Session> sessionList = sessionContext.GetSignedUpSession(HttpContext.Session.GetInt32("StudentID"));
             List<SessionViewModel> sessionDetailsList = MapToSessionVM(sessionList);
             return View(sessionDetailsList);
         }

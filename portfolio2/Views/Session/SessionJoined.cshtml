@@ -1,4 +1,9 @@
 ﻿@model IEnumerable<portfolio2.Models.SessionViewModel>
+
+@{
+    ViewData["Title"] = "MySession";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 <section class="search">
     <div class="container">
         <div class="logo">
@@ -25,48 +30,25 @@
 
             </form>
             <div class="requestbutton text-center">
-                <a href="#" class="btn text-primary">Didn’t find your session? Request now!</a>
+                <a href="#" class="btn text-primary">Didn’t find your session? Request now!<a>
             </div>
         </div>
 
         <!-- Underlined search bars with buttons -->
 
     </div>
-
 </section>
 <section class="sessions">
     <div class="container">
         <div class="row mb-3">
             <div class="col">
-                @if (ViewData["Message"] == null)
-                {
-                    <h1>Sessions Under @if (ViewData["CategoryName"] != null)
-                    {
-                        @ViewData["CategoryName"]
-                    }
-                    else {
-                    @:This Category
-                    }
-                </h1>
-
-        <p class="text-muted">Browse listings related</p>
-                    }
-                else
-                {
-                    <img src="~/images/Icons/question_mark.png" />
-                    <h1>@ViewData["Message"] @ViewData["CategoryName"]...</h1>
-                    <p class="text-muted">You might want to navigate somewhere else..?</p>
-                }
+                <h1> View Your Joined Sessions </h1>
+                <p class="text-muted">Browse the listings below</p>
             </div>
         </div>
         <div class="row mb-3">
             @foreach (var item in Model)
             {
-                string selectedCard = "";
-                if (item.StudentName == Context.Session.GetString("LoginID"))
-                {
-                    selectedCard = "style='color:darkgreen;";
-                }
                 <div class="col-md-6 col-lg-3">
                     <div class="card h-100">
                         <a class="lightbox" asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID"><img src="~/images/Sessions/@Html.DisplayFor(modelItem => item.Photo)" class="card-img-top"></a>
@@ -78,7 +60,6 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">Category: @Html.DisplayFor(modelItem => item.CategoryName)</li>
                             <li class="list-group-item">Participants: @Html.DisplayFor(modelItem => item.Participants)</li>
-                            <li class="list-group-item">Host: @Html.DisplayFor(modelItem => item.StudentName)</li>
                         </ul>
                         <div class="card-body">
                             <a asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID" class="btn btn-primary">View Session Details</a>
@@ -87,5 +68,6 @@
                 </div>
             }
         </div>
+
     </div>
 </section>
