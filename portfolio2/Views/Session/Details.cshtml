@@ -92,22 +92,28 @@
      }
     @if (ViewData["Owner"] == null)
      {
-        @if ((bool)ViewData["Session"] == true)
+        @if (ViewData["Session"] == null)
         {
-        <form asp-action="Details" method="post" onsubmit="return confirm('Are you sure you want to signup?');">
-            <input asp-for="SessionID" readonly hidden value="@Model.SessionID" />
-            <input asp-for="SessionDate" readonly hidden value="@Model.SessionDate" />
-            <input asp-for="Name" readonly hidden value="@Model.Name" />
-            <input asp-for="Description" readonly hidden value="@Model.Description" />
-            <input asp-for="Photo" readonly hidden value="@Model.Photo" />
-            <input asp-for="Hours" readonly hidden value="@Model.Hours" />
-            <input asp-for="Participants" readonly hidden value="@Model.Participants" />
-            <input asp-for="Status" readonly hidden value="@Model.Status" />
-            <input asp-for="StudentName" readonly hidden value="@Model.StudentName" />
-            <input asp-for="LocationName" readonly hidden value="@Model.LocationName" />
-            <input asp-for="CategoryName" readonly hidden value="@Model.CategoryName" />
-            <input type="submit" value="Sign Up For This Session" />
-        </form> @: |
+            @if (ViewData["CheckSignUp"] == null) {
+                <form asp-action="Details" method="post" onsubmit="return confirm('Are you sure you want to signup for this session?');">
+                    <input asp-for="SessionID" readonly hidden value="@Model.SessionID" />
+                    <input asp-for="SessionDate" readonly hidden value="@Model.SessionDate" />
+                    <input asp-for="Name" readonly hidden value="@Model.Name" />
+                    <input asp-for="Description" readonly hidden value="@Model.Description" />
+                    <input asp-for="Photo" readonly hidden value="@Model.Photo" />
+                    <input asp-for="Hours" readonly hidden value="@Model.Hours" />
+                    <input asp-for="Participants" readonly hidden value="@Model.Participants" />
+                    <input asp-for="Status" readonly hidden value="@Model.Status" />
+                    <input asp-for="StudentName" readonly hidden value="@Model.StudentName" />
+                    <input asp-for="LocationName" readonly hidden value="@Model.LocationName" />
+                    <input asp-for="CategoryName" readonly hidden value="@Model.CategoryName" />
+                    <input type="submit" value="Sign Up For This Session" />
+                </form> @: |
+             }
+            else
+            {
+                <p style="color:lawngreen; font-weight:bold;">You have already signed up for this!</p>
+            }
         }
      }
     <a asp-action="Index">Back to List</a>

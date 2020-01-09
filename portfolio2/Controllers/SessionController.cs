@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using portfolio2.DAL;
 using portfolio2.Models;
 
@@ -79,23 +80,34 @@ namespace portfolio2.Controllers
         {
             Session session = sessionContext.GetSessionDetails(id);
             SessionPhoto currentSession = MapToSingleSessionVM(session);
+            bool checksignup = sessionContext.CheckSignUp(id, HttpContext.Session.GetInt32("StudentID"));
+            if (checksignup == true)
+            {
+                ViewData["CheckSignUp"] = "The User have signed up";
+            }
             bool owner = sessionContext.CheckSessionOwner(id, HttpContext.Session.GetInt32("StudentID"));
             if (owner == true)
             {
                 ViewData["Owner"] = "This is the session owner";
             }
-            ViewData["Session"] = true;
+            
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
             {
-                ViewData["Session"] = false;
+                ViewData["Session"] = "This is not logged in";
             }
             return View(currentSession);
         }
         [HttpPost]
         public ActionResult Details(SessionViewModel session)
         {
-
+            int bookingID = sessionContext.CreateBooking(session.SessionID, session.Hours); //this creates a booking in the Booking Table
+            sessionContext.CreateStudentBooking(HttpContext.Session.GetInt32("StudentID"), bookingID); //this updates the StudentBooking Table
+            sessionContext.UpdateSessionParticipant(session.Participants, session.SessionID); //this increases participant count
+            return RedirectToAction("SignUp");
+        }
+        public ActionResult SignUp()
+        {
             return View();
         }
         public SessionPhoto MapToSingleSessionVM(Session session)

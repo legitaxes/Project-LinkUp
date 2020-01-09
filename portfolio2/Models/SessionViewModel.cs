@@ -29,6 +29,8 @@ namespace portfolio2.Models
         [Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
         public int Participants { get; set; }
 
+        public int Points { get; set; }
+
         [Display(Name = "Finished")]
         public char Status { get; set; }
 

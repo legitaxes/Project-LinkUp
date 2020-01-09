@@ -32,7 +32,61 @@ namespace portfolio2.DAL
             //Connection String read.
             conn = new SqlConnection(strConn);
         }
+        //Creates the booking record into the database
+        public int CreateBooking(int sessionid, int hours)
+        {
+            int points = (15 * hours)/2; //formula to be confirmed
+            SqlCommand cmd = new SqlCommand("INSERT INTO Booking (PointsEarned, SessionID) " + 
+                "OUTPUT INSERTED.BookingID " + "VALUES(@points, @session)", conn);
+            cmd.Parameters.AddWithValue("@points", points);
+            cmd.Parameters.AddWithValue("@session", sessionid);
+            conn.Open();
+            int id = (int)cmd.ExecuteScalar();
+            conn.Close();
+            return id;
+        }
+        public bool CheckSignUp(int sessionid, int? studentid)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM StudentBooking sb INNER JOIN Booking b on sb.BookingID = b.BookingID " +
+                "WHERE sb.StudentID = @selectedstudentid", conn);
+            cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "SessionJoined");
+            conn.Close();
+            foreach (DataRow row in result.Tables["SessionJoined"].Rows)
+            {
+                if (Convert.ToInt32(row["SessionID"]) == sessionid)
+                {
+                    return true;
+                }
+            }
+            return false;
 
+        }
+        //Links the booking with the student 
+        public int CreateStudentBooking(int? studentid, int bookingid)
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO StudentBooking (StudentID, BookingID) "
+                + "VALUES(@selectedstudentid, @selectedbookingid)", conn);
+            cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
+            cmd.Parameters.AddWithValue("@selectedbookingid", bookingid);
+            conn.Open();
+            int? id = (int?)cmd.ExecuteScalar();
+            conn.Close();
+            return 0;
+        }
+        public void UpdateSessionParticipant(int participant, int sessionid)
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE Session SET Participants = @participant" +
+                " WHERE SessionID = @selectedsessionid", conn);
+            cmd.Parameters.AddWithValue("@participant", participant);
+            cmd.Parameters.AddWithValue("@selectedsessionid", sessionid);
+            conn.Open();
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+        }
         public List<Session> GetAllSessions()
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM Session", conn);

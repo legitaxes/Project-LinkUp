@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "SignUp";
+    if (Context.Session.GetInt32("StudentID") != null)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_SignInLayout.cshtml";
+    }
+}
+
+<h2>SignUp</h2>
+
