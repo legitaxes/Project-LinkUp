@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,6 +21,8 @@ namespace portfolio2.Models
 
         [Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
         public string Description { get; set; }
+
+        public IFormFile FileToUpload { get; set; }
 
         public string Photo { get; set; }
 

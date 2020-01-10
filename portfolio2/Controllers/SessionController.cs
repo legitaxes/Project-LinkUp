@@ -111,8 +111,29 @@ namespace portfolio2.Controllers
             return RedirectToAction("SignUp");
         }
 
+        [HttpPost]
+        public ActionResult CancelSession(SessionViewModel session)
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            int bookingid = sessionContext.GetBookingID(HttpContext.Session.GetInt32("StudentID"), session.SessionID);
+            TempData["Cancel"] = "Cancelled Successfully";
+            sessionContext.RemoveStudentBooking(HttpContext.Session.GetInt32("StudentID"), bookingid);
+            sessionContext.RemoveBooking(bookingid);
+            sessionContext.UpdateSessionParticipant(session.Participants - 1, session.SessionID);
+            return RedirectToAction("Details", new { id = session.SessionID });
+        }
+
         public ActionResult SignUp() //this page is used to show a message of the user successfully signing up
         {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 

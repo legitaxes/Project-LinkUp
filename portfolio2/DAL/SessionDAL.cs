@@ -32,6 +32,7 @@ namespace portfolio2.DAL
             //Connection String read.
             conn = new SqlConnection(strConn);
         }
+
         //Creates the booking record into the database
         public int CreateBooking(int sessionid, int hours)
         {
@@ -45,11 +46,14 @@ namespace portfolio2.DAL
             conn.Close();
             return id;
         }
+
         public bool CheckSignUp(int sessionid, int? studentid)
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM StudentBooking sb INNER JOIN Booking b on sb.BookingID = b.BookingID " +
                 "WHERE sb.StudentID = @selectedstudentid", conn);
             cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
+            if (studentid == null)
+                return false;
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
             conn.Open();
@@ -63,8 +67,8 @@ namespace portfolio2.DAL
                 }
             }
             return false;
-
         }
+
         //Links the booking with the student 
         public int CreateStudentBooking(int? studentid, int bookingid)
         {
@@ -77,6 +81,52 @@ namespace portfolio2.DAL
             conn.Close();
             return 0;
         }
+
+        public int GetBookingID(int? studentid, int sessionid) //gets the bookingID based on the sessionID and studentID
+        {
+            SqlCommand cmd = new SqlCommand("Select b.BookingID from booking b INNER JOIN StudentBooking sb on sb.BookingID = b.BookingID" +
+                " WHERE StudentID = @selectedstudentid AND b.SessionID = @selectedsessionid", conn);
+            cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
+            cmd.Parameters.AddWithValue("@selectedsessionid", sessionid);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "BookingIDList");
+            conn.Close();
+            int bookingID;
+            foreach (DataRow row in result.Tables["BookingIDList"].Rows)
+            {
+                bookingID = Convert.ToInt32(row["BookingID"]);
+                return bookingID;
+            }
+            return 0;
+        }
+
+        public int RemoveStudentBooking(int? studentid, int bookingid) //uses bookingID to remove the booking record StudentBooking
+        {
+            SqlCommand cmd = new SqlCommand("DELETE FROM StudentBooking " +
+                "WHERE StudentID = @selectedstudentid AND BookingID = @selectedbookingid", conn);
+            cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
+            cmd.Parameters.AddWithValue("@selectedbookingid", bookingid);
+            conn.Open();
+            int count;
+            count = cmd.ExecuteNonQuery();
+            conn.Close();
+            return count;
+        }
+
+        public int RemoveBooking(int bookingid)
+        {
+            SqlCommand cmd = new SqlCommand("DELETE FROM Booking " + 
+                "WHERE BookingID = @selectedbookingid", conn);
+            cmd.Parameters.AddWithValue("@selectedbookingid", bookingid);
+            conn.Open();
+            int count;
+            count = cmd.ExecuteNonQuery();
+            conn.Close();
+            return count;
+        }
+
         public void UpdateSessionParticipant(int participant, int sessionid)
         {
             SqlCommand cmd = new SqlCommand("UPDATE Session SET Participants = @participant" +
@@ -87,6 +137,7 @@ namespace portfolio2.DAL
             int count = cmd.ExecuteNonQuery();
             conn.Close();
         }
+
         public List<Session> GetAllSessions()
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM Session", conn);
@@ -121,6 +172,7 @@ namespace portfolio2.DAL
             }
             return sessionList;
         }
+
         public bool CheckSessionOwner(int sessionID, int? studentID)
         {
             if (studentID == null)
