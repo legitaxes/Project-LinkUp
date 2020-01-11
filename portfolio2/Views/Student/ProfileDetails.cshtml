@@ -1,0 +1,113 @@
+﻿@model portfolio2.Models.StudentViewModel
+
+@{
+    ViewData["Title"] = "ProfileDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*HTML CODE*@
+
+<div class="container emp-profile">
+    <form method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    @if (Model.Photo != null)
+                    {
+                        <img src="~/images/Profilepictures/@Model.Photo">
+                    }
+                    else
+                    {
+                        <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" alt="Profile Picture">
+                    }
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="profile-head">
+                    <h5>
+                        @Html.DisplayFor(model => model.Name)
+                    </h5>
+                    <h6>
+                        @Html.DisplayFor(model => model.CourseName)
+                    </h6>
+                    <p class="proile-rating">RATINGS : <span>8/10</span></p>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Reviews</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <a class="btn btn-primary" name="btnAddMore" asp-controller="Student" asp-action="Update">Edit Profile</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-work">
+
+                    <h6>MY INTERESTS</h6>
+                    <p class="text-left text-wrap">
+                        @Html.DisplayFor(model => model.Interest)
+                    </p>
+
+                    <h6>DESCRIPTION</h6>
+                    <p class="text-left text-wrap">
+                        @Html.DisplayFor(model => model.Description)
+                    </p>
+
+
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Name</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>@Html.DisplayFor(model => model.Name)</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Year</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>@Html.DisplayFor(model => model.Year)</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Course</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>@Html.DisplayFor(model => model.CourseName)</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Website</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>@Html.DisplayFor(model => model.ExternalLink)</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

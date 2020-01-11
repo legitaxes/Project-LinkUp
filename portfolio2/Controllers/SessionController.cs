@@ -79,9 +79,33 @@ namespace portfolio2.Controllers
             return sessionViewModelList;
         }
 
+        public ActionResult ViewSessionParticipant(int? id)
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            bool owner = sessionContext.CheckSessionOwner(id, HttpContext.Session.GetInt32("StudentID"));
+            if (owner == false)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            List<StudentDetails> participantList = sessionContext.GetParticipantList(id);
+            return View(participantList);
+        }
+
         public ActionResult Details(int id)
         {
+            if (id == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             Session session = sessionContext.GetSessionDetails(id);
+            if (session == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             SessionPhoto currentSession = MapToSingleSessionVM(session);
             bool checksignup = sessionContext.CheckSignUp(id, HttpContext.Session.GetInt32("StudentID"));
             if (checksignup == true) //checks whether the user have already signed up for the session
@@ -117,7 +141,7 @@ namespace portfolio2.Controllers
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
             int bookingid = sessionContext.GetBookingID(HttpContext.Session.GetInt32("StudentID"), session.SessionID);
             TempData["Cancel"] = "Cancelled Successfully";
@@ -132,7 +156,7 @@ namespace portfolio2.Controllers
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
             return View();
         }
@@ -189,7 +213,7 @@ namespace portfolio2.Controllers
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
             ViewData["CategoryList"] = categoryContext.GetCategoryList(); //fills in category list 
             ViewData["LocationList"] = locationContext.GetLocationList(); //fills in location list
@@ -228,7 +252,7 @@ namespace portfolio2.Controllers
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
             List<Session> sessionList = sessionContext.GetMySession(HttpContext.Session.GetInt32("StudentID"));
             List<SessionViewModel> sessionDetailsList = MapToSessionVM(sessionList);
@@ -240,7 +264,7 @@ namespace portfolio2.Controllers
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
             List<Session> sessionList = sessionContext.GetSignedUpSession(HttpContext.Session.GetInt32("StudentID"));
             List<SessionViewModel> sessionDetailsList = MapToSessionVM(sessionList);
@@ -252,7 +276,7 @@ namespace portfolio2.Controllers
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
             Session session = TempData["Session"] as Session;
             SessionPhoto newSession = MapToSingleSessionVM(session);

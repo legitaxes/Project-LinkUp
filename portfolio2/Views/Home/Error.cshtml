@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Error";
+    if (Context.Session.GetInt32("StudentID") != null)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_SignInLayout.cshtml";
+    }
+}
+
+<img src="~/images/Icons/error.png" style="max-width:20%; height:auto; display:block; margin-right:auto; margin-left: auto;">
+<div style="text-align: center;">
+    <h4>Something went wrong.... Please navigate else where!</h4>
+    <p></p>
+    <h5>This could possibly happen because:</h5>
+    <h5>1. You are not logged in</h5>
+    <h5>2. You tried to access a page that are not possible with your current permission</h5>
+    <p></p>
+    <h4><a href='javascript:history.go(-1)'>Go Back to Previous Page</a></h4>
+
+</div>

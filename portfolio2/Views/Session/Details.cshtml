@@ -65,7 +65,14 @@
             @Html.DisplayNameFor(model => model.Participants)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Participants)
+            @if (ViewData["Owner"] != null)
+             {
+                <a asp-controller="Session" asp-action="ViewSessionParticipant" asp-route-id="@Model.SessionID">@Html.DisplayFor(model => model.Participants) Participant</a>
+             }
+            else
+            {
+                @Html.DisplayFor(model => model.Participants)@: Participant
+            }
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Status)
@@ -98,11 +105,11 @@
     {
         @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) @: |
     }
-    @if (ViewData["Owner"] == null)
+    @if (ViewData["Owner"] == null)//checks whether the user is the owner of the session
     {
-        @if (ViewData["Session"] == null)
+        @if (ViewData["Session"] == null) //checks whether the user is logged in
         {
-            @if (ViewData["CheckSignUp"] == null)
+            @if (ViewData["CheckSignUp"] == null) //checks whether the user has already signed up for the session
             {
                 <form asp-action="Details" method="post" onsubmit="return confirm('Are you sure you want to signup for this session?');">
                     <input asp-for="SessionID" readonly hidden value="@Model.SessionID" />

@@ -174,8 +174,45 @@ namespace portfolio2.DAL
             return sessionList;
         }
 
-        public bool CheckSessionOwner(int sessionID, int? studentID)
+        public List<StudentDetails> GetParticipantList(int? sessionid) //queries for the list of participants that joined your session
         {
+            SqlCommand cmd = new SqlCommand("Select * FROM Booking b INNER JOIN StudentBooking sb on sb.BookingID = b.BookingID " +
+            "INNER JOIN Student s on s.StudentID = sb.StudentID " +
+            "WHERE SessionID = @selectedsessionid", conn);
+            cmd.Parameters.AddWithValue("@selectedsessionid", sessionid);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "StudentDetails");
+            conn.Close();
+            List<StudentDetails> studentDetailsList = new List<StudentDetails>();
+            foreach (DataRow row in result.Tables["StudentDetails"].Rows)
+            {
+                studentDetailsList.Add(
+                    new StudentDetails
+                    {
+                        StudentID = Convert.ToInt32(row["StudentID"]),
+                        Name = row["Name"].ToString(),
+                        Year = Convert.ToInt32(row["Year"]),
+                        StudentNumber = row["StudentNo"].ToString(),
+                        Photo = row["Photo"].ToString(),
+                        PhoneNo = Convert.ToInt32(row["PhoneNo"]),
+                        Interest = row["Interest"].ToString(),
+                        ExternalLink = row["ExternalLink"].ToString(),
+                        Description = row["Description"].ToString(),
+                        //Points = Convert.ToInt32(row["Points"]),
+                        CourseID = Convert.ToInt32(row["CourseID"])
+                    });
+            }
+            return studentDetailsList;
+        }
+
+        public bool CheckSessionOwner(int? sessionID, int? studentID) //checks whether the session is hosted by the user, true = yes, false = no
+        {
+            if (sessionID == null)
+            {
+                return false;
+            }
             if (studentID == null)
             {
                 return false;
@@ -199,7 +236,7 @@ namespace portfolio2.DAL
             }
         }
 
-        public Session GetSessionDetails(int sessionID)
+        public Session GetSessionDetails(int sessionID) //queries for the details of a session
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE SessionID = @selectedsessionid", conn);
             cmd.Parameters.AddWithValue("@selectedsessionid", sessionID);
@@ -243,7 +280,7 @@ namespace portfolio2.DAL
             }
         }
 
-        public List<Session> GetSignedUpSession(int? studentID)
+        public List<Session> GetSignedUpSession(int? studentID) //queries for session the user have signed up
         {
             SqlCommand cmd = new SqlCommand("SELECT s.SessionID, s.SessionDate, s.Name, s.Description, s.Photo, s.Hours, s.Participants, s.Points, s.Status, s.StudentID, s.LocationID, s.CategoryID " +
                 "FROM StudentBooking sb INNER JOIN Booking b ON sb.BookingID = b.BookingID " +

@@ -27,7 +27,7 @@ namespace portfolio2.Controllers
             if ((HttpContext.Session.GetString("Role") == null) ||
              (HttpContext.Session.GetString("Role") != "Student"))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
 
             //if student never signup on our site before
@@ -66,7 +66,7 @@ namespace portfolio2.Controllers
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
             StudentDetails student = new StudentDetails();
             student.StudentNumber = HttpContext.Session.GetString("StudentNumber");
@@ -105,7 +105,7 @@ namespace portfolio2.Controllers
             if ((HttpContext.Session.GetString("Role") == null) ||
                (HttpContext.Session.GetString("Role") != "Student"))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
             StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentNumber"));
             return View(student);
@@ -129,11 +129,29 @@ namespace portfolio2.Controllers
             if ((HttpContext.Session.GetString("Role") == null) ||
                (HttpContext.Session.GetString("Role") != "Student"))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
             StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentNumber"));
             StudentViewModel studentVM = MapToCourseAndRating(student);
-            // StudentViewModel studentVM = MapToStudentVM(student); //to be completed - 1. student details 2. student course 3. student skillset 4. student rating
+            // StudentViewModel studentVM = MapToStudentVM(student); //to be completed - 1. student details 2. student course 3. student rating
+            return View(studentVM);
+        }
+
+        public ActionResult ProfileDetails(string id) //profile detail page of another student, provided ID is given
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+           (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            if (id == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            StudentDetails student = studentContext.GetStudentDetails(id);
+            if(student == null)
+                return RedirectToAction("Details");
+            StudentViewModel studentVM = MapToCourseAndRating(student);
             return View(studentVM);
         }
 
@@ -142,7 +160,7 @@ namespace portfolio2.Controllers
             if ((HttpContext.Session.GetString("Role") == null) ||
            (HttpContext.Session.GetString("Role") != "Student"))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
             int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
             StudentPhoto studentPhoto = studentContext.GetPhotoDetails(studentid);
@@ -276,7 +294,7 @@ namespace portfolio2.Controllers
             if ((HttpContext.Session.GetString("Role") == null) ||
                 (HttpContext.Session.GetString("Role") != "Student"))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
             int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
             ViewData["Locationlist"] = DropDownLocation();
@@ -296,7 +314,7 @@ namespace portfolio2.Controllers
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
             int hours = Convert.ToInt32((request.AvailabilityTo - request.AvailabilityFrom).TotalHours);
             int points = hours * 10;
@@ -319,7 +337,7 @@ namespace portfolio2.Controllers
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
             List<Request> allrequestsList = requestContext.GetMyRequests(HttpContext.Session.GetInt32("StudentID"));
             List<RequestViewModel> allrequestviewmodelList = MapToStudentAndLocation(allrequestsList);
@@ -331,7 +349,7 @@ namespace portfolio2.Controllers
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Error", "Home");
             }
             List<Request> allrequestsList = requestContext.GetAllRequests();
             List<RequestViewModel> allrequestviewmodelList= MapToStudentAndLocation(allrequestsList);

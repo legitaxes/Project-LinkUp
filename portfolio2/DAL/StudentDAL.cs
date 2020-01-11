@@ -56,6 +56,60 @@ namespace portfolio2.DAL
             }
             return false;
         }
+        ////uselesss!
+        //public StudentDetails GetOtherStudentDetails(int? studentid) //gets other students profile details
+        //{
+        //    SqlCommand cmd = new SqlCommand("SELECT * FROM Student WHERE StudentID = @selectedstudentid", conn);
+        //    cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
+        //    SqlDataAdapter da = new SqlDataAdapter(cmd);
+        //    DataSet result = new DataSet();
+        //    conn.Open();
+        //    da.Fill(result, "ProfileDetails");
+        //    conn.Close();
+        //    StudentDetails student = new StudentDetails();
+        //    if (result.Tables["ProfileDetails"].Rows.Count > 0)
+        //    {
+        //        DataTable table = result.Tables["ProfileDetails"];
+        //        if (!DBNull.Value.Equals(table.Rows[0]["StudentID"]))
+        //            student.StudentID = Convert.ToInt32(table.Rows[0]["StudentID"]);
+
+        //        if (!DBNull.Value.Equals(table.Rows[0]["Name"]))
+        //            student.Name = table.Rows[0]["Name"].ToString();
+
+        //        if (!DBNull.Value.Equals(table.Rows[0]["Year"]))
+        //            student.Year = Convert.ToInt32(table.Rows[0]["Year"]);
+
+        //        if (!DBNull.Value.Equals(table.Rows[0]["StudentNo"]))
+        //            student.StudentNumber = table.Rows[0]["StudentNo"].ToString();
+
+        //        if (!DBNull.Value.Equals(table.Rows[0]["Photo"]))
+        //            student.Photo = table.Rows[0]["Photo"].ToString();
+
+        //        if (!DBNull.Value.Equals(table.Rows[0]["PhoneNo"]))
+        //            student.PhoneNo = Convert.ToInt32(table.Rows[0]["PhoneNo"]);
+
+        //        if (!DBNull.Value.Equals(table.Rows[0]["Interest"]))
+        //            student.Interest = table.Rows[0]["Interest"].ToString();
+
+        //        if (!DBNull.Value.Equals(table.Rows[0]["ExternalLink"]))
+        //            student.ExternalLink = table.Rows[0]["ExternalLink"].ToString();
+
+        //        if (!DBNull.Value.Equals(table.Rows[0]["Description"]))
+        //            student.Description = table.Rows[0]["Description"].ToString();
+
+        //        if (!DBNull.Value.Equals(table.Rows[0]["Points"]))
+        //            student.Points = Convert.ToInt32(table.Rows[0]["Points"]);
+
+        //        if (!DBNull.Value.Equals(table.Rows[0]["CourseID"]))
+        //            student.CourseID = Convert.ToInt32(table.Rows[0]["CourseID"]);
+
+        //        return student;
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
 
         //get the logged in student details -- view/update profile
         public StudentDetails GetStudentDetails(string studentnumber)
@@ -196,7 +250,6 @@ namespace portfolio2.DAL
             conn.Close();
             return count;
         }
-
         public List<StudentDetails> GetAllStudent()
         {
             SqlCommand cmd = new SqlCommand(

@@ -31,9 +31,13 @@ namespace portfolio2.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Error", "Home");
             }
             List<Session> sessionList = sessionContext.FilteredSession(id);
+            if (sessionList.Count == 0)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             List<SessionViewModel> sessionDetailsList = MapToSessionVM(sessionList);
             Category cat = categoryContext.GetCategoryName(id);
             ViewData["CategoryName"] = cat.CategoryName;

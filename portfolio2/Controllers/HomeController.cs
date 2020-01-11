@@ -72,6 +72,11 @@ namespace portfolio2.Controllers
                 return View();
         }
 
+        public ActionResult Error() //main error page with fake error 404 
+        {
+            return View();
+        }
+
         //logout button function
         public ActionResult LogOut()
         { 
