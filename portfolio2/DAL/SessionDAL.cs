@@ -140,7 +140,7 @@ namespace portfolio2.DAL
 
         public List<Session> GetAllSessions()
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM Session", conn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Session ORDER BY DateCreated Desc", conn);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
             conn.Open();
@@ -158,6 +158,7 @@ namespace portfolio2.DAL
                     new Session
                     {
                         SessionID = Convert.ToInt32(row["SessionID"]),
+                        //DateCreated = Convert.ToDateTime(row["DateCreated"]),
                         SessionDate = Convert.ToDateTime(row["SessionDate"]),
                         Name = row["Name"].ToString(),
                         Description = row["Description"].ToString(),

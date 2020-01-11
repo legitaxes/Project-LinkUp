@@ -102,6 +102,10 @@ namespace portfolio2.DAL
 
                 if (!DBNull.Value.Equals(table.Rows[0]["Points"]))
                     student.Points = Convert.ToInt32(table.Rows[0]["Points"]);
+
+                if (!DBNull.Value.Equals(table.Rows[0]["CourseID"]))
+                    student.CourseID = Convert.ToInt32(table.Rows[0]["CourseID"]);
+
                 return student;
             }
             else

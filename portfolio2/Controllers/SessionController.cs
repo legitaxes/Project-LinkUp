@@ -218,7 +218,7 @@ namespace portfolio2.Controllers
             }
             else
             {
-                ViewData["Message"] = "There is something wrong. Please Try Again!";
+                ViewData["Message"] = "There is an invalid field. Please Try Again!";
                 return View(session);
             }
         }

@@ -131,20 +131,10 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
-            StudentViewModel studentList = new StudentViewModel();
-            List<StudentDetails> allstudentList = studentContext.GetAllStudent();
-            foreach (StudentDetails student in allstudentList)
-            {
-                if (student.StudentID == studentid)
-                {
-                    StudentViewModel studentVM = MapToCourseAndRating(student);
-                    studentList = studentVM;
-                }
-
-            }
+            StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentNumber"));
+            StudentViewModel studentVM = MapToCourseAndRating(student);
             // StudentViewModel studentVM = MapToStudentVM(student); //to be completed - 1. student details 2. student course 3. student skillset 4. student rating
-            return View(studentList);
+            return View(studentVM);
         }
 
         public ActionResult Photo()
