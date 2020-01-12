@@ -204,5 +204,16 @@ namespace portfolio2.DAL
                 return null; // Record not found
             }
         }
+
+        public int GetNumberOfRequests(int studentid)
+        {
+            SqlCommand cmd = new SqlCommand(
+           "SELECT COUNT(*) FROM Request WHERE StudentID = @selectedstudentid", conn);
+            cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
+            conn.Open();
+            int rowsAmount = (int)cmd.ExecuteScalar();
+            conn.Close();
+            return rowsAmount;
+        }
     }
 }

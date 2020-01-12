@@ -132,6 +132,30 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
+            int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
+            List<StudentRating> studentratingList = studentratingContext.GetAllStudentRatings();
+            List<Rating> ratingList = ratingContext.GetAllRatings();
+            List<Review> reviewList = new List<Review>();
+            foreach (StudentRating currentstudentrating in studentratingList)
+            {
+                if(currentstudentrating.StudentID == studentid)
+                {
+                    foreach(Rating currentrating in ratingList)
+                    {
+                        if (currentstudentrating.RatingID == currentrating.RatingID)
+                        {
+                            reviewList.Add(
+                            new Review
+                            {
+                                Description = currentrating.Description,
+                                RatingDate = currentrating.RatingDate,
+                                Stars = currentrating.Stars
+                            });
+                        }
+                    }
+                }
+            }
+            ViewBag.List = reviewList;
             StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentNumber"));
             StudentViewModel studentVM = MapToCourseAndRating(student);
             // StudentViewModel studentVM = MapToStudentVM(student); //to be completed - 1. student details 2. student course 3. student rating
@@ -265,8 +289,8 @@ namespace portfolio2.Controllers
                 CourseID = student.CourseID,
                 CourseName = coursename,
                 Rating = averagerating,
-                TotalRatings = amountofratings
-            };
+                TotalRatings = amountofratings,
+        };
             return studentVM;
         }
 
@@ -296,8 +320,13 @@ namespace portfolio2.Controllers
                 (HttpContext.Session.GetString("Role") != "Student"))
             {
                 return RedirectToAction("Error", "Home");
-            }
+            }            
             int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
+            int requestcounter = requestContext.GetNumberOfRequests(studentid);
+            if (requestcounter >= 3)
+            {
+                return RedirectToAction("RequestRedirect", "Student");
+            }
             ViewData["Locationlist"] = DropDownLocation();
             List<StudentDetails> studentList = studentContext.GetAllStudent();
             foreach (StudentDetails student in studentList)
@@ -308,7 +337,7 @@ namespace portfolio2.Controllers
                 }
             return View();
         }
-
+        
         [HttpPost]
         public ActionResult MakeRequest(Request request)
         {
@@ -327,7 +356,7 @@ namespace portfolio2.Controllers
             {
                 request.RequestID = requestContext.AddRequest(request);
                 ViewData["Locationlist"] = DropDownLocation();
-                return View(request);
+                return RedirectToAction("Myrequests", "Student");
             }
             else
             {
@@ -483,6 +512,18 @@ namespace portfolio2.Controllers
                 });
             }
             return requestVM;
+        }
+
+        public ActionResult RequestRedirect()
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            return View();
+
         }
     }
 }
