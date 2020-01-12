@@ -54,6 +54,39 @@ namespace portfolio2.DAL
             return request.RequestID;
         }
 
+        public int EditRequest(Request request)
+        {
+            SqlCommand cmd = new SqlCommand
+            ("UPDATE Request SET Description = @description, Title = @title, AvailabilityFrom = @availabilityfrom, AvailabilityTo = @availabilityto, PointsEarned = @pointsearned, Status = @status, LocationID = @locationid WHERE RequestID = @selectedrequestID", conn);
+            cmd.Parameters.AddWithValue("@selectedrequestID", request.RequestID);
+            cmd.Parameters.AddWithValue("@description", request.Description);
+            cmd.Parameters.AddWithValue("@title", request.Title);
+            cmd.Parameters.AddWithValue("@availabilityfrom", request.AvailabilityFrom);
+            cmd.Parameters.AddWithValue("@availabilityto", request.AvailabilityTo);
+            cmd.Parameters.AddWithValue("@pointsearned", request.PointsEarned);
+            cmd.Parameters.AddWithValue("@status", request.Status);
+            cmd.Parameters.AddWithValue("@locationid", request.LocationID);
+
+            conn.Open();
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+
+            return count;
+        }
+
+        //deletes record from database
+        public int DeleteRequest(int requestID)
+        {
+            SqlCommand cmd = new SqlCommand("DELETE FROM Request " +
+                "WHERE RequestID = @selectedrequestid", conn);
+            cmd.Parameters.AddWithValue("@selectedrequestid", requestID);
+            conn.Open();
+            int rowCount;
+            rowCount = cmd.ExecuteNonQuery();
+            conn.Close();
+            return rowCount;
+        }
+
         public List<Request> GetAllRequests()
         {
             SqlCommand cmd = new SqlCommand(
@@ -85,6 +118,7 @@ namespace portfolio2.DAL
             return requestList;
         }
 
+
         public List<Request> GetMyRequests(int? studentid)
         {
             SqlCommand cmd = new SqlCommand(
@@ -115,6 +149,60 @@ namespace portfolio2.DAL
                 );
             }
             return requestList;
+        }
+
+        public Request GetRequestByID(int requestid)
+        {
+            SqlCommand cmd = new SqlCommand(
+             "SELECT * FROM Request WHERE RequestID = @selectedrequestid", conn);
+            cmd.Parameters.AddWithValue("@selectedrequestid", requestid);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "RequestDetails");
+            conn.Close();
+
+            Request request = new Request();
+            if (result.Tables["RequestDetails"].Rows.Count > 0)
+            {
+                request.RequestID = requestid;
+
+                DataTable table = result.Tables["RequestDetails"];
+
+                if (!DBNull.Value.Equals(table.Rows[0]["DateRequest"]))
+                    request.DateRequest = Convert.ToDateTime(table.Rows[0]["DateRequest"]);
+
+                if (!DBNull.Value.Equals(table.Rows[0]["Description"]))
+                    request.Description = table.Rows[0]["Description"].ToString();
+
+                if (!DBNull.Value.Equals(table.Rows[0]["Title"]))
+                    request.Title = table.Rows[0]["Title"].ToString();
+
+                if (!DBNull.Value.Equals(table.Rows[0]["AvailabilityFrom"]))
+                    request.AvailabilityFrom = Convert.ToDateTime(table.Rows[0]["AvailabilityFrom"]);
+
+                if (!DBNull.Value.Equals(table.Rows[0]["AvailabilityTo"]))
+                    request.AvailabilityTo = Convert.ToDateTime(table.Rows[0]["AvailabilityTo"]);
+
+                if (!DBNull.Value.Equals(table.Rows[0]["PointsEarned"]))
+                    request.PointsEarned = Convert.ToInt32(table.Rows[0]["PointsEarned"]);
+
+                if (!DBNull.Value.Equals(table.Rows[0]["Status"]))
+                    request.Status = Convert.ToChar(table.Rows[0]["Status"]);
+
+                if (!DBNull.Value.Equals(table.Rows[0]["LocationID"]))
+                    request.LocationID = Convert.ToInt32(table.Rows[0]["LocationID"]);
+
+                if (!DBNull.Value.Equals(table.Rows[0]["StudentID"]))
+                    request.StudentID = Convert.ToInt32(table.Rows[0]["StudentID"]);
+
+                return request;
+            }
+
+            else
+            {
+                return null; // Record not found
+            }
         }
     }
 }
