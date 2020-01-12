@@ -110,7 +110,62 @@ namespace portfolio2.DAL
         //        return null;
         //    }
         //}
+        public StudentDetails GetStudentBasedOnSession(int? sessionid)
+        {
+            SqlCommand cmd = new SqlCommand(
+            "SELECT * FROM Session s INNER JOIN Student st on s.StudentID = st.StudentID WHERE s.SessionID = @selectedsessionid", conn);
+            cmd.Parameters.AddWithValue("@selectedsessionid", sessionid);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "Details");
+            conn.Close();
+            StudentDetails student = new StudentDetails();
+            if (result.Tables["Details"].Rows.Count > 0)
+            {
+                DataTable table = result.Tables["Details"];
 
+                if (!DBNull.Value.Equals(table.Rows[0]["StudentID"]))
+                    student.StudentID = Convert.ToInt32(table.Rows[0]["StudentID"]);
+
+                if (!DBNull.Value.Equals(table.Rows[0]["Name"]))
+                    student.Name = table.Rows[0]["Name"].ToString();
+
+                if (!DBNull.Value.Equals(table.Rows[0]["Year"]))
+                    student.Year = Convert.ToInt32(table.Rows[0]["Year"]);
+
+                if (!DBNull.Value.Equals(table.Rows[0]["StudentNo"]))
+                    student.StudentNumber = table.Rows[0]["StudentNo"].ToString();
+
+                if (!DBNull.Value.Equals(table.Rows[0]["Photo"]))
+                    student.Photo = table.Rows[0]["Photo"].ToString();
+
+                if (!DBNull.Value.Equals(table.Rows[0]["PhoneNo"]))
+                    student.PhoneNo = Convert.ToInt32(table.Rows[0]["PhoneNo"]);
+
+                if (!DBNull.Value.Equals(table.Rows[0]["Interest"]))
+                    student.Interest = table.Rows[0]["Interest"].ToString();
+
+                if (!DBNull.Value.Equals(table.Rows[0]["ExternalLink"]))
+                    student.ExternalLink = table.Rows[0]["ExternalLink"].ToString();
+
+                if (!DBNull.Value.Equals(table.Rows[0]["Description"]))
+                    student.Description = table.Rows[0]["Description"].ToString();
+
+                if (!DBNull.Value.Equals(table.Rows[0]["Points"]))
+                    student.Points = Convert.ToInt32(table.Rows[0]["Points"]);
+
+                if (!DBNull.Value.Equals(table.Rows[0]["CourseID"]))
+                    student.CourseID = Convert.ToInt32(table.Rows[0]["CourseID"]);
+
+                return student;
+            }
+            else
+            {
+                return null;
+            }
+
+        }
         //get the logged in student details -- view/update profile
         public StudentDetails GetStudentDetails(string studentnumber)
         {

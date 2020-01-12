@@ -109,6 +109,7 @@
     {
         @if (ViewData["Session"] == null) //checks whether the user is logged in
         {
+            <a href="https://teams.microsoft.com/l/chat/0/0?users=@ViewData["SessionStudentNumber"]@@connect.np.edu.sg">Chat with Session Owner on Microsoft Teams</a>
             @if (ViewData["CheckSignUp"] == null) //checks whether the user has already signed up for the session
             {
                 <form asp-action="Details" method="post" onsubmit="return confirm('Are you sure you want to signup for this session?');">

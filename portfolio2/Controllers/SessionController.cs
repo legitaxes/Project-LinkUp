@@ -117,7 +117,11 @@ namespace portfolio2.Controllers
             {
                 ViewData["Owner"] = "This is the session owner";
             }
-            
+
+            StudentDetails sessionOwner = studentContext.GetStudentBasedOnSession(id);
+            if (sessionOwner == null)
+                return RedirectToAction("Error", "Home");
+            ViewData["SessionStudentNumber"] = sessionOwner.StudentNumber;
             if ((HttpContext.Session.GetString("Role") == null) || //checks whether the user is logged in
             (HttpContext.Session.GetString("Role") != "Student"))
             {
