@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using portfolio2.DAL;
 using portfolio2.Models;
 using System.IO;
+using System.Data.Common;
 
 namespace portfolio2.Controllers
 {
@@ -322,14 +323,99 @@ namespace portfolio2.Controllers
             request.PointsEarned = points;
             request.Status = 'N';
             request.StudentID = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && request.AvailabilityFrom < request.AvailabilityTo)
             {
                 request.RequestID = requestContext.AddRequest(request);
                 ViewData["Locationlist"] = DropDownLocation();
                 return View(request);
             }
+            else
+            {
+                ViewData["Error"] = "The session starting time can't be before the session ending time.";
+            }
             ViewData["Locationlist"] = DropDownLocation();
             return View();
+        }
+
+        public ActionResult EditRequest(int? id)
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+           (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            Request request = requestContext.GetRequestByID(id.Value);
+
+            if (request.StudentID != Convert.ToInt32(HttpContext.Session.GetInt32("StudentID")))
+            { 
+                return RedirectToAction("Error", "Home");
+            }
+
+            ViewData["Locationlist"] = DropDownLocation();
+
+            if (request == null)
+            {
+                return RedirectToAction("Error", " Home");
+            }
+
+            return View(request);
+        }
+
+        // POST: Project/EditProject/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditRequest(Request request)
+        {
+            int hours = Convert.ToInt32((request.AvailabilityTo - request.AvailabilityFrom).TotalHours);
+            int points = hours * 10;
+            request.DateRequest = DateTime.Now;
+            request.PointsEarned = points;
+            request.Status = 'N';
+            ViewData["Locationlist"] = DropDownLocation();
+            if (ModelState.IsValid && request.AvailabilityFrom < request.AvailabilityTo)
+            {
+                requestContext.EditRequest(request);
+                return RedirectToAction("Myrequests", "Student");
+            }
+
+            else
+            {
+                ViewData["Error"] = "The session starting time can't be before the session ending time.";
+                return View(request);
+            }
+        }
+
+        public ActionResult DeleteRequest(int? id)
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+           (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            Request request = requestContext.GetRequestByID(id.Value);
+            if (request.StudentID != Convert.ToInt32(HttpContext.Session.GetInt32("StudentID")))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            ViewData["Locationlist"] = DropDownLocation();
+
+            if (request == null)
+            {
+                return RedirectToAction("Error", " Home");
+            }
+
+            return View(request);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteRequest(Request request)
+        {
+            requestContext.DeleteRequest(request.RequestID);
+            return RedirectToAction("Myrequests", "Student");
+
         }
 
         public ActionResult MyRequests()
