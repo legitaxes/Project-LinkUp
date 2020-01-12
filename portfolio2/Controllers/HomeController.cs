@@ -72,7 +72,7 @@ namespace portfolio2.Controllers
                 return View();
         }
 
-        public ActionResult Error() //main error page with fake error 404 
+        public ActionResult Error() //main error page with fake error 404 message
         {
             return View();
         }
