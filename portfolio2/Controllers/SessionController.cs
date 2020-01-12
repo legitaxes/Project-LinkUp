@@ -266,6 +266,7 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
+            ViewData["JoinedSession"] = "View Your Joined Sessions";
             List<Session> sessionList = sessionContext.GetSignedUpSession(HttpContext.Session.GetInt32("StudentID"));
             List<SessionViewModel> sessionDetailsList = MapToSessionVM(sessionList);
             return View(sessionDetailsList);

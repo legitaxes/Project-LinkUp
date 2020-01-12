@@ -34,16 +34,16 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Error", "Home");
             }
             List<Session> sessionList = sessionContext.FilteredSession(id);
-            if (sessionList.Count == 0)
-            {
-                return RedirectToAction("Error", "Home");
-            }
             List<SessionViewModel> sessionDetailsList = MapToSessionVM(sessionList);
             Category cat = categoryContext.GetCategoryName(id);
+            if (cat == null)
+            {
+                return RedirectToAction("Index");
+            }
             ViewData["CategoryName"] = cat.CategoryName;
             if (sessionDetailsList.Count == 0)
             {
-                ViewData["Message"] = "It Doesn't Seem Like There Is Any Session Under ";
+                ViewData["Message"] = "It doesn't seem like there is any session under ";
             }
             return View(sessionDetailsList);
         }

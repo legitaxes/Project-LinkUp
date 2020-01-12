@@ -32,42 +32,26 @@
         <!-- Underlined search bars with buttons -->
 
     </div>
-
 </section>
 <section class="sessions">
     <div class="container">
         <div class="row mb-3">
             <div class="col">
-                @if (ViewData["Message"] == null)
+                @if (ViewData["JoinedSession"] == null)
                 {
-                    <h1>Sessions Under 
-                    @if (ViewData["CategoryName"] != null)
-                    {
-                        @ViewData["CategoryName"]
-                    }
-                    else {
-                    @:This Category
-                    }
-                    </h1>
-
-                    <p class="text-muted">Browse listings related</p>
+                    <h1> View Your Sessions </h1>
+                    <p class="text-muted">Browse the listings that you have made</p>
                 }
                 else
                 {
-                    <img src="~/images/Icons/question_mark.png" />
-                    <h1>@ViewData["Message"] <b>@ViewData["CategoryName"]</b>...</h1>
-                    <p class="text-muted">You might want to navigate somewhere else..?</p>
+                    <h1>@ViewData["JoinedSession"]</h1>
+                    <p class="text-muted">Browse the listings below</p>
                 }
             </div>
         </div>
         <div class="row mb-3">
             @foreach (var item in Model)
             {
-                string selectedCard = "";
-                if (item.StudentName == Context.Session.GetString("LoginID"))
-                {
-                    selectedCard = "style='color:darkgreen;";
-                }
                 <div class="col-md-6 col-lg-3">
                     <div class="card h-100">
                         <a class="lightbox" asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID"><img src="~/images/Sessions/@Html.DisplayFor(modelItem => item.Photo)" class="card-img-top"></a>
@@ -88,5 +72,6 @@
                 </div>
             }
         </div>
+
     </div>
 </section>
