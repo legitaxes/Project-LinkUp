@@ -10,62 +10,88 @@
     <h3 class="text-danger" style="text-align:center;">@ViewData["Message"]</h3>
 }
 
-<h4 class="PageTitle">Create Session</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="SessionDate" class="control-label"></label>
-                <input asp-for="SessionDate" class="form-control" />
-                <span asp-validation-for="SessionDate" class="text-danger"></span>
+
+<div class="container py-5 makesession">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <span class="anchor" id="formUserEdit"></span>
+            <div class="card card-outline-secondary">
+                <div class="card-header text-center">
+                    <h3 class="mb-0">Create Session</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" class="form" role="form" autocomplete="off">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group row">
+                            <label label asp-for="SessionDate" class="col-lg-3 col-form-label form-control-label">Session Date</label>
+                            <div class="col-lg-9">
+                                <input asp-for="SessionDate" class="form-control" />
+                                <span asp-validation-for="SessionDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Name" class="col-lg-3 col-form-label form-control-label">Name</label>
+                            <div class="col-lg-9">
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Description" class="col-lg-3 col-form-label form-control-label">Description</label>
+                            <div class="col-lg-9">
+                                <input asp-for="Description" class="form-control" />
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Hours" class="col-lg-3 col-form-label form-control-label">No. of Hours</label>
+                            <div class="col-lg-9">
+                                <input asp-for="Hours" class="form-control" />
+                                <span asp-validation-for="Hours" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="LocationID" class="col-lg-3 col-form-label form-control-label">Location</label>
+                            <div class="col-lg-9">
+                                <select asp-for="LocationID"
+                                        asp-items="@ViewData["LocationList"] as List<SelectListItem>" class="form-control">
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="CategoryID" class="col-lg-3 col-form-label form-control-label">Category</label>
+                            <div class="col-lg-9">
+                                <select asp-for="CategoryID"
+                                        asp-items="@ViewData["CategoryList"] as List<SelectListItem>" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label"></label>
+                            <div class="col-lg-9">
+                                <input type="reset" class="btn btn-secondary" value="Back">
+                                <input type="Submit" class="btn btn-primary" value="Create">
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Hours" class="control-label"></label>
-                <input asp-for="Hours" class="form-control" />
-                <span asp-validation-for="Hours" class="text-danger"></span>
-            </div>
-            @*<div class="form-group">
-                    <label asp-for="Participants" class="control-label"></label>
-                    <input asp-for="Participants" class="form-control" />
-                    <span asp-validation-for="Participants" class="text-danger"></span>
-                </div>*@
-            @*<div class="form-group">
-                    <label asp-for="StudentID" class="control-label"></label>
-                    <input asp-for="StudentID" class="form-control" />
-                    <span asp-validation-for="StudentID" class="text-danger"></span>
-                </div>*@
-            <div class="form-group">
-                <label asp-for="LocationID" class="control-label"></label>
-                <select asp-for="LocationID"
-                        asp-items="@ViewData["LocationList"] as List<SelectListItem>">
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoryID" class="control-label"></label>
-                <select asp-for="CategoryID"
-                        asp-items="@ViewData["CategoryList"] as List<SelectListItem>">
-                </select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
+
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
+
+@*<div class="form-group">
+        <label asp-for="Participants" class="control-label"></label>
+        <input asp-for="Participants" class="form-control" />
+        <span asp-validation-for="Participants" class="text-danger"></span>
+    </div>*@
+@*<div class="form-group">
+        <label asp-for="StudentID" class="control-label"></label>
+        <input asp-for="StudentID" class="form-control" />
+        <span asp-validation-for="StudentID" class="text-danger"></span>
+    </div>*@
