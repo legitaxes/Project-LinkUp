@@ -5,7 +5,24 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4 class="PageTitle">View My Requestss</h4>
+    <section class="title">
+        <div class="container">
+            <div class="text-center">
+                <p class="h1">My Requests</p>
+                <p class="font-weight-light">View all your created requests here!</p>
+            </div>
+            
+        </div>
+    </section>
 
-<partial name="~/Views/Student/_ViewRequests.cshtml" model="@Model" />
+    <div class="table">
+        <div class="container">
+            <div class="card text-center">
+                <h5 class="card-header">My Requests</h5>
+                <div class="card-body">
+                    <partial name="~/Views/Student/_ViewRequests.cshtml" model="@Model" />
+                </div>
+            </div>
+        </div>
+    </div>
 

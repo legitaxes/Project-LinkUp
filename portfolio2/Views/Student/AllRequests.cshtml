@@ -4,7 +4,23 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4 class="PageTitle">View All Requests</h4>
+<section class="title">
+    <div class="container">
+        <div class="text-center">
+            <p class="h1">All Requests</p>
+            <p class="font-weight-light">View everyone's requests here!</p>
+        </div>
 
-<partial name="~/Views/Student/_ViewRequests.cshtml" model="@Model" />
+    </div>
+</section>
 
+<div class="table">
+    <div class="container">
+        <div class="card text-center">
+            <h5 class="card-header">All Requests</h5>
+            <div class="card-body">
+                <partial name="~/Views/Student/_ViewRequests.cshtml" model="@Model" />
+            </div>
+        </div>
+    </div>
+</div>

@@ -174,10 +174,24 @@ body{
 
 
 
+
 .makerequest {
     padding-bottom: 9.5rem !important;
 }
 
 .makesession {
     padding-bottom: 6.5rem !important;
+}
+
+
+
+
+section.title {
+    background-color: lightgray;
+    padding-top: 6%;
+    padding-bottom: 6%;
+}
+
+.table{
+    padding-bottom:7%
 }
