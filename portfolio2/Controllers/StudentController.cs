@@ -290,7 +290,7 @@ namespace portfolio2.Controllers
                     ViewData["Message"] = ex.Message;
                 }
             }
-            return RedirectToAction("Details");
+            return RedirectToAction("Update");
         }
 
         public StudentViewModel MapToCourseAndRating(StudentDetails student)

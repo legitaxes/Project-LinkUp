@@ -11,11 +11,23 @@ h2 {
 body {
     /*font-family : Arial;*/
     font-size : 14px;
+    flex-direction:column;
+    display:flex;
+    height:100%;
 }
 
 body, html {
     width: 100%;
     overflow-x: hidden;
+}
+
+.signup {
+    text-align: center;
+    flex-grow: 2;
+}
+
+body > div {
+    margin: 72.06px 0 0 0;
 }
 
 .PageTitle {
