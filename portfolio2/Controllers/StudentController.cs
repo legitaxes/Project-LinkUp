@@ -525,8 +525,11 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
+            int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
             List<Request> allrequestsList = requestContext.GetMyRequests(HttpContext.Session.GetInt32("StudentID"));
             List<RequestViewModel> allrequestviewmodelList = MapToStudentAndLocation(allrequestsList);
+            List<JoinedRequests> myjoinedrequestsList = requestContext.GetMyJoinedRequests(studentid);
+            ViewBag.List = myjoinedrequestsList;
             return View(allrequestviewmodelList);
         }
 

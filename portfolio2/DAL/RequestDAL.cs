@@ -225,6 +225,35 @@ namespace portfolio2.DAL
                 return null; // Record not found
             }
         }
+        public List<JoinedRequests> GetMyJoinedRequests(int studentid)
+        {
+            SqlCommand cmd = new SqlCommand(
+             "SELECT r.DateRequest, r.Description, r.Title, r.AvailabilityFrom, r.Hours, r.MaxCap, r.PointsEarned, l.LocationName" +
+             " FROM Request r" + " INNER JOIN StudentRequest sr on r.RequestID = sr.RequestID" + " INNER JOIN Location l on r.LocationID = l.LocationID"
+             + " WHERE sr.StudentID = @selectedstudentid", conn);
+            cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "Results");
+            conn.Close();
+            List<JoinedRequests> joinedrequestsList = new List<JoinedRequests>();
+            foreach (DataRow row in result.Tables["Results"].Rows)
+            {
+                joinedrequestsList.Add(
+                    new JoinedRequests
+                    {
+                        DateRequest = Convert.ToDateTime(row["DateRequest"]),
+                        Title = row["Title"].ToString(),
+                        AvailabilityFrom = Convert.ToDateTime(row["AvailabilityFrom"]),
+                        Hours = Convert.ToInt32(row["Hours"]),
+                        MaxCap = Convert.ToInt32(row["MaxCap"]),
+                        PointsEarned = Convert.ToInt32(row["PointsEarned"]),
+                        LocationName = row["LocationName"].ToString(),
+                    });
+            }
+            return joinedrequestsList;
+        }
 
         public int GetNumberOfRequests(int studentid)
         {
