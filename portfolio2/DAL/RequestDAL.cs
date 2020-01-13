@@ -55,6 +55,19 @@ namespace portfolio2.DAL
             return request.RequestID;
         }
 
+        public int AddStudentRequest(int studentid, int requestid)
+        {
+            SqlCommand cmd = new SqlCommand
+            ("INSERT INTO StudentRequest (StudentID, RequestID)" +
+            "VALUES(@studentid, @requestid", conn);
+            cmd.Parameters.AddWithValue("@studentid", studentid);
+            cmd.Parameters.AddWithValue("@requestid", requestid);
+            conn.Open();
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+            return count;
+        }
+
         public int EditRequest(Request request)
         {
             SqlCommand cmd = new SqlCommand
@@ -77,6 +90,20 @@ namespace portfolio2.DAL
         }
 
         //deletes record from database
+        public int DeleteStudentRequest(int studentid, int requestid)
+        {
+            SqlCommand cmd = new SqlCommand("DELETE FROM StudentRequest " +
+                "WHERE RequestID = @selectedrequestid" + " AND StudentID = @selectedstudentid", conn);
+            cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
+            cmd.Parameters.AddWithValue("@selectedrequestid", requestid);
+            conn.Open();
+            int rowCount;
+            rowCount = cmd.ExecuteNonQuery();
+            conn.Close();
+            return rowCount;
+        }
+
+        //deletes record from database
         public int DeleteRequest(int requestID)
         {
             SqlCommand cmd = new SqlCommand("DELETE FROM Request " +
@@ -88,7 +115,7 @@ namespace portfolio2.DAL
             conn.Close();
             return rowCount;
         }
-
+       
         public List<Request> GetAllRequests()
         {
             SqlCommand cmd = new SqlCommand(
