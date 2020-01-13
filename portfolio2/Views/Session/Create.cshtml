@@ -5,13 +5,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if (ViewData["Message"] != null)
-{
-    <h3 class="text-danger" style="text-align:center;">@ViewData["Message"]</h3>
-}
-
 
 <div class="container py-5 makesession">
+    @if (ViewData["Message"] != null)
+    {
+        <h3 class="text-danger" style="text-align:center;">@ViewData["Message"]</h3>
+        <h6 style="text-align:center;"><a asp-controller="Session" asp-action="MySession">View The Sesion You Have Created</a></h6>
+    }
+    else if (ViewData["Error"] != null)
+    {
+        <h3 class="text-danger" style="text-align:center;">@ViewData["Error"]</h3>
+    }
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <span class="anchor" id="formUserEdit"></span>
@@ -20,7 +24,7 @@
                     <h3 class="mb-0">Create Session</h3>
                 </div>
                 <div class="card-body">
-                    <form asp-action="Create" class="form" role="form" autocomplete="off">
+                    <form asp-action="Create" class="form" role="form" onsubmit="return confirm('Confirm Creation?');" autocomplete="off">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group row">
                             <label label asp-for="SessionDate" class="col-lg-3 col-form-label form-control-label">Session Date</label>
@@ -54,8 +58,7 @@
                             <label asp-for="LocationID" class="col-lg-3 col-form-label form-control-label">Location</label>
                             <div class="col-lg-9">
                                 <select asp-for="LocationID"
-                                        asp-items="@ViewData["LocationList"] as List<SelectListItem>" class="form-control">
-                                </select>
+                                        asp-items="@ViewData["LocationList"] as List<SelectListItem>" class="form-control"></select>
 
                             </div>
                         </div>
@@ -63,16 +66,15 @@
                             <label asp-for="CategoryID" class="col-lg-3 col-form-label form-control-label">Category</label>
                             <div class="col-lg-9">
                                 <select asp-for="CategoryID"
-                                        asp-items="@ViewData["CategoryList"] as List<SelectListItem>" class="form-control">
-                                </select>
+                                        asp-items="@ViewData["CategoryList"] as List<SelectListItem>" class="form-control"></select>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label"></label>
                             <div class="col-lg-9">
-                                <input type="reset" class="btn btn-secondary" value="Back">
                                 <input type="Submit" class="btn btn-primary" value="Create">
+                                <input type="reset" class="btn btn-secondary" value="Reset">
                             </div>
                         </div>
                     </form>

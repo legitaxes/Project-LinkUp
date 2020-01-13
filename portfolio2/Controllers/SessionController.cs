@@ -237,7 +237,7 @@ namespace portfolio2.Controllers
             if (ModelState.IsValid)
             {
                 session.SessionID = sessionContext.CreateSession(session);
-                ViewData["Message"] = "Session Posted Successfully";
+                ViewData["Message"] = "Session Posted Successfully!";
                 session.DateCreated = DateTime.Now;
                 //TempData["Session"] = session;
                 return View(session);
@@ -246,7 +246,7 @@ namespace portfolio2.Controllers
             }
             else
             {
-                ViewData["Message"] = "There is an invalid field. Please Try Again!";
+                ViewData["Error"] = "There is an invalid field. Please Try Again!";
                 return View(session);
             }
         }
