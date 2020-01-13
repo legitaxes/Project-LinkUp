@@ -21,6 +21,7 @@ namespace portfolio2.Controllers
         private RatingDAL ratingContext = new RatingDAL();
         private LocationDAL locationContext = new LocationDAL();
         private RequestDAL requestContext = new RequestDAL();
+        private StudentRequestDAL studentrequestContext = new StudentRequestDAL();
 
         // GET: Student Method
         public IActionResult Index()
@@ -442,8 +443,16 @@ namespace portfolio2.Controllers
             { 
                 return RedirectToAction("Error", "Home");
             }
+
             ViewData["Hourlist"] = DropDownHours();
-            ViewData["MaxCaplist"] = DropDownMaxCap();
+            List<SelectListItem> maxcapList = new List<SelectListItem>();
+            maxcapList = DropDownMaxCap();
+            int participantcount = studentrequestContext.GetNumberOfParticipants(request.RequestID);
+            for (int i = 0; i < participantcount; i++)
+            {
+                maxcapList.RemoveAt(0);
+            }
+            ViewData["MaxCaplist"] = maxcapList;
             ViewData["Locationlist"] = DropDownLocation();
 
             if (request == null)
@@ -463,15 +472,12 @@ namespace portfolio2.Controllers
             int points = (hours * 15) / 2;
             request.PointsEarned = points;
             request.Status = 'N';
-            ViewData["Hourlist"] = DropDownHours();
-            ViewData["MaxCaplist"] = DropDownMaxCap();
-            ViewData["Locationlist"] = DropDownLocation();
+          
             if (ModelState.IsValid)
             {
                 requestContext.EditRequest(request);
                 return RedirectToAction("Myrequests", "Student");
             }
-
             return View(request);
         }
 
@@ -533,6 +539,7 @@ namespace portfolio2.Controllers
             }
             List<Request> allrequestsList = requestContext.GetAllRequests();
             List<RequestViewModel> allrequestviewmodelList= MapToStudentAndLocation(allrequestsList);
+
             return View(allrequestviewmodelList);
         }
 
@@ -540,11 +547,20 @@ namespace portfolio2.Controllers
         {
             string name = "";
             string locationname = "";
+            List<StudentRequest> allstudentRequestList = studentrequestContext.GetAllStudentRequests();
             List<StudentDetails> allstudentList = studentContext.GetAllStudent();
             List<Location> alllocationList = locationContext.GetAllLocations();
             List<RequestViewModel> requestVM = new List<RequestViewModel>();
             foreach (Request currentrequest in allrequestList)
             {
+                int participantcount = 0;
+                foreach (StudentRequest currentstudentrequest in allstudentRequestList)
+                {
+                    if (currentstudentrequest.RequestID == currentrequest.RequestID)
+                    {
+                        participantcount += 1;
+                    }
+                }
                 foreach (StudentDetails currentstudent in allstudentList)
                 {
                     if (currentstudent.StudentID == currentrequest.StudentID)
@@ -568,6 +584,7 @@ namespace portfolio2.Controllers
                     Title = currentrequest.Title,
                     AvailabilityFrom = currentrequest.AvailabilityFrom,
                     Hours = currentrequest.Hours,
+                    CurrCap = participantcount,
                     MaxCap = currentrequest.MaxCap,
                     PointsEarned = currentrequest.PointsEarned,
                     Status = currentrequest.Status,

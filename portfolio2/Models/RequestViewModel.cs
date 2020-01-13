@@ -25,6 +25,9 @@ namespace portfolio2.Models
         [Display(Name = "Hours")]
         public int Hours { get; set; }
 
+        [Display(Name = "Current capacity")]
+        public int CurrCap { get; set; }
+
         [Display(Name = "Maximum capacity")]
         public int MaxCap { get; set; }
 
