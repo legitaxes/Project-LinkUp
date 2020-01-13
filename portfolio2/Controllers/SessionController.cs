@@ -333,7 +333,6 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Error", "Home");
             }
             Session session = sessionContext.GetSessionDetails(id);
-            sessionContext.UpdateSessionPhoto(session.SessionID, session.Name);
             SessionPhoto newSession = MapToSingleSessionVM(session);
             return View(newSession);
         }
@@ -344,10 +343,11 @@ namespace portfolio2.Controllers
         {
             if (session.FileToUpload != null && session.FileToUpload.Length > 0)
             {
+                sessionContext.UpdateSessionPhoto(session.SessionID, session.Name);
                 try
                 { // Find the filename extension of the file to be uploaded.
                     string fileExt = Path.GetExtension(session.FileToUpload.FileName);
-                    string uploadedFile = session.Photo + fileExt;
+                    string uploadedFile = session.SessionID + session.Name + fileExt;
                     string savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\sessions", uploadedFile);
                     using (var fileSteam = new FileStream(savePath, FileMode.Create))
                     {

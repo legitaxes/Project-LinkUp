@@ -253,11 +253,12 @@ namespace portfolio2.DAL
                 return false;
             }
         }
+
         public int UpdateSessionPhoto(int sessionid, string sessionname)
         {
             SqlCommand cmd = new SqlCommand("UPDATE Session SET Photo=@sessionname" + 
                 " WHERE SessionID = @selectedsessionid", conn);
-            cmd.Parameters.AddWithValue("@sessionname", sessionid+sessionname);
+            cmd.Parameters.AddWithValue("@sessionname", sessionid+sessionname + ".jpg");
             cmd.Parameters.AddWithValue("@selectedsessionid", sessionid);
             conn.Open();
             int count = cmd.ExecuteNonQuery();
