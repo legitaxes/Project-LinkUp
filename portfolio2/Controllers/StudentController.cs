@@ -553,7 +553,7 @@ namespace portfolio2.Controllers
             List<RequestViewModel> requestVM = new List<RequestViewModel>();
             foreach (Request currentrequest in allrequestList)
             {
-                int participantcount = 0;
+                int participantcount = 1;
                 foreach (StudentRequest currentstudentrequest in allstudentRequestList)
                 {
                     if (currentstudentrequest.RequestID == currentrequest.RequestID)
@@ -597,6 +597,70 @@ namespace portfolio2.Controllers
             return requestVM;
         }
 
+        public ActionResult JoinRequest(int? id)
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
+            Request request = requestContext.GetRequestByID(id.Value);
+
+            ViewData["Hourlist"] = DropDownHours();
+            List<SelectListItem> maxcapList = new List<SelectListItem>();
+            maxcapList = DropDownMaxCap();
+            int participantcount = studentrequestContext.GetNumberOfParticipants(request.RequestID);
+            for (int i = 0; i < participantcount; i++)
+            {
+                maxcapList.RemoveAt(0);
+            }
+            ViewData["MaxCaplist"] = maxcapList;
+            ViewData["Locationlist"] = DropDownLocation();
+            participantcount += 1;
+            if (studentid == request.StudentID || participantcount >= request.MaxCap)
+            {
+                return RedirectToAction("RequestRedirect", "Student");
+            }
+
+            if (request == null)
+            {
+                return RedirectToAction("Error", " Home");
+            }
+
+            return View(request);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult JoinRequest(Request request)
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+           (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
+            int participantcount = studentrequestContext.GetNumberOfParticipants(request.RequestID) + 1;
+
+            if (studentid == request.StudentID || participantcount >= request.MaxCap)
+            {
+                return RedirectToAction("RequestRedirect", "Student");
+            }
+
+            if (request == null)
+            {
+                return RedirectToAction("Error", " Home");
+            }
+
+            if (studentid != request.StudentID && participantcount < request.MaxCap)
+            {
+                studentrequestContext.AddStudentRequest(studentid, request.RequestID);
+            }
+
+            return RedirectToAction("AllRequests", "Student");
+        }
+
         public ActionResult RequestRedirect()
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
@@ -604,9 +668,7 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
-
             return View();
-
         }
     }
 }

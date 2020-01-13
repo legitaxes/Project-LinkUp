@@ -55,19 +55,6 @@ namespace portfolio2.DAL
             return request.RequestID;
         }
 
-        public int AddStudentRequest(int studentid, int requestid)
-        {
-            SqlCommand cmd = new SqlCommand
-            ("INSERT INTO StudentRequest (StudentID, RequestID)" +
-            "VALUES(@studentid, @requestid", conn);
-            cmd.Parameters.AddWithValue("@studentid", studentid);
-            cmd.Parameters.AddWithValue("@requestid", requestid);
-            conn.Open();
-            int count = cmd.ExecuteNonQuery();
-            conn.Close();
-            return count;
-        }
-
         public int EditRequest(Request request)
         {
             SqlCommand cmd = new SqlCommand

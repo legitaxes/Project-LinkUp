@@ -30,11 +30,15 @@
                 <td>@item.LocationName</td>
                 <td>@item.Name</td>
                 <td>
-                @if (item.StudentID == Convert.ToInt32(Context.Session.GetInt32("StudentID")))
-                {
-                    <a asp-action="EditRequest" asp-controller="Student" asp-route-id="@item.RequestID">Edit</a>
-                    <a asp-action="DeleteRequest" asp-controller="Student" asp-route-id="@item.RequestID">Delete</a>
-                }
+                    @if (item.StudentID == Convert.ToInt32(Context.Session.GetInt32("StudentID")))
+                    {
+                        <a asp-action="EditRequest" asp-controller="Student" asp-route-id="@item.RequestID">Edit</a>
+                        <a asp-action="DeleteRequest" asp-controller="Student" asp-route-id="@item.RequestID">Delete</a>
+                    }
+                    @if (item.StudentID != Convert.ToInt32(Context.Session.GetInt32("StudentID")))
+                    {
+                        <a asp-action="JoinRequest" asp-controller="Student" asp-route-id="@item.RequestID">Join</a>
+                    }
                 </td>
             </tr>
             }
