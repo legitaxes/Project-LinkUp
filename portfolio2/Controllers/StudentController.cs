@@ -419,7 +419,8 @@ namespace portfolio2.Controllers
             request.StudentID = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
             if (ModelState.IsValid)
             {
-                request.RequestID = requestContext.AddRequest(request);
+                request.RequestID = Convert.ToInt32(requestContext.AddRequest(request));
+                requestContext.AddStudentRequest(request.StudentID,request.RequestID);
                 ViewData["Locationlist"] = DropDownLocation();
                 return RedirectToAction("Myrequests", "Student");
             }
@@ -513,6 +514,7 @@ namespace portfolio2.Controllers
             ViewData["Hourlist"] = DropDownHours();
             ViewData["MaxCaplist"] = DropDownMaxCap();
             ViewData["Locationlist"] = DropDownLocation();
+            requestContext.DeleteStudentRequest(request.StudentID, request.RequestID);
             requestContext.DeleteRequest(request.RequestID);
             return RedirectToAction("Myrequests", "Student");
 
