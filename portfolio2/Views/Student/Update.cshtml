@@ -52,7 +52,7 @@
                                 {
                                     <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="400">
                                 }
-
+                                <a class="btn btn-primary" asp-controller="Student" asp-action="Photo">Upload Profile Photo</a>
                             </div>
                             <input asp-for="Photo" class="form-control" readonly hidden />
                         </div>
@@ -93,8 +93,8 @@
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label"></label>
                             <div class="col-lg-9">
-                                <input type="reset" class="btn btn-secondary" value="Back">
                                 <input type="Submit" class="btn btn-primary" value="Save Changes">
+                                <a href='javascript:history.go(-1)' class="btn btn-secondary">Back</a>
                             </div>
                         </div>
                     </form>

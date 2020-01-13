@@ -152,26 +152,6 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Reviews</a>
-                            <br />
-                            <table id="viewStaff" class="table table-striped table-bordered">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Review date</th>
-                                        <th>Description</th>
-                                        <th>Stars</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var review in getlist)
-                                    {
-                                    <tr>
-                                        <td>@review.RatingDate</td>
-                                        <td>@review.Description</td>
-                                        <td>@review.Stars</td>
-                                    </tr>
-                                    }
-                                </tbody>
-                            </table>
                         </li>
                     </ul>
                 </div>
@@ -244,10 +224,25 @@
 
                     </div>
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-
-
-
-
+                        <table id="viewStaff" class="table table-striped table-bordered">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Review date</th>
+                                    <th>Description</th>
+                                    <th>Stars</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var review in getlist)
+                                {
+                                    <tr>
+                                        <td>@review.RatingDate</td>
+                                        <td>@review.Description</td>
+                                        <td>@review.Stars</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
