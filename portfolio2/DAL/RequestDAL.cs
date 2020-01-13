@@ -36,14 +36,15 @@ namespace portfolio2.DAL
         public int AddRequest(Request request)
         {
             SqlCommand cmd = new SqlCommand
-            ("INSERT INTO Request (DateRequest, Description, Title, AvailabilityFrom, AvailabilityTo, PointsEarned, Status, LocationID, StudentID)" +
+            ("INSERT INTO Request (DateRequest, Description, Title, AvailabilityFrom, Hours, MaxCap, PointsEarned, Status, LocationID, StudentID)" +
             " OUTPUT INSERTED.RequestID" +
-            " VALUES(@daterequest, @description, @title, @availabilityfrom, @availabilityto, @pointsearned, @status, @locationid, @studentid)", conn);
+            " VALUES(@daterequest, @description, @title, @availabilityfrom, @hours, @maxcap, @pointsearned, @status, @locationid, @studentid)", conn);
             cmd.Parameters.AddWithValue("@daterequest", request.DateRequest);
             cmd.Parameters.AddWithValue("@description", request.Description);
             cmd.Parameters.AddWithValue("@title", request.Title);
             cmd.Parameters.AddWithValue("@availabilityfrom", request.AvailabilityFrom);
-            cmd.Parameters.AddWithValue("@availabilityto", request.AvailabilityTo);
+            cmd.Parameters.AddWithValue("@hours", request.Hours);
+            cmd.Parameters.AddWithValue("@maxcap", request.MaxCap);
             cmd.Parameters.AddWithValue("@pointsearned", request.PointsEarned);
             cmd.Parameters.AddWithValue("@status", request.Status);
             cmd.Parameters.AddWithValue("@locationid", request.LocationID);
@@ -57,12 +58,13 @@ namespace portfolio2.DAL
         public int EditRequest(Request request)
         {
             SqlCommand cmd = new SqlCommand
-            ("UPDATE Request SET Description = @description, Title = @title, AvailabilityFrom = @availabilityfrom, AvailabilityTo = @availabilityto, PointsEarned = @pointsearned, Status = @status, LocationID = @locationid WHERE RequestID = @selectedrequestID", conn);
+            ("UPDATE Request SET Description = @description, Title = @title, AvailabilityFrom = @availabilityfrom, Hours = @hours, MaxCap = @maxcap, PointsEarned = @pointsearned, Status = @status, LocationID = @locationid WHERE RequestID = @selectedrequestID", conn);
             cmd.Parameters.AddWithValue("@selectedrequestID", request.RequestID);
             cmd.Parameters.AddWithValue("@description", request.Description);
             cmd.Parameters.AddWithValue("@title", request.Title);
             cmd.Parameters.AddWithValue("@availabilityfrom", request.AvailabilityFrom);
-            cmd.Parameters.AddWithValue("@availabilityto", request.AvailabilityTo);
+            cmd.Parameters.AddWithValue("@hours", request.Hours);
+            cmd.Parameters.AddWithValue("@maxcap", request.MaxCap);
             cmd.Parameters.AddWithValue("@pointsearned", request.PointsEarned);
             cmd.Parameters.AddWithValue("@status", request.Status);
             cmd.Parameters.AddWithValue("@locationid", request.LocationID);
@@ -107,7 +109,8 @@ namespace portfolio2.DAL
                         Description = row["Description"].ToString(),
                         Title = row["Title"].ToString(),
                         AvailabilityFrom = Convert.ToDateTime(row["AvailabilityFrom"]),
-                        AvailabilityTo = Convert.ToDateTime(row["AvailabilityTo"]),
+                        Hours = Convert.ToInt32(row["Hours"]),
+                        MaxCap = Convert.ToInt32(row["MaxCap"]),
                         PointsEarned = Convert.ToInt32(row["PointsEarned"]),
                         Status = Convert.ToChar(row["Status"]),
                         LocationID = Convert.ToInt32(row["LocationID"]),
@@ -140,7 +143,8 @@ namespace portfolio2.DAL
                         Description = row["Description"].ToString(),
                         Title = row["Title"].ToString(),
                         AvailabilityFrom = Convert.ToDateTime(row["AvailabilityFrom"]),
-                        AvailabilityTo = Convert.ToDateTime(row["AvailabilityTo"]),
+                        Hours = Convert.ToInt32(row["Hours"]),
+                        MaxCap = Convert.ToInt32(row["MaxCap"]),
                         PointsEarned = Convert.ToInt32(row["PointsEarned"]),
                         Status = Convert.ToChar(row["Status"]),
                         LocationID = Convert.ToInt32(row["LocationID"]),
@@ -181,8 +185,11 @@ namespace portfolio2.DAL
                 if (!DBNull.Value.Equals(table.Rows[0]["AvailabilityFrom"]))
                     request.AvailabilityFrom = Convert.ToDateTime(table.Rows[0]["AvailabilityFrom"]);
 
-                if (!DBNull.Value.Equals(table.Rows[0]["AvailabilityTo"]))
-                    request.AvailabilityTo = Convert.ToDateTime(table.Rows[0]["AvailabilityTo"]);
+                if (!DBNull.Value.Equals(table.Rows[0]["Hours"]))
+                    request.Hours = Convert.ToInt32(table.Rows[0]["Hours"]);
+
+                if (!DBNull.Value.Equals(table.Rows[0]["MaxCap"]))
+                    request.MaxCap = Convert.ToInt32(table.Rows[0]["MaxCap"]);
 
                 if (!DBNull.Value.Equals(table.Rows[0]["PointsEarned"]))
                     request.PointsEarned = Convert.ToInt32(table.Rows[0]["PointsEarned"]);

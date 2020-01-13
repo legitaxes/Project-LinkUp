@@ -22,8 +22,11 @@ namespace portfolio2.Models
         [Display(Name = "Availability From")]
         public DateTime AvailabilityFrom { get; set; }
 
-        [Display(Name = "Availability To")]
-        public DateTime AvailabilityTo { get; set; }
+        [Display(Name = "Hours")]
+        public int Hours { get; set; }
+
+        [Display(Name = "Maximum capacity")]
+        public int MaxCap { get; set; }
 
         [Display(Name = "Points earned")]
         public int PointsEarned { get; set; }
