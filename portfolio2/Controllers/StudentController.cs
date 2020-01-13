@@ -61,6 +61,68 @@ namespace portfolio2.Controllers
             return course;
         }
 
+        private List<SelectListItem> DropDownMaxCap()
+        {
+            List<SelectListItem> maxcap = new List<SelectListItem>();
+
+            maxcap.Add(new SelectListItem
+            {
+                Value = "1",
+                Text = "Private session",
+            });
+            maxcap.Add(new SelectListItem
+            {
+                Value = "2",
+                Text = "2",
+            });
+            maxcap.Add(new SelectListItem
+            {
+                Value = "3",
+                Text = "3",
+            });
+            maxcap.Add(new SelectListItem
+            {
+                Value = "4",
+                Text = "4",
+            });
+            maxcap.Add(new SelectListItem
+            {
+                Value = "5",
+                Text = "5",
+            });
+            return maxcap;
+        }
+
+        private List<SelectListItem> DropDownHours()
+        {
+            List<SelectListItem> hours = new List<SelectListItem>();
+            hours.Add(new SelectListItem
+            {
+                Value = "1",
+                Text = "1",
+            });
+            hours.Add(new SelectListItem
+            {
+                Value = "2",
+                Text = "2",
+            });
+            hours.Add(new SelectListItem
+            {
+                Value = "3",
+                Text = "3",
+            });
+            hours.Add(new SelectListItem
+            {
+                Value = "4",
+                Text = "4",
+            });
+            hours.Add(new SelectListItem
+            {
+                Value = "5",
+                Text = "5",
+            });
+            return hours;
+        }
         [HttpGet]
         public ActionResult Create()
         {
@@ -327,6 +389,8 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("RequestRedirect", "Student");
             }
+            ViewData["Hourlist"] = DropDownHours();
+            ViewData["MaxCaplist"] = DropDownMaxCap();
             ViewData["Locationlist"] = DropDownLocation();
             List<StudentDetails> studentList = studentContext.GetAllStudent();
             foreach (StudentDetails student in studentList)
@@ -346,22 +410,20 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
-            int hours = Convert.ToInt32((request.AvailabilityTo - request.AvailabilityFrom).TotalHours);
-            int points = hours * 10;
+            int hours = Convert.ToInt32(request.Hours);
+            int points = (hours * 15)/2;
             request.DateRequest = DateTime.Now;
             request.PointsEarned = points;
             request.Status = 'N';
             request.StudentID = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
-            if (ModelState.IsValid && request.AvailabilityFrom < request.AvailabilityTo)
+            if (ModelState.IsValid)
             {
                 request.RequestID = requestContext.AddRequest(request);
                 ViewData["Locationlist"] = DropDownLocation();
                 return RedirectToAction("Myrequests", "Student");
             }
-            else
-            {
-                ViewData["Error"] = "The session starting time can't be before the session ending time.";
-            }
+            ViewData["Hourlist"] = DropDownHours();
+            ViewData["MaxCaplist"] = DropDownMaxCap();
             ViewData["Locationlist"] = DropDownLocation();
             return View();
         }
@@ -380,7 +442,8 @@ namespace portfolio2.Controllers
             { 
                 return RedirectToAction("Error", "Home");
             }
-
+            ViewData["Hourlist"] = DropDownHours();
+            ViewData["MaxCaplist"] = DropDownMaxCap();
             ViewData["Locationlist"] = DropDownLocation();
 
             if (request == null)
@@ -396,23 +459,20 @@ namespace portfolio2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditRequest(Request request)
         {
-            int hours = Convert.ToInt32((request.AvailabilityTo - request.AvailabilityFrom).TotalHours);
-            int points = hours * 10;
-            request.DateRequest = DateTime.Now;
+            int hours = Convert.ToInt32(request.Hours);
+            int points = (hours * 15) / 2;
             request.PointsEarned = points;
             request.Status = 'N';
+            ViewData["Hourlist"] = DropDownHours();
+            ViewData["MaxCaplist"] = DropDownMaxCap();
             ViewData["Locationlist"] = DropDownLocation();
-            if (ModelState.IsValid && request.AvailabilityFrom < request.AvailabilityTo)
+            if (ModelState.IsValid)
             {
                 requestContext.EditRequest(request);
                 return RedirectToAction("Myrequests", "Student");
             }
 
-            else
-            {
-                ViewData["Error"] = "The session starting time can't be before the session ending time.";
-                return View(request);
-            }
+            return View(request);
         }
 
         public ActionResult DeleteRequest(int? id)
@@ -428,6 +488,8 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
+            ViewData["Hourlist"] = DropDownHours();
+            ViewData["MaxCaplist"] = DropDownMaxCap();
             ViewData["Locationlist"] = DropDownLocation();
 
             if (request == null)
@@ -442,6 +504,9 @@ namespace portfolio2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteRequest(Request request)
         {
+            ViewData["Hourlist"] = DropDownHours();
+            ViewData["MaxCaplist"] = DropDownMaxCap();
+            ViewData["Locationlist"] = DropDownLocation();
             requestContext.DeleteRequest(request.RequestID);
             return RedirectToAction("Myrequests", "Student");
 
@@ -502,7 +567,8 @@ namespace portfolio2.Controllers
                     Description = currentrequest.Description,
                     Title = currentrequest.Title,
                     AvailabilityFrom = currentrequest.AvailabilityFrom,
-                    AvailabilityTo = currentrequest.AvailabilityTo,
+                    Hours = currentrequest.Hours,
+                    MaxCap = currentrequest.MaxCap,
                     PointsEarned = currentrequest.PointsEarned,
                     Status = currentrequest.Status,
                     LocationID = currentrequest.LocationID,
