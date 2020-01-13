@@ -494,6 +494,13 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
+            DateTime currenttime = DateTime.Now;
+            TimeSpan ts = request.AvailabilityFrom - currenttime;
+            if (ts.TotalHours < 2)
+            {
+                return RedirectToAction("DeleteRedirect", "Student");
+            }
+
             ViewData["Hourlist"] = DropDownHours();
             ViewData["MaxCaplist"] = DropDownMaxCap();
             ViewData["Locationlist"] = DropDownLocation();
@@ -665,6 +672,16 @@ namespace portfolio2.Controllers
         }
 
         public ActionResult RequestRedirect()
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            return View();
+        }
+
+        public ActionResult DeleteRedirect()
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
