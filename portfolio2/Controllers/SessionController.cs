@@ -92,6 +92,8 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Error", "Home");
             }
             List<StudentDetails> participantList = sessionContext.GetParticipantList(id);
+            Session currentSession = sessionContext.GetSessionDetails(id);
+            ViewData["SessionName"] = currentSession.Name;
             return View(participantList);
         }
 
@@ -232,15 +234,14 @@ namespace portfolio2.Controllers
             ViewData["CategoryList"] = categoryContext.GetCategoryList();
             ViewData["LocationList"] = locationContext.GetLocationList();
             session.Participants = 0;
-            System.Diagnostics.Debug.WriteLine(session);
+            //System.Diagnostics.Debug.WriteLine(session);
             session.Status = 'N';
             if (ModelState.IsValid)
             {
                 session.SessionID = sessionContext.CreateSession(session);
                 ViewData["Message"] = "Session Posted Successfully!";
                 session.DateCreated = DateTime.Now;
-                //TempData["Session"] = session;
-                return View(session);
+                return RedirectToAction("UploadSessionPhoto", new { id = session.SessionID });
 
                 //return RedirectToAction("UploadSessionPhoto");
             }
@@ -249,6 +250,46 @@ namespace portfolio2.Controllers
                 ViewData["Error"] = "There is an invalid field. Please Try Again!";
                 return View(session);
             }
+        }
+
+        public ActionResult Edit(int? id)
+        {
+            if ((HttpContext.Session.GetString("Role") == null) || //if the user is not logged in and tried to access the page, return to the error page
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            else if (id == null) //if the id cannot be found, return to the error page 
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            else if (sessionContext.CheckSessionOwner(id, HttpContext.Session.GetInt32("StudentID")) == false) //check if the session is the owner of the session
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            ViewData["CategoryList"] = categoryContext.GetCategoryList();
+            ViewData["LocationList"] = locationContext.GetLocationList();
+            Session session = sessionContext.GetSessionDetails(id);
+            return View(session);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Session session)
+        {
+            ViewData["CategoryList"] = categoryContext.GetCategoryList();
+            ViewData["LocationList"] = locationContext.GetLocationList();
+            if (ModelState.IsValid)
+            {
+                sessionContext.UpdateSession(session);
+                ViewData["Message"] = "Session Updated Successfully!";
+                return View(session);
+            }
+            else
+            {
+                ViewData["Error"] = "There is an invalid field. Please Try Again!";
+                return View(session);
+            }
+
         }
 
         public ActionResult MySession() //views session that user has created
@@ -276,16 +317,25 @@ namespace portfolio2.Controllers
             return View(sessionDetailsList);
         }
 
-        public ActionResult UploadSessionPhoto()
+        public ActionResult UploadSessionPhoto(int? id)
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
             {
                 return RedirectToAction("Error", "Home");
             }
-            Session session = TempData["Session"] as Session;
+            else if (id == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            else if (sessionContext.CheckSessionOwner(id, HttpContext.Session.GetInt32("StudentID")) == false)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            Session session = sessionContext.GetSessionDetails(id);
+            sessionContext.UpdateSessionPhoto(session.SessionID, session.Name);
             SessionPhoto newSession = MapToSingleSessionVM(session);
-            return View(session);
+            return View(newSession);
         }
 
         [HttpPost]
@@ -297,7 +347,7 @@ namespace portfolio2.Controllers
                 try
                 { // Find the filename extension of the file to be uploaded.
                     string fileExt = Path.GetExtension(session.FileToUpload.FileName);
-                    string uploadedFile = session.SessionID + fileExt;
+                    string uploadedFile = session.Photo + fileExt;
                     string savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\sessions", uploadedFile);
                     using (var fileSteam = new FileStream(savePath, FileMode.Create))
                     {

@@ -103,7 +103,7 @@
 <div>
     @if (ViewData["Owner"] != null) //checks whether the user is the owner of the session | not null = owner
     {
-        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) @: |
+        <a asp-controller="Session" asp-action="Edit" asp-route-id="@Model.SessionID">Edit This Session</a> @:|
     }
     @if (ViewData["Owner"] == null)//checks whether the user is the owner of the session | null == not owner
     {

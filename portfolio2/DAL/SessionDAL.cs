@@ -36,8 +36,8 @@ namespace portfolio2.DAL
         //Creates the booking record into the database
         public int CreateBooking(int sessionid, int hours)
         {
-            int points = (15 * hours)/2; //formula to be confirmed
-            SqlCommand cmd = new SqlCommand("INSERT INTO Booking (PointsEarned, SessionID) " + 
+            int points = (15 * hours) / 2; //formula to be confirmed
+            SqlCommand cmd = new SqlCommand("INSERT INTO Booking (PointsEarned, SessionID) " +
                 "OUTPUT INSERTED.BookingID " + "VALUES(@points, @session)", conn);
             cmd.Parameters.AddWithValue("@points", points);
             cmd.Parameters.AddWithValue("@session", sessionid);
@@ -117,12 +117,30 @@ namespace portfolio2.DAL
 
         public int RemoveBooking(int bookingid)
         {
-            SqlCommand cmd = new SqlCommand("DELETE FROM Booking " + 
+            SqlCommand cmd = new SqlCommand("DELETE FROM Booking " +
                 "WHERE BookingID = @selectedbookingid", conn);
             cmd.Parameters.AddWithValue("@selectedbookingid", bookingid);
             conn.Open();
             int count;
             count = cmd.ExecuteNonQuery();
+            conn.Close();
+            return count;
+        }
+
+        public int UpdateSession(Session session)
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE Session " +
+                "SET SessionDate=@sessiondate, Name=@name, Description=@desc, Hours=@hours, LocationID=@location, CategoryID=@category" +
+                " WHERE SessionID = @selectedsessionid", conn);
+            cmd.Parameters.AddWithValue("@sessiondate", session.SessionDate);
+            cmd.Parameters.AddWithValue("@name", session.Name);
+            cmd.Parameters.AddWithValue("@desc", session.Description);
+            cmd.Parameters.AddWithValue("@hours", session.Hours);
+            cmd.Parameters.AddWithValue("@location", session.LocationID);
+            cmd.Parameters.AddWithValue("@category", session.CategoryID);
+            cmd.Parameters.AddWithValue("@selectedsessionid", session.SessionID);
+            conn.Open();
+            int count = cmd.ExecuteNonQuery();
             conn.Close();
             return count;
         }
@@ -235,8 +253,19 @@ namespace portfolio2.DAL
                 return false;
             }
         }
+        public int UpdateSessionPhoto(int sessionid, string sessionname)
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE Session SET Photo=@sessionname" + 
+                " WHERE SessionID = @selectedsessionid", conn);
+            cmd.Parameters.AddWithValue("@sessionname", sessionid+sessionname);
+            cmd.Parameters.AddWithValue("@selectedsessionid", sessionid);
+            conn.Open();
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+            return count;
+        }
 
-        public Session GetSessionDetails(int sessionID) //queries for the details of a session
+        public Session GetSessionDetails(int? sessionID) //queries for the details of a session
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE SessionID = @selectedsessionid", conn);
             cmd.Parameters.AddWithValue("@selectedsessionid", sessionID);
@@ -248,8 +277,9 @@ namespace portfolio2.DAL
             Session sessionDetails = new Session();
             if (result.Tables["SessionDetails"].Rows.Count > 0)
             {
-                sessionDetails.SessionID = sessionID;
                 DataTable table = result.Tables["SessionDetails"];
+                if (!DBNull.Value.Equals(table.Rows[0]["SessionID"]))
+                    sessionDetails.SessionID = Convert.ToInt32(table.Rows[0]["SessionID"]);
                 if (!DBNull.Value.Equals(table.Rows[0]["DateCreated"]))
                     sessionDetails.DateCreated = Convert.ToDateTime(table.Rows[0]["DateCreated"]);
                 if (!DBNull.Value.Equals(table.Rows[0]["SessionDate"]))

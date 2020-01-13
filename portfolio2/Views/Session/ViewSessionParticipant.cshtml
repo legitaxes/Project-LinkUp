@@ -10,6 +10,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -22,21 +23,36 @@
             <th>
                 @Html.DisplayNameFor(model => model.Year)
             </th>
+            <th>
+                Chat With Student
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Photo)
-            </td>
-            <td>
-                <a asp-controller="Student" asp-action="ProfileDetails" asp-route-id="@item.StudentNumber">@Html.DisplayFor(modelItem => item.Name)</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-        </tr>
-}
+        @{string studentnumber = "";
+            @foreach (var item in Model)
+            {
+                studentnumber += item.StudentNumber + "@connect.np.edu.sg,";
+                <tr>
+                    <td>
+                        <img src="~/images/Profilepictures/@item.Photo" />
+                    </td>
+                    <td>
+                        <a asp-controller="Student" asp-action="ProfileDetails" asp-route-id="@item.StudentNumber" target="_blank">@Html.DisplayFor(modelItem => item.Name)</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Year)
+                    </td>
+                    <td>
+                        <a href="https://teams.microsoft.com/l/chat/0/0?users=@item.StudentNumber@@connect.np.edu.sg" target="_blank"><img src="~/images/Icons/teamslogo.png" /></a>
+                    </td>
+                </tr>
+            }
+        }
     </tbody>
 </table>
+@if (Model.Count() > 1)
+{
+    <a href="https://teams.microsoft.com/l/chat/0/0?users=@studentnumber&topicName=@ViewData["SessionName"]">Create a group in Teams</a>
+}
+
