@@ -5,57 +5,64 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Update Profile Photo</h2>
 
-<form asp-action="Photo" enctype="multipart/form-data">
-    <fieldset class="FormContent">
-        <legend>Update Photo</legend>
-        <input asp-for="StudentID" type="hidden" hidden readonly class="form-control" />
+<div class="container py-3">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <span class="anchor" id="formUserEdit"></span>
+            <div class="card card-outline-secondary">
+                <div class="card-header text-center">
+                    <h3 class="mb-0">Update Photo</h3>
+                </div>
+                <div class="card-body">
+                    <form aasp-action="Photo" class="form" role="form" enctype="multipart/form-data" autocomplete="off">
 
-        <div class="form-group row">
-            <label asp-for="Name"
-                   class="col-sm-3 col-form-label"></label>
-            <div class="col-sm-9 col-md-5">
-                <input asp-for="Name" readonly
-                       class="text-danger" />
+
+                        <input asp-for="FileToUpload" accept="image/jpeg" type="hidden" class="form-control" />
+                        <input asp-for="Name" type="hidden" readonly />
+
+                        <div class="form-group row">
+                            <label asp-for="Photo" class="col-lg-3 col-form-label form-control-label">Photo</label>
+                            <div class="col-lg-9">
+                                @if (Context.Session.GetString("Photo") != null)
+                                {
+                                    string imageFileName = Context.Session.GetString("Photo");
+                                    <img src="~/images/Profilepictures/@imageFileName" style="width:300px">
+                                }
+
+                                else
+                                {
+                                    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="300" class="border border-secondary rounded">
+                                }
+                                <p></p>
+                                <p class="text-danger">Please upload a JPG file</p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">
+                            </label>
+                            <div class="col-sm-9">
+                                <input asp-for="FileToUpload" accept="image/jpeg" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label"></label>
+                            <div class="col-lg-9">
+                                <a href="~/Student/Update" class="btn btn-secondary">Cancel</a>
+                                <input type="Submit" class="btn btn-primary" value="Upload Photo">
+
+                            </div>
+                        </div>
+                      
+                    </form>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group row">
-            <label asp-for="Photo"
-                   class="col-sm-3 col-form-label"></label>
-            <div class="col-sm-9 col-md-5">
-                @if (Context.Session.GetString("Photo") != null)
-                {
-                    string imageFileName = Context.Session.GetString("Photo");
-                    <img src="~/images/Profilepictures/@imageFileName" style="width:50px">
-                }
+        </div>
+    </div>
+</div>
 
-                else
-                {
-                    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" style="width:50px">
-                }
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="FileToUpload"
-                   class="col-sm-3 col-form-label">
-                New Photo (jpg format)
-            </label>
-            <div class="col-sm-9">
-                <input asp-for="FileToUpload" accept="image/jpeg" />
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <div class="col-sm-9 offset-sm-3">
-                <input type="submit" value="Update" class="btn btn-primary mb1 bg-teal" />
-                <span style="color:red;">@ViewData["Message"]</span>
-            </div>
-        </div>
-        <div>
-            <a class="btn btn-primary mb1 black bg-gray" href="~/Student/Update">Back</a>
-        </div>
-    </fieldset>
-</form>
