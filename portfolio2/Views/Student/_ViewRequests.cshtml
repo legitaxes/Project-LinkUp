@@ -43,7 +43,7 @@
                                     <a asp-action="DeleteRequest" asp-controller="Student" asp-route-id="@item.RequestID">Delete</a>
                                 }
                             }
-                            @if (item.StudentID != Convert.ToInt32(Context.Session.GetInt32("StudentID")))
+                            @if (item.StudentID != Convert.ToInt32(Context.Session.GetInt32("StudentID"))&& item.CurrCap < item.MaxCap)
                             {
                                 <a asp-action="JoinRequest" asp-controller="Student" asp-route-id="@item.RequestID">Join</a>
                             }
