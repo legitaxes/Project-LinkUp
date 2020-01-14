@@ -14,14 +14,15 @@
 
 
 <section class="title">
-    <div class="container welcomemessage">
-        <div class="logo text-center">
-            <img src="~/images/Icons/noun_hello_1391878.svg" class="rounded mx-auto d-block" alt="LinkUp Logo" width="300" />
-            <p class="h5 font-weight-bold">Since its your first time here, please set up your account!</p>
+    <div class="container">
+        <div class="text-center">
+            <p class="h1">Welcome!</p>
+            <p class="font-weight-light">Since its your first time, please set up your account below!</p>
         </div>
-    </div>   
-</section>
+    </div>
 
+
+</section>
 
 <div class="container py-3">
     <div class="row">
@@ -33,15 +34,15 @@
                 }
             </div>
             <div class="card card-outline-secondary">
-                <div class="card-header text-center">
-                    <h3 class="mb-0">Account Setup</h3>
-                </div>
+                
                 <div class="card-body">
                     <form asp-action="Create" class="form" role="form" autocomplete="off" onsubmit="return confirm('Confirm the Details?');">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                 
+                        <div class="form-group row"></div>
                         <div class="form-group row">
                             <label label asp-for="Name" class="col-lg-3 col-form-label form-control-label">Name</label>
-                            
+
                             <div class="col-lg-9">
                                 <input class="form-control" value="@Html.Display("Name")" disabled />
                                 <span asp-validation-for="Name" class="text-danger">This field is automatically filled in for you</span>
@@ -50,7 +51,7 @@
 
                         <div class="form-group row">
                             <label asp-for="CourseID" class="col-lg-3 col-form-label form-control-label">Year</label>
-                      
+
                             <div class="col-lg-9">
                                 <select asp-for="CourseID" asp-items="@ViewData["Courselist"] as List<SelectListItem>" class="form-control"></select>
                                 <span asp-validation-for="CourseID" class="text-danger"></span>
@@ -58,7 +59,7 @@
                         </div>
                         <div class="form-group row">
                             <label asp-for="Interest" class="col-lg-3 col-form-label form-control-label">Student Number</label>
-                  
+
                             <div class="col-lg-9">
                                 <input asp-for="Interest" class="form-control" />
                             </div>
@@ -100,7 +101,7 @@
                                 <span asp-validation-for="Description" class="text-danger">You can leave this blank and fill in later!</span>
                             </div>
                         </div>
-                      
+
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label"></label>
                             <div class="col-lg-9">
