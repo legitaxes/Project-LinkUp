@@ -190,3 +190,25 @@ section.title {
     margin-top: 2%;
     margin-bottom: 2%;
 }
+
+ .container.session {
+        padding: 3% !important;
+        border-radius: 8px;
+        box-shadow: 0 3px 10px 0 rgba(44,44,45,.07), inset 0 0 0 1px rgba(44,44,45,.07);
+        border: 1px solid lightgrey;
+
+ }
+
+a.btn.btn-primary {
+    margin-bottom: 2%;
+}
+i{
+    font-size:20px !important;
+}
+
+.text {
+    margin-bottom: 3%;
+    margin-left: 5px;
+    display: inline-block;
+}
+
