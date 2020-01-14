@@ -106,6 +106,16 @@
 <div>
     @if (ViewData["Owner"] != null) //checks whether the user is the owner of the session | not null = owner
     {
+        @if (ViewData["SessionOver"] != null) //not null = session is over
+        {
+            <h5 class="text-danger">@ViewData["SessionOver"]</h5>
+            <a asp-controller="Session" asp-action="MarkSessionComplete" class="btn btn-success" asp-route-id="@Model.SessionID" onclick="return confirm('Are you sure you want to mark this session as complete?')">Mark Session Complete</a>
+        }
+        else //else session is not over
+        {
+            <a asp-controller="Session" asp-action="MarkSessionComplete" class="btn btn-success disabled" asp-route-id="@Model.SessionID" onclick="return confirm('Are you sure you want to mark this session as complete?')">Mark Session Complete</a>
+        }
+
         @if (ViewData["Message"] != null) //checks whether the sesson is 2 hours before, null = it is 2 hours before
         {
             <h5 class="text-danger">@ViewData["Message"]</h5>
@@ -141,11 +151,11 @@
                     <input asp-for="StudentName" readonly hidden value="@Model.StudentName" />
                     <input asp-for="LocationName" readonly hidden value="@Model.LocationName" />
                     <input asp-for="CategoryName" readonly hidden value="@Model.CategoryName" />
-                    @if (ViewData["Message"] == null)
+                    @if (ViewData["Message"] == null) //checks whether the session is 2 hours before, null == not true
                     {
                         <input type="submit" value="Sign Up For This Session" class="btn btn-success" />
                     }
-                    else
+                    else // else do not allow user to sign up for a session that is happening 2 hours before
                     {
                         <p class="text-danger">You can't sign up for a session 2 hours before</p>
                         <input type="submit" value="Sign Up For This Session" class="btn btn-success" disabled />
@@ -180,7 +190,7 @@
             }
         }
     }
-    @if (ViewData["Owner"] != null)
+    @if (ViewData["Owner"] != null) //checks whether the user is the owner of the session | not null == owner
     {
         <a asp-action="MySession" class="btn btn-secondary">Back to List</a>
     }
