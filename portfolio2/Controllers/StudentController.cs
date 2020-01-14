@@ -456,7 +456,7 @@ namespace portfolio2.Controllers
             return View();
         }
 
-        public ActionResult EditRequest(int? id)
+        /*public ActionResult EditRequest(int? id)
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
            (HttpContext.Session.GetString("Role") != "Student"))
@@ -506,7 +506,7 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Myrequests", "Student");
             }
             return View(request);
-        }
+        }*/
 
         public ActionResult DeleteRequest(int? id)
         {
