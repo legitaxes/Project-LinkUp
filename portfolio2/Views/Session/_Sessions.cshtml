@@ -50,28 +50,80 @@
             </div>
         </div>
         <div class="row mb-3">
+            @{bool check = false;}
             @foreach (var item in Model)
             {
-                <div class="col-md-6 col-lg-3">
-                    <div class="card h-100">
-                        <a class="lightbox" asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID"><img src="~/images/Sessions/@Html.DisplayFor(modelItem => item.Photo)" class="card-img-top"></a>
-                        <div class="card-body">
-                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.SessionDate) | Duration: @Html.DisplayFor(modelItem => item.Hours)hrs | @Html.DisplayFor(modelItem => item.LocationName)</h6>
-                            <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Category: @Html.DisplayFor(modelItem => item.CategoryName)</li>
-                            <li class="list-group-item">Participants: @Html.DisplayFor(modelItem => item.Participants)</li>
-                            <li class="list-group-item">Host: @Html.DisplayFor(modelItem => item.StudentName)</li>
-                        </ul>
-                        <div class="card-body">
-                            <a asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID" class="btn btn-primary">View Session Details</a>
+                @if (item.Status == 'N')
+                {
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100">
+                            <a class="lightbox" asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID"><img src="~/images/Sessions/@Html.DisplayFor(modelItem => item.Photo)" class="card-img-top"></a>
+                            <div class="card-body">
+                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.SessionDate) | Duration: @Html.DisplayFor(modelItem => item.Hours)hrs | @Html.DisplayFor(modelItem => item.LocationName)</h6>
+                                <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Category: @Html.DisplayFor(modelItem => item.CategoryName)</li>
+                                <li class="list-group-item">Participants: @Html.DisplayFor(modelItem => item.Participants)</li>
+                                <li class="list-group-item">Host: @Html.DisplayFor(modelItem => item.StudentName)</li>
+                            </ul>
+                            <div class="card-body">
+                                <a asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID" class="btn btn-primary">View Session Details</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
+                else
+                {
+                    @if (check == false)
+                    {
+                    <a asp-controller="Session" asp-action="Create" style="text-decoration: none; color: blue;">
+                        <img src="~/images/Icons/cannotbefound.png" style="max-width:20%; height:auto; vertical-align: middle;">
+                        There are no session created...Click here to create one!
+                    </a>
+                    }
+                    check = true;
+                }
+             }
         </div>
+        <div class="row mb-3">
+            <div class="col">
+                @if (ViewData["JoinedSession"] == null)
+                {
+                    <h1> View Your Cancelled Sessions </h1>
+                    <p class="text-muted">Below are the listings that is cancelled/over</p>
 
+                }
+
+            </div>
+        </div>
+        <div class="row mb-3">
+            @foreach (var item in Model)
+            {
+                @if (item.Status == 'Y')
+                {
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100">
+                            <a class="lightbox" asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID"><img src="~/images/Sessions/@Html.DisplayFor(modelItem => item.Photo)" class="card-img-top"></a>
+                            <div class="card-body">
+                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.SessionDate) | Duration: @Html.DisplayFor(modelItem => item.Hours)hrs | @Html.DisplayFor(modelItem => item.LocationName)</h6>
+                                <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Category: @Html.DisplayFor(modelItem => item.CategoryName)</li>
+                                <li class="list-group-item">Participants: @Html.DisplayFor(modelItem => item.Participants)</li>
+                                <li class="list-group-item">Host: @Html.DisplayFor(modelItem => item.StudentName)</li>
+                            </ul>
+                            <div class="card-body">
+                                <a asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID" class="btn btn-primary">View Session Details</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
     </div>
 </section>

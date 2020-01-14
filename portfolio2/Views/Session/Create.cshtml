@@ -24,7 +24,7 @@
                     <h3 class="mb-0">Create Session</h3>
                 </div>
                 <div class="card-body">
-                    <form asp-action="Create" class="form" role="form" onsubmit="return confirm('Confirm Creation?');" autocomplete="off">
+                    <form asp-action="Create" class="form" role="form" onsubmit="return confirm('Confirm Creation? Changes cannot be made after confirmation!');" autocomplete="off">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group row">
                             <label label asp-for="SessionDate" class="col-lg-3 col-form-label form-control-label">Session Date</label>

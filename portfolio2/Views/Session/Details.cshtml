@@ -21,7 +21,6 @@
         <img src="~/images/Icons/sad1.png" style="max-width:20%; height:auto; display:block; margin-right:auto; margin-left: auto;">
         <div style="text-align: center;">
             <h4>@TempData["Cancel"]</h4>
-            <h5>You can sign up again if you would like to</h5>
         </div>
     }
     <dl class="dl-horizontal">
@@ -103,14 +102,14 @@
 <div>
     @if (ViewData["Owner"] != null) //checks whether the user is the owner of the session | not null = owner
     {
-        @if (ViewData["Message"] == null)
+        @if (Model.Status == 'N') //checks whether the viewdata message for cancel is null and checks whether the status is "N" (N means that it is still ongoing)
         {
-            <a asp-controller="Session" asp-action="Edit" asp-route-id="@Model.SessionID" class="btn btn-info">Edit This Session</a>
+            <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-info" onclick="return confirm('Are you sure you want to cancel the session?')" >Cancel Session</a>
         }
         else
         {
-            <p class="text-danger">@ViewData["Message"]</p>
-            <a asp-controller="Session" asp-action="Edit" asp-route-id="@Model.SessionID" class="btn btn-secondary btn-sm disabled" role="button" aria-disabled="true">Edit This Session</a> @:|
+            <p>This session is cancelled... </p>
+            <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-danger disabled" role="button" aria-disabled="true">Cancel Session</a>
         }
     }
     @if (ViewData["Owner"] == null)//checks whether the user is the owner of the session | null == not owner
@@ -146,7 +145,7 @@
             else
             {
                 <p style="color:lawngreen; font-weight:bold;">You have signed up for this!</p>
-                <form asp-action="CancelSession" method="post" onsubmit="return confirm('Are you sure you want to cancel the session?');">
+                <form asp-action="CancelSignup" method="post" onsubmit="return confirm('Are you sure you want to cancel the session?');">
                     <input asp-for="SessionID" readonly hidden value="@Model.SessionID" />
                     <input asp-for="SessionDate" readonly hidden value="@Model.SessionDate" />
                     <input asp-for="Name" readonly hidden value="@Model.Name" />

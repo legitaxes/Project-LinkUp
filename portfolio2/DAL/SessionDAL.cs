@@ -130,12 +130,14 @@ namespace portfolio2.DAL
         public int UpdateSession(Session session)
         {
             SqlCommand cmd = new SqlCommand("UPDATE Session " +
-                "SET SessionDate=@sessiondate, Name=@name, Description=@desc, Hours=@hours, LocationID=@location, CategoryID=@category" +
+                "SET SessionDate=@sessiondate, Name=@name, Description=@desc, Hours=@hours, Points=@points, Status=@status, LocationID=@location, CategoryID=@category" +
                 " WHERE SessionID = @selectedsessionid", conn);
             cmd.Parameters.AddWithValue("@sessiondate", session.SessionDate);
             cmd.Parameters.AddWithValue("@name", session.Name);
             cmd.Parameters.AddWithValue("@desc", session.Description);
             cmd.Parameters.AddWithValue("@hours", session.Hours);
+            cmd.Parameters.AddWithValue("@points", 0);
+            cmd.Parameters.AddWithValue("@status", session.Status);
             cmd.Parameters.AddWithValue("@location", session.LocationID);
             cmd.Parameters.AddWithValue("@category", session.CategoryID);
             cmd.Parameters.AddWithValue("@selectedsessionid", session.SessionID);

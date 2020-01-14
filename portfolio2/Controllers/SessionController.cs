@@ -147,7 +147,7 @@ namespace portfolio2.Controllers
         }
 
         [HttpPost]
-        public ActionResult CancelSession(SessionViewModel session)
+        public ActionResult CancelSignUp(SessionViewModel session)
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
@@ -155,7 +155,7 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Error", "Home");
             }
             int bookingid = sessionContext.GetBookingID(HttpContext.Session.GetInt32("StudentID"), session.SessionID);
-            TempData["Cancel"] = "Cancelled Successfully";
+            TempData["Cancel"] = "Sign up Cancelled Successfully";
             sessionContext.RemoveStudentBooking(HttpContext.Session.GetInt32("StudentID"), bookingid);
             sessionContext.RemoveBooking(bookingid);
             sessionContext.UpdateSessionParticipant(session.Participants - 1, session.SessionID);
@@ -255,6 +255,36 @@ namespace portfolio2.Controllers
                 ViewData["Error"] = "There is an invalid field. Please Try Again!";
                 return View(session);
             }
+        }
+
+        public ActionResult Cancel(int? id) //cancels the session if you're the session owner 
+        {
+            if ((HttpContext.Session.GetString("Role") == null) || //if the user is not logged in and tried to access the page, return to the error page
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            else if (id == null) //if the id cannot be found, return to the error page 
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            else if (sessionContext.CheckSessionOwner(id, HttpContext.Session.GetInt32("StudentID")) == false) //check if the session is the owner of the session
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            ViewData["CategoryList"] = categoryContext.GetCategoryList();
+            ViewData["LocationList"] = locationContext.GetLocationList();
+            Session session = sessionContext.GetSessionDetails(id);
+            DateTime currenttime = DateTime.Now;
+            TimeSpan ts = session.SessionDate - currenttime;
+            if (ts.TotalHours < 2)
+            {
+                return RedirectToAction("Details", new { id = session.SessionID });
+            }
+            session.Status = 'Y';
+            sessionContext.UpdateSession(session);
+            ViewData["Cancel"] = "This session has been cancelled";
+            return RedirectToAction("Details", new { id = session.SessionID });
         }
 
         public ActionResult Edit(int? id)
