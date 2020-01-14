@@ -560,8 +560,16 @@ namespace portfolio2.Controllers
             }
             int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
             List<Request> allrequestsList = requestContext.GetMyRequests(HttpContext.Session.GetInt32("StudentID"));
+            if (allrequestsList.Count == 0)
+            {
+                ViewData["MyRequestEmpty"] = "It doesn't seem like you have created any request...";
+            }
             List<RequestViewModel> allrequestviewmodelList = MapToStudentAndLocation(allrequestsList);
             List<JoinedRequests> myjoinedrequestsList = requestContext.GetMyJoinedRequests(studentid);
+            if(myjoinedrequestsList.Count == 0)
+            {
+                ViewData["JoinedRequestEmpty"] = "It doesn't seem like you have joined any request...";
+            }
             ViewBag.List = myjoinedrequestsList;
             return View(allrequestviewmodelList);
         }

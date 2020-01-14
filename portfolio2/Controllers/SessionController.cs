@@ -121,9 +121,14 @@ namespace portfolio2.Controllers
             }
             DateTime currenttime = DateTime.Now;
             TimeSpan ts = session.SessionDate - currenttime;
-            if (ts.TotalHours < 2)
+            if (ts.TotalHours < 2) //checks whether the session is 2 hours before
             {
                 ViewData["Message"] = "You are not allowed to cancel the session 2 hours before it starts";
+            }
+            var sesover = session.SessionDate + TimeSpan.FromHours(session.Hours); //adds number of hours of a session to sessiondate of session, this gives the time the session ends
+            if ((sesover - DateTime.Now).TotalHours <= 0) //take sesover deduct datetime.now, it should give negative number: meaning it is way past the session time. 
+            {                                             //if it is positive: the session is not over/not yet begun). ||(USE BREAKPOINTS HERE TO UNDERSTAND)||
+                ViewData["SessionOver"] = "The session is over... Click to mark as complete"; 
             }
             StudentDetails sessionOwner = studentContext.GetStudentBasedOnSession(id);
             if (sessionOwner == null)
@@ -284,7 +289,7 @@ namespace portfolio2.Controllers
             Session session = sessionContext.GetSessionDetails(id);
             DateTime currenttime = DateTime.Now;
             TimeSpan ts = session.SessionDate - currenttime;
-            if (ts.TotalHours < 2)
+            if (ts.TotalHours < 2) //checks whether the session is 2 hours before
             {
                 TempData["CannotCancel"] = "You cannot cancel any session 2 hours before it starts";
                 return RedirectToAction("Details", new { id = session.SessionID });
