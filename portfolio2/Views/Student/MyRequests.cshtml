@@ -18,51 +18,51 @@
     </div>
 </section>
 
-<div class="table">
-    <div class="container">
-        <div class="card">
-            <h5 class="card-header text-center">My Requests</h5>
-            <div class="card-body">
-                <partial name="~/Views/Student/_ViewRequests.cshtml" model="@Model" />
-            </div>
+
+<div class="container">
+    <div class="card">
+        <h5 class="card-header text-center">My Requests</h5>
+        <div class="card-body">
+            <partial name="~/Views/Student/_ViewRequests.cshtml" model="@Model" />
         </div>
     </div>
 </div>
 
-<div class="table">
-    <div class="container">
-        <div class="card">
-            <h5 class="card-header text-center">Joined Requests</h5>
-            <div class="card-body">
-                <table id="viewRequests" class="table table-striped table-hover">
-                    <thead class="thead-light">
+<div class="container">
+    <div class="card">
+        <h5 class="card-header text-center">Joined Requests</h5>
+        <div class="card-body">
+            <table id="viewRequests" class="table table-striped table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Title</th>
+                        <th>Hours</th>
+                        <th>Max capacity</th>
+                        <th>Points earnable</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var joinedrequest in getlist)
+                    {
                         <tr>
-                            <th>Date</th>
-                            <th>Title</th>
-                            <th>Hours</th>
-                            <th>Max capacity</th>
-                            <th>Points earnable</th>
-                            <th>Location</th>
+                            <td>@joinedrequest.DateRequest</td>
+                            <td>@joinedrequest.Title</td>
+                            <td>@joinedrequest.Hours</td>
+                            <td>@joinedrequest.MaxCap</td>
+                            <td>@joinedrequest.PointsEarned</td>
+                            <td>@joinedrequest.LocationName</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var joinedrequest in getlist)
-                        {
-                            <tr>
-                                <td>@joinedrequest.DateRequest</td>
-                                <td>@joinedrequest.Title</td>
-                                <td>@joinedrequest.Hours</td>
-                                <td>@joinedrequest.MaxCap</td>
-                                <td>@joinedrequest.PointsEarned</td>
-                                <td>@joinedrequest.LocationName</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
+
+    
+
 
 
 

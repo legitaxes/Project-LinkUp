@@ -46,11 +46,6 @@
     width: 100%;
 }
 
-.container {
-    margin-top: 72.06px;
-}
-
-
 
 /* MAINPAGE */
 
@@ -61,8 +56,8 @@ body{
 
 .search {
   background: #B3B7EE;
-  padding-top: 60px;
-  padding-bottom: 60px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 
 
 }
@@ -175,32 +170,18 @@ body{
 
 
 
+
+ /*GENERAL*/
+
+
 section.title {
     background-color: #ccccff;
-    padding-top: 1%;
-    padding-bottom: 2%;
+    padding-top: 2.5%;
+    padding-bottom: 2.5%;
 }
 
-.table{
-    padding-bottom:7%
-}
-
-
-
-/*VIEW ALL REQUESTS/ MY SESSIONS*/
-
-.container.myrequestsheader {
-    margin-top: 30px;
-}
-
-
-.container.viewallrequests {
-    margin-top: 30px;
-}
-
-.container.py-3.updatestudent {
-    margin-top: 40px;
-    margin-bottom: 50px;
+.container{
+    padding-top:2%;
 }
 
 
