@@ -50,7 +50,14 @@
             </div>
         </div>
         <div class="row mb-3">
-            @{bool check = false;}
+            @{bool check = true; }
+            @foreach (var item in Model)
+            {
+                if (item.Status == 'N')
+                {
+                    check = false;
+                }
+            }
             @foreach (var item in Model)
             {
                 @if (item.Status == 'N')
@@ -74,24 +81,24 @@
                         </div>
                     </div>
                 }
-                else
+                else if (item.Status == 'Y')
                 {
-                    @if (check == false)
+                    @if (check == true)
                     {
-                    <a asp-controller="Session" asp-action="Create" style="text-decoration: none; color: blue;">
-                        <img src="~/images/Icons/cannotbefound.png" style="max-width:20%; height:auto; vertical-align: middle;">
-                        There are no session created...Click here to create one!
-                    </a>
+                        <a asp-controller="Session" asp-action="Create" style="text-decoration: none; color: blue;">
+                            <img src="~/images/Icons/cannotbefound.png" style="max-width:20%; height:auto; vertical-align: middle;">
+                            There are no session created...Click here to create one!
+                        </a>
+                        check = false;
                     }
-                    check = true;
                 }
-             }
+            }
         </div>
         <div class="row mb-3">
             <div class="col">
                 @if (ViewData["JoinedSession"] == null)
                 {
-                    <h1> View Your Cancelled Sessions </h1>
+                    <h1> View Your Completed Sessions </h1>
                     <p class="text-muted">Below are the listings that is cancelled/over</p>
 
                 }

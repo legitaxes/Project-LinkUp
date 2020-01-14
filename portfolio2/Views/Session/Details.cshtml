@@ -23,6 +23,10 @@
             <h4>@TempData["Cancel"]</h4>
         </div>
     }
+    @if (TempData["CannotCancel"] != null)
+    {
+        <h4 class="text-danger">@TempData["CannotCancel"]</h4>
+    }
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.SessionID)
@@ -102,9 +106,15 @@
 <div>
     @if (ViewData["Owner"] != null) //checks whether the user is the owner of the session | not null = owner
     {
-        @if (Model.Status == 'N') //checks whether the viewdata message for cancel is null and checks whether the status is "N" (N means that it is still ongoing)
+        @if (ViewData["Message"] != null) //checks whether the sesson is 2 hours before, null = it is 2 hours before
         {
-            <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-info" onclick="return confirm('Are you sure you want to cancel the session?')" >Cancel Session</a>
+            <h5 class="text-danger">@ViewData["Message"]</h5>
+            <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-danger disabled" role="button" aria-disabled="true">Cancel Session</a>
+        }
+
+        else if (Model.Status == 'N') //checks whether the viewdata message for cancel is null and checks whether the status is "N" (N means that it is still ongoing)
+        {
+            <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-info" onclick="return confirm('Are you sure you want to cancel the session?')">Cancel Session</a>
         }
         else
         {
