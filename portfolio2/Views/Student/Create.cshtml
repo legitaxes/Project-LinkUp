@@ -13,65 +13,105 @@
 }
 
 
-<h2>We noticed you are a first time here! Enter your details below!</h2>
-@if (ViewData["Message"] != null)
-{
-    <h3 class="text-danger" style="text-align:center;">@ViewData["Message"]</h3>
-}
+<section class="title">
+    <div class="container welcomemessage">
+        <div class="logo text-center">
+            <img src="~/images/Icons/noun_hello_1391878.svg" class="rounded mx-auto d-block" alt="LinkUp Logo" width="300" />
+            <p class="h5 font-weight-bold">Since its your first time here, please set up your account!</p>
+        </div>
+    </div>   
+</section>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" onsubmit="return confirm('Confirm the Details?');">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input class="form-control" value="@Html.Display("Name")" disabled />
-                <span asp-validation-for="Name" class="text-danger">This field is automatically filled in for you</span>
+
+<div class="container py-3">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div>
+                @if (ViewData["Message"] != null)
+                {
+                    <h5 class="text-danger" style="text-align:center;">@ViewData["Message"]</h5>
+                }
             </div>
-            <div class="form-group">
-                <label asp-for="CourseID" class="control-label"></label>
-                <select asp-for="CourseID" asp-items="@ViewData["Courselist"] as List<SelectListItem>" class="form-control"></select>
-                <span asp-validation-for="CourseID" class="text-danger"></span>
+            <div class="card card-outline-secondary">
+                <div class="card-header text-center">
+                    <h3 class="mb-0">Account Setup</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" class="form" role="form" autocomplete="off">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group row">
+                            <label label asp-for="Name" class="col-lg-3 col-form-label form-control-label">Name</label>
+                            
+                            <div class="col-lg-9">
+                                <input class="form-control" value="@Html.Display("Name")" disabled />
+                                <span asp-validation-for="Name" class="text-danger">This field is automatically filled in for you</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="CourseID" class="col-lg-3 col-form-label form-control-label">Year</label>
+                      
+                            <div class="col-lg-9">
+                                <select asp-for="CourseID" asp-items="@ViewData["Courselist"] as List<SelectListItem>" class="form-control"></select>
+                                <span asp-validation-for="CourseID" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Interest" class="col-lg-3 col-form-label form-control-label">Student Number</label>
+                  
+                            <div class="col-lg-9">
+                                <input asp-for="Interest" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Year" class="col-lg-3 col-form-label form-control-label">Year</label>
+                            <div class="col-lg-9">
+                                <input asp-for="Year" class="form-control" value="@Html.Display("Year")" />
+                                <span asp-validation-for="Year" class="text-danger"></span>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="PhoneNo" class="col-lg-3 col-form-label form-control-label">Phone Number</label>
+                            <div class="col-lg-9">
+                                <input asp-for="PhoneNo" class="form-control" />
+                                <span asp-validation-for="PhoneNo" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="ExternalLink" class="col-lg-3 col-form-label form-control-label">Interest</label>
+                            <div class="col-lg-9">
+                                <input asp-for="ExternalLink" class="form-control" />
+                                <span asp-validation-for="ExternalLink" class="text-danger">You can leave this blank and fill in later!</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="ExternalLink" class="col-lg-3 col-form-label form-control-label">External Link</label>
+                            <div class="col-lg-9">
+                                <input asp-for="ExternalLink" class="form-control" />
+                                <span asp-validation-for="ExternalLink" class="text-danger">You can leave this blank and fill in later!</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Description" class="col-lg-3 col-form-label form-control-label">Description</label>
+                            <div class="col-lg-9">
+                                <input asp-for="Description" class="form-control" />
+                                <span asp-validation-for="Description" class="text-danger">You can leave this blank and fill in later!</span>
+                            </div>
+                        </div>
+                      
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label"></label>
+                            <div class="col-lg-9">
+                                <input type="Submit" class="btn btn-primary" value="Create">
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Interest" class="control-label"></label>
-                <input asp-for="Interest" class="form-control" />
-                <br />
-            </div>
-            <div class="form-group">
-                <label asp-for="Year" class="control-label"></label>
-                <input asp-for="Year" class="form-control" value="@Html.Display("Year")" />
-                <span asp-validation-for="Year" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StudentNumber" class="control-label"></label>
-                <input class="form-control" disabled value="@Html.Display("StudentNumber")" />
-                <span asp-validation-for="StudentNumber" class="text-danger">This field is automatically filled in for you</span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNo" class="control-label"></label>
-                <input asp-for="PhoneNo" class="form-control" value="@Html.Display("PhoneNo")" />
-                <span asp-validation-for="PhoneNo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ExternalLink" class="control-label"></label>
-                <input asp-for="ExternalLink" class="form-control" />
-                <span asp-validation-for="ExternalLink" class="text-danger">You can leave this blank and fill in later!</span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger">You can leave this blank and fill in later!</span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
+
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

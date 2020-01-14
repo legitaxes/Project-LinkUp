@@ -175,17 +175,6 @@ body{
 
 
 
-.makerequest {
-    padding-bottom: 9.5rem !important;
-}
-
-.makesession {
-    padding-bottom: 6.5rem !important;
-}
-
-
-
-
 section.title {
     background-color: #ccccff;
     padding-top: 1%;
@@ -208,3 +197,10 @@ section.title {
 .container.viewallrequests {
     margin-top: 30px;
 }
+
+.container.py-3.updatestudent {
+    margin-top: 40px;
+    margin-bottom: 50px;
+}
+
+
