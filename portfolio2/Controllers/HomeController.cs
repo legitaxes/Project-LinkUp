@@ -58,7 +58,7 @@ namespace portfolio2.Controllers
                  DateTime.Now.ToString());
                 if (studentContext.checkStudent(HttpContext.Session.GetString("StudentNumber")) == false)
                     return RedirectToAction("Create", "Student");
-                return RedirectToAction("Index","Session");
+                return RedirectToAction("StudentMain");
             }
             return RedirectToAction("Index");
         }

@@ -270,6 +270,12 @@ namespace portfolio2.Controllers
             ViewData["CategoryList"] = categoryContext.GetCategoryList();
             ViewData["LocationList"] = locationContext.GetLocationList();
             Session session = sessionContext.GetSessionDetails(id);
+            DateTime currenttime = DateTime.Now;
+            TimeSpan ts = session.SessionDate - currenttime;
+            if (ts.TotalHours < 2)
+            {
+                return RedirectToAction("DeleteRedirect", "Student");
+            }
             return View(session);
         }
 

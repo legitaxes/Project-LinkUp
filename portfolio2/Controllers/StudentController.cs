@@ -124,6 +124,7 @@ namespace portfolio2.Controllers
             });
             return hours;
         }
+
         [HttpGet]
         public ActionResult Create()
         {
@@ -160,7 +161,7 @@ namespace portfolio2.Controllers
             }
             ViewData["Message"] = "Something went wrong! Please try again!";
             ViewData["Courselist"] = DropDownCourse();
-            return View(student);
+            return RedirectToAction("StudentMain", "Student");
         }
 
         [HttpGet]
@@ -174,6 +175,7 @@ namespace portfolio2.Controllers
             StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetString("StudentNumber"));
             return View(student);
         }
+
         [HttpPost]
         public ActionResult Update(StudentDetails student)
         {
@@ -500,7 +502,6 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("DeleteRedirect", "Student");
             }
-
             ViewData["Hourlist"] = DropDownHours();
             ViewData["MaxCaplist"] = DropDownMaxCap();
             ViewData["Locationlist"] = DropDownLocation();
