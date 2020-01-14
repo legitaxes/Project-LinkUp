@@ -52,9 +52,10 @@ namespace portfolio2.Models
         public string CourseName { get; set; }
 
         [Display(Name = "Average rating")]
-        public int Rating { get; set; }
+        [DisplayFormat(DataFormatString = "{0:#0.0}")]
+        public double Rating { get; set; }
 
         [Display(Name = "Total amount of ratings")]
-        public int TotalRatings { get; set; }
+        public double TotalRatings { get; set; }
     }
 }

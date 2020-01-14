@@ -119,7 +119,12 @@ namespace portfolio2.Controllers
             {
                 ViewData["Owner"] = "This is the session owner";
             }
-
+            DateTime currenttime = DateTime.Now;
+            TimeSpan ts = session.SessionDate - currenttime;
+            if (ts.TotalHours < 2)
+            {
+                ViewData["Message"] = "You are not allowed to edit the session 2 hours before it starts and after it is over";
+            }
             StudentDetails sessionOwner = studentContext.GetStudentBasedOnSession(id);
             if (sessionOwner == null)
                 return RedirectToAction("Error", "Home");
@@ -274,7 +279,7 @@ namespace portfolio2.Controllers
             TimeSpan ts = session.SessionDate - currenttime;
             if (ts.TotalHours < 2)
             {
-                return RedirectToAction("DeleteRedirect", "Student");
+                return RedirectToAction("Details", new { id = session.SessionID });
             }
             return View(session);
         }
@@ -284,6 +289,13 @@ namespace portfolio2.Controllers
         {
             ViewData["CategoryList"] = categoryContext.GetCategoryList();
             ViewData["LocationList"] = locationContext.GetLocationList();
+            DateTime currenttime = DateTime.Now;
+            TimeSpan ts = session.SessionDate - currenttime;
+            if (ts.TotalHours < 48)
+            {
+                TempData["OutofDate"] = "You cannot set a session date 2 days before or before today!";
+                return RedirectToAction("Edit", new { id = session.SessionID });
+            }
             if (ModelState.IsValid)
             {
                 sessionContext.UpdateSession(session);
@@ -371,7 +383,7 @@ namespace portfolio2.Controllers
                     ViewData["Message"] = ex.Message;
                 }
             }
-            return View(session);
+            return RedirectToAction("Edit", new { id = session.SessionID });
         }
     }
 }

@@ -16,6 +16,7 @@ namespace portfolio2.Models
         public string Description { get; set; }
 
         [Display(Name = "Stars")]
+        [DisplayFormat(DataFormatString = "{0:#0.0}")]
         public int Stars { get; set; }
 
         [Display(Name = "Rating Date")]

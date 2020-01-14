@@ -157,11 +157,11 @@ namespace portfolio2.Controllers
                 HttpContext.Session.SetInt32("StudentID", student.StudentID);
                 //HttpContext.Session.SetString("Photo", student.Photo);
                 ViewData["Courselist"] = DropDownCourse();
-                return View(student);
+                return RedirectToAction("StudentMain", "Student");
             }
             ViewData["Message"] = "Something went wrong! Please try again!";
             ViewData["Courselist"] = DropDownCourse();
-            return RedirectToAction("StudentMain", "Student");
+            return View(student);
         }
 
         [HttpGet]
@@ -239,7 +239,32 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Error", "Home");
             }
             StudentDetails student = studentContext.GetStudentDetails(id);
-            if(student == null)
+            int studentid = student.StudentID;
+            List<StudentRating> studentratingList = studentratingContext.GetAllStudentRatings();
+            List<Rating> ratingList = ratingContext.GetAllRatings();
+            List<Review> reviewList = new List<Review>();
+            foreach (StudentRating currentstudentrating in studentratingList)
+            {
+                if (currentstudentrating.StudentID == studentid)
+                {
+                    foreach (Rating currentrating in ratingList)
+                    {
+                        if (currentstudentrating.RatingID == currentrating.RatingID)
+                        {
+                            reviewList.Add(
+                            new Review
+                            {
+                                Description = currentrating.Description,
+                                RatingDate = currentrating.RatingDate,
+                                Stars = currentrating.Stars
+                            });
+                        }
+                    }
+                }
+            }
+            ViewBag.List = reviewList;
+
+            if (student == null)
                 return RedirectToAction("Details");
             StudentViewModel studentVM = MapToCourseAndRating(student);
             return View(studentVM);
@@ -299,9 +324,9 @@ namespace portfolio2.Controllers
         public StudentViewModel MapToCourseAndRating(StudentDetails student)
         {
             string coursename = "";
-            int totalrating = 0;
-            int amountofratings = 0;
-            int averagerating = 0;
+            double totalrating = 0;
+            double amountofratings = 0;
+            double averagerating = 0;
 
             List<Course> courseList = courseContext.getAllCourse();
             foreach (Course currentcourse in courseList)

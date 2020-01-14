@@ -103,7 +103,15 @@
 <div>
     @if (ViewData["Owner"] != null) //checks whether the user is the owner of the session | not null = owner
     {
-        <a asp-controller="Session" asp-action="Edit" asp-route-id="@Model.SessionID">Edit This Session</a> @:|
+        @if (ViewData["Message"] == null)
+        {
+            <a asp-controller="Session" asp-action="Edit" asp-route-id="@Model.SessionID" class="btn btn-info">Edit This Session</a>
+        }
+        else
+        {
+            <p class="text-danger">@ViewData["Message"]</p>
+            <a asp-controller="Session" asp-action="Edit" asp-route-id="@Model.SessionID" class="btn btn-secondary btn-sm disabled" role="button" aria-disabled="true">Edit This Session</a> @:|
+        }
     }
     @if (ViewData["Owner"] == null)//checks whether the user is the owner of the session | null == not owner
     {
@@ -124,8 +132,16 @@
                     <input asp-for="StudentName" readonly hidden value="@Model.StudentName" />
                     <input asp-for="LocationName" readonly hidden value="@Model.LocationName" />
                     <input asp-for="CategoryName" readonly hidden value="@Model.CategoryName" />
-                    <input type="submit" value="Sign Up For This Session" />
-                </form> @: |
+                    @if (ViewData["Message"] == null)
+                    {
+                        <input type="submit" value="Sign Up For This Session" class="btn btn-success" />
+                    }
+                    else
+                    {
+                        <p class="text-danger">You can't sign up for a session 2 hours before</p>
+                        <input type="submit" value="Sign Up For This Session" class="btn btn-success" disabled />
+                    }
+                </form>
             }
             else
             {
@@ -142,10 +158,25 @@
                     <input asp-for="StudentName" readonly hidden value="@Model.StudentName" />
                     <input asp-for="LocationName" readonly hidden value="@Model.LocationName" />
                     <input asp-for="CategoryName" readonly hidden value="@Model.CategoryName" />
-                    <input type="submit" value="Cancel Sign Up" />
+                    @if (ViewData["Message"] == null)
+                    {
+                        <input type="submit" value="Cancel Sign Up" class="btn btn-danger" />
+                    }
+                    else
+                    {
+                        <p class="text-danger">You can't sign up for a session 2 hours before</p>
+                        <input type="submit" value="Cancel Sign Up" class="btn btn-danger" disabled />
+                    }
                 </form>
             }
         }
     }
-    <a asp-action="Index">Back to List</a>
+    @if (ViewData["Owner"] != null)
+    {
+        <a asp-action="MySession" class="btn btn-secondary">Back to List</a>
+    }
+    else
+    {
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    }
 </div>

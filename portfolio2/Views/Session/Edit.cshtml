@@ -29,7 +29,14 @@ else if (ViewData["Error"] != null)
             <div class="form-group">
                 <label asp-for="SessionDate" class="control-label"></label>
                 <input asp-for="SessionDate" class="form-control" />
-                <span asp-validation-for="SessionDate" class="text-danger"></span>
+                @if (TempData["OutofDate"] != null)
+                {
+                    <span asp-validation-for="SessionDate" class="text-danger">@TempData["OutofDate"]</span>
+                }
+                else
+                {
+                    <span asp-validation-for="SessionDate" class="text-danger"></span>
+                }
             </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -44,7 +51,8 @@ else if (ViewData["Error"] != null)
             <div class="form-group">
                 <label asp-for="Photo" class="control-label"></label>
                 <img src="~/images/Sessions/@Model.Photo" />
-                <a class="btn btn-warning btn-sm" asp-controller="Session" asp-action="UploadSessionPhoto">Upload Session Photo</a>
+                <a class="btn btn-warning btn-sm" asp-controller="Session" asp-action="UploadSessionPhoto" asp-route-id="@Model.SessionID">Upload Session Photo</a>
+                <input asp-for="Photo" hidden readonly />
             </div>
             <div class="form-group">
                 <label asp-for="Hours" class="control-label"></label>

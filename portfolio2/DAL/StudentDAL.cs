@@ -380,7 +380,7 @@ namespace portfolio2.DAL
             {
                 cmd.Parameters.AddWithValue("@description", student.Description);
             }
-            cmd.Parameters.AddWithValue("@points", DBNull.Value);
+            cmd.Parameters.AddWithValue("@points", 0);
             cmd.Parameters.AddWithValue("@courseID", student.CourseID);
             conn.Open();
             student.StudentID = (int)cmd.ExecuteScalar();
