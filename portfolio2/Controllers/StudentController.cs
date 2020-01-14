@@ -157,7 +157,7 @@ namespace portfolio2.Controllers
                 HttpContext.Session.SetInt32("StudentID", student.StudentID);
                 //HttpContext.Session.SetString("Photo", student.Photo);
                 ViewData["Courselist"] = DropDownCourse();
-                return RedirectToAction("StudentMain", "Student");
+                return RedirectToAction("StudentMain", "Home");
             }
             ViewData["Message"] = "Something went wrong! Please try again!";
             ViewData["Courselist"] = DropDownCourse();
