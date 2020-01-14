@@ -45,15 +45,15 @@
                             <div class="col-lg-9">
                                 @if (Context.Session.GetString("Photo") != null)
                                 {
-                                    <img src="~/images/Profilepictures/@(Context.Session.GetString("Photo"))" width="400">
+                                    <img src="~/images/Profilepictures/@(Context.Session.GetString("Photo"))" width="300" class="border border-secondary rounded">
                                 }
                                 else
                                 {
-                                    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="400">
+                                    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="300" class="border border-secondary rounded">
                                 }
 
                                 <p></p>
-                                <a class="btn btn-warning btn-sm" asp-controller="Student" asp-action="Photo">Upload Profile Photo</a>
+                                <a class="btn btn btn-link btn-sm" asp-controller="Student" asp-action="Photo">Upload Profile Photo</a>
                             </div>
                             <input asp-for="Photo" class="form-control" readonly hidden />
                         </div>
@@ -81,7 +81,7 @@
                         <div class="form-group row">
                             <label asp-for="Description" class="col-lg-3 col-form-label form-control-label">Description</label>
                             <div class="col-lg-9">
-                                <input asp-for="Description" class="form-control" />
+                                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
                         </div>
@@ -94,8 +94,9 @@
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label"></label>
                             <div class="col-lg-9">
-                                <input type="Submit" class="btn btn-primary" value="Save Changes">
                                 <a href='javascript:history.go(-1)' class="btn btn-secondary">Back</a>
+                                <input type="Submit" class="btn btn-primary" value="Save Changes">
+
                             </div>
                         </div>
                     </form>
