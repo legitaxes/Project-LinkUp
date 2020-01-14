@@ -95,8 +95,8 @@ body{
 
   border: 2px solid #A2A3BB;
   padding: 3%;
-  margin-top: 2%;
-  margin-bottom: 9%;
+  margin-top: 2.5%;
+  margin-bottom: 2%;
   border-radius: 0.5rem;
   background: #fff;
 
@@ -187,8 +187,8 @@ body{
 
 
 section.title {
-    background-color: lightgray;
-    padding-top: 2%;
+    background-color: #ccccff;
+    padding-top: 1%;
     padding-bottom: 2%;
 }
 
@@ -200,11 +200,11 @@ section.title {
 
 /*VIEW ALL REQUESTS/ MY SESSIONS*/
 
-.container.myrequestsheader{
-
+.container.myrequestsheader {
+    margin-top: 30px;
 }
 
 
-.container.viewallrequests{
-
+.container.viewallrequests {
+    margin-top: 30px;
 }
