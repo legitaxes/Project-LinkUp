@@ -6,7 +6,7 @@
 }
 
 
-<div class="container py-3 makesession">
+<div class="container py-3 ">
     @if (ViewData["Message"] != null)
     {
         <h3 class="text-danger" style="text-align:center;">@ViewData["Message"]</h3>
@@ -24,13 +24,20 @@
                     <h3 class="mb-0">Create Session</h3>
                 </div>
                 <div class="card-body">
-                    <form asp-action="Create" class="form" role="form" onsubmit="return confirm('Confirm Creation?');" autocomplete="off">
+                    <form asp-action="Create" class="form" role="form" onsubmit="return confirm('Confirm Creation? Changes cannot be made after confirmation!');" autocomplete="off">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group row">
                             <label label asp-for="SessionDate" class="col-lg-3 col-form-label form-control-label">Session Date</label>
                             <div class="col-lg-9">
                                 <input asp-for="SessionDate" class="form-control" />
-                                <span asp-validation-for="SessionDate" class="text-danger"></span>
+                                @if (ViewData["Error"] == null)
+                                {
+                                    <span asp-validation-for="SessionDate" class="text-danger">@ViewData["Error"]</span>
+                                }
+                                else
+                                {
+                                    <span asp-validation-for="SessionDate" class="text-danger"></span>
+                                }
                             </div>
                         </div>
                         <div class="form-group row">

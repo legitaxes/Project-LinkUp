@@ -121,9 +121,14 @@ namespace portfolio2.Controllers
             }
             DateTime currenttime = DateTime.Now;
             TimeSpan ts = session.SessionDate - currenttime;
-            if (ts.TotalHours < 2)
+            if (ts.TotalHours < 2) //checks whether the session is 2 hours before
             {
-                ViewData["Message"] = "You are not allowed to edit the session 2 hours before it starts and after it is over";
+                ViewData["Message"] = "You are not allowed to cancel the session 2 hours before it starts";
+            }
+            var sesover = session.SessionDate + TimeSpan.FromHours(session.Hours); //adds number of hours of a session to sessiondate of session, this gives the time the session ends
+            if ((sesover - DateTime.Now).TotalHours <= 0) //take sesover deduct datetime.now, it should give negative number: meaning it is way past the session time. 
+            {                                             //if it is positive: the session is not over/not yet begun). ||(USE BREAKPOINTS HERE TO UNDERSTAND)||
+                ViewData["SessionOver"] = "The session is over... Click to mark as complete"; 
             }
             StudentDetails sessionOwner = studentContext.GetStudentBasedOnSession(id);
             if (sessionOwner == null)
@@ -147,7 +152,7 @@ namespace portfolio2.Controllers
         }
 
         [HttpPost]
-        public ActionResult CancelSession(SessionViewModel session)
+        public ActionResult CancelSignUp(SessionViewModel session)
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
@@ -155,7 +160,7 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Error", "Home");
             }
             int bookingid = sessionContext.GetBookingID(HttpContext.Session.GetInt32("StudentID"), session.SessionID);
-            TempData["Cancel"] = "Cancelled Successfully";
+            TempData["Cancel"] = "Sign up Cancelled Successfully";
             sessionContext.RemoveStudentBooking(HttpContext.Session.GetInt32("StudentID"), bookingid);
             sessionContext.RemoveBooking(bookingid);
             sessionContext.UpdateSessionParticipant(session.Participants - 1, session.SessionID);
@@ -243,6 +248,13 @@ namespace portfolio2.Controllers
             session.Status = 'N';
             if (ModelState.IsValid)
             {
+                DateTime currenttime = DateTime.Now;
+                TimeSpan ts = session.SessionDate - currenttime;
+                if (ts.TotalHours < 1)
+                {
+                    ViewData["Error"] = "You cannot create a session 1 hour before now!";
+                    return View(session);
+                }
                 session.SessionID = sessionContext.CreateSession(session);
                 ViewData["Message"] = "Session Posted Successfully!";
                 session.DateCreated = DateTime.Now;
@@ -257,7 +269,7 @@ namespace portfolio2.Controllers
             }
         }
 
-        public ActionResult Edit(int? id)
+        public ActionResult Cancel(int? id) //cancels the session if you're the session owner 
         {
             if ((HttpContext.Session.GetString("Role") == null) || //if the user is not logged in and tried to access the page, return to the error page
             (HttpContext.Session.GetString("Role") != "Student"))
@@ -277,38 +289,69 @@ namespace portfolio2.Controllers
             Session session = sessionContext.GetSessionDetails(id);
             DateTime currenttime = DateTime.Now;
             TimeSpan ts = session.SessionDate - currenttime;
-            if (ts.TotalHours < 2)
+            if (ts.TotalHours < 2) //checks whether the session is 2 hours before
             {
+                TempData["CannotCancel"] = "You cannot cancel any session 2 hours before it starts";
                 return RedirectToAction("Details", new { id = session.SessionID });
             }
-            return View(session);
+            session.Status = 'Y';
+            sessionContext.UpdateSession(session);
+            TempData["Cancel"] = "This session has been cancelled";
+            return RedirectToAction("Details", new { id = session.SessionID });
         }
 
-        [HttpPost]
-        public ActionResult Edit(Session session)
-        {
-            ViewData["CategoryList"] = categoryContext.GetCategoryList();
-            ViewData["LocationList"] = locationContext.GetLocationList();
-            DateTime currenttime = DateTime.Now;
-            TimeSpan ts = session.SessionDate - currenttime;
-            if (ts.TotalHours < 48)
-            {
-                TempData["OutofDate"] = "You cannot set a session date 2 days before or before today!";
-                return RedirectToAction("Edit", new { id = session.SessionID });
-            }
-            if (ModelState.IsValid)
-            {
-                sessionContext.UpdateSession(session);
-                ViewData["Message"] = "Session Updated Successfully!";
-                return View(session);
-            }
-            else
-            {
-                ViewData["Error"] = "There is an invalid field. Please Try Again!";
-                return View(session);
-            }
+        //public ActionResult Edit(int? id)
+        //{
+        //    if ((HttpContext.Session.GetString("Role") == null) || //if the user is not logged in and tried to access the page, return to the error page
+        //    (HttpContext.Session.GetString("Role") != "Student"))
+        //    {
+        //        return RedirectToAction("Error", "Home");
+        //    }
+        //    else if (id == null) //if the id cannot be found, return to the error page 
+        //    {
+        //        return RedirectToAction("Error", "Home");
+        //    }
+        //    else if (sessionContext.CheckSessionOwner(id, HttpContext.Session.GetInt32("StudentID")) == false) //check if the session is the owner of the session
+        //    {
+        //        return RedirectToAction("Error", "Home");
+        //    }
+        //    ViewData["CategoryList"] = categoryContext.GetCategoryList();
+        //    ViewData["LocationList"] = locationContext.GetLocationList();
+        //    Session session = sessionContext.GetSessionDetails(id);
+        //    DateTime currenttime = DateTime.Now;
+        //    TimeSpan ts = session.SessionDate - currenttime;
+        //    if (ts.TotalHours < 2)
+        //    {
+        //        return RedirectToAction("Details", new { id = session.SessionID });
+        //    }
+        //    return View(session);
+        //}
 
-        }
+        //[HttpPost]
+        //public ActionResult Edit(Session session)
+        //{
+        //    ViewData["CategoryList"] = categoryContext.GetCategoryList();
+        //    ViewData["LocationList"] = locationContext.GetLocationList();
+        //    DateTime currenttime = DateTime.Now;
+        //    TimeSpan ts = session.SessionDate - currenttime;
+        //    if (ts.TotalHours < 48)
+        //    {
+        //        TempData["OutofDate"] = "You cannot set a session date 2 days before or before today!";
+        //        return RedirectToAction("Edit", new { id = session.SessionID });
+        //    }
+        //    if (ModelState.IsValid)
+        //    {
+        //        sessionContext.UpdateSession(session);
+        //        ViewData["Message"] = "Session Updated Successfully!";
+        //        return View(session);
+        //    }
+        //    else
+        //    {
+        //        ViewData["Error"] = "There is an invalid field. Please Try Again!";
+        //        return View(session);
+        //    }
+
+        //}
 
         public ActionResult MySession() //views session that user has created
         {
@@ -383,7 +426,8 @@ namespace portfolio2.Controllers
                     ViewData["Message"] = ex.Message;
                 }
             }
-            return RedirectToAction("Edit", new { id = session.SessionID });
+            TempData["Success"] = "Photo has been uploaded successfully";
+            return RedirectToAction("Details", new { id = session.SessionID });
         }
     }
 }

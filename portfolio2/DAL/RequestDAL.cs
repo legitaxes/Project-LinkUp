@@ -55,7 +55,7 @@ namespace portfolio2.DAL
             return request.RequestID;
         }
 
-        public int EditRequest(Request request)
+        /*public int EditRequest(Request request)
         {
             SqlCommand cmd = new SqlCommand
             ("UPDATE Request SET Description = @description, Title = @title, AvailabilityFrom = @availabilityfrom, Hours = @hours, MaxCap = @maxcap, PointsEarned = @pointsearned, Status = @status, LocationID = @locationid WHERE RequestID = @selectedrequestID", conn);
@@ -75,7 +75,7 @@ namespace portfolio2.DAL
 
             return count;
         }
-
+        */
         //deletes record from database
         public int DeleteStudentRequest(int studentid, int requestid)
         {

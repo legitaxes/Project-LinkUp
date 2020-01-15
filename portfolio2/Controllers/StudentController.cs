@@ -157,7 +157,7 @@ namespace portfolio2.Controllers
                 HttpContext.Session.SetInt32("StudentID", student.StudentID);
                 //HttpContext.Session.SetString("Photo", student.Photo);
                 ViewData["Courselist"] = DropDownCourse();
-                return RedirectToAction("StudentMain", "Student");
+                return RedirectToAction("StudentMain", "Home");
             }
             ViewData["Message"] = "Something went wrong! Please try again!";
             ViewData["Courselist"] = DropDownCourse();
@@ -456,7 +456,7 @@ namespace portfolio2.Controllers
             return View();
         }
 
-        public ActionResult EditRequest(int? id)
+        /*public ActionResult EditRequest(int? id)
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
            (HttpContext.Session.GetString("Role") != "Student"))
@@ -506,7 +506,7 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Myrequests", "Student");
             }
             return View(request);
-        }
+        }*/
 
         public ActionResult DeleteRequest(int? id)
         {
@@ -523,7 +523,8 @@ namespace portfolio2.Controllers
             }
             DateTime currenttime = DateTime.Now;
             TimeSpan ts = request.AvailabilityFrom - currenttime;
-            if (ts.TotalHours < 2)
+            double hours = ts.TotalHours;
+            if (hours < 72)
             {
                 return RedirectToAction("DeleteRedirect", "Student");
             }
@@ -560,8 +561,16 @@ namespace portfolio2.Controllers
             }
             int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
             List<Request> allrequestsList = requestContext.GetMyRequests(HttpContext.Session.GetInt32("StudentID"));
+            if (allrequestsList.Count == 0)
+            {
+                ViewData["MyRequestEmpty"] = "It doesn't seem like you have created any request...";
+            }
             List<RequestViewModel> allrequestviewmodelList = MapToStudentAndLocation(allrequestsList);
             List<JoinedRequests> myjoinedrequestsList = requestContext.GetMyJoinedRequests(studentid);
+            if(myjoinedrequestsList.Count == 0)
+            {
+                ViewData["JoinedRequestEmpty"] = "It doesn't seem like you have joined any request...";
+            }
             ViewBag.List = myjoinedrequestsList;
             return View(allrequestviewmodelList);
         }
