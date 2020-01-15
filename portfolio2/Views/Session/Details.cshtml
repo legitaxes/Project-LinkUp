@@ -34,8 +34,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="session-img">
-                                @Html.DisplayFor(model => model.Photo)
-
+                               <img src="~/images/Sessions/@Model.Photo" />
                             </div>
                         </div>
                     </div>
@@ -53,9 +52,21 @@
                     <div class="session-finished">
                         <i class="fa fa-check-circle-o"></i>
                         <div class="text">
-                            <h6>@Html.DisplayFor(model => model.Status)</h6>
+                            @{string status;
+                                    if (Model.Status == 'N')
+                                    {
+                                        status = "Not Completed";
+                                    }
+                                    else
+                                    {
+                                        status = "Completed";
+                                    } 
+                            }
+
+                            <h6>@status</h6>
                         </div>
-                  
+
+
 
 
 
@@ -122,17 +133,32 @@
 
                     </div>
 
-
-
-
                     <div class="session-buttons">
+                        @if (ViewData["Owner"] != null) //checks whether the user is the owner of the session | not null = owner
+                        {
+                            @if (ViewData["Message"] != null) //checks whether the sesson is 2 hours before, null = it is 2 hours before
+                            {
+                                <h5 class="text-danger">@ViewData["Message"]</h5>
+                                <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-danger disabled" role="button" aria-disabled="true">Cancel Session</a>
+                            }
 
+                            else if (Model.Status == 'N') //checks whether the viewdata message for cancel is null and checks whether the status is "N" (N means that it is still ongoing)
+                            {
+                                <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-info" onclick="return confirm('Are you sure you want to cancel the session?')">Cancel Session</a>
+                            }
+                            else
+                            {
+                                <p class="text-danger">This session is cancelled... </p>
+                                <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-danger disabled" role="button" aria-disabled="true">Cancel Session</a>
+                            }
+                        }
                         @if (ViewData["Owner"] == null)//checks whether the user is the owner of the session | null == not owner
                         {
+
                             @if (ViewData["Session"] == null) //checks whether the user is logged in | null == logged in
                             {
                                 <a href="https://teams.microsoft.com/l/chat/0/0?users=@ViewData["SessionStudentNumber"]@@connect.np.edu.sg" target="_blank" class="btn btn-primary">Chat on Microsoft Teams</a>
-                                <div>
+                                @:<div>
                                     @if (ViewData["CheckSignUp"] == null) //checks whether the user has already signed up for the session, if not go to else
                                     {
                                         <form asp-action="Details" method="post" onsubmit="return confirm('Are you sure you want to signup for this session?');">
@@ -147,206 +173,66 @@
                                             <input asp-for="StudentName" readonly hidden value="@Model.StudentName" />
                                             <input asp-for="LocationName" readonly hidden value="@Model.LocationName" />
                                             <input asp-for="CategoryName" readonly hidden value="@Model.CategoryName" />
-
                                             @if (ViewData["Message"] == null)
                                             {
-                                                <div>
-   
-                                                    @if (ViewData["Owner"] != null)
-                                                    {
-                                                        <a asp-action="MySession" class="btn btn-secondary">Back</a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <a asp-action="Index" class="btn btn-secondary">Back</a>
-                                                    }
-
-                                                    <p class="text-danger">You can't sign up for a session 2 hours before</p>
-                                                    <input type="submit" value="Sign Up" class="btn btn-success" />
-                                                </div>
-                                            }
-                                            else
-                                            {
-
-                                                <div>
-                                                 
-                                                    @if (ViewData["Owner"] != null)
-                                                    {
-                                                        <a asp-action="MySession" class="btn btn-secondary">Back</a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <a asp-action="Index" class="btn btn-secondary">Back</a>
-                                                    }
-                                         
-                                                    <input type="submit" value="Sign Up" class="btn btn-success" disabled />
-                                                </div>
-
-                                            }
-                                        </form>
-                                    }
-                                    else
-                                    {
-                                        <p style="color:lawngreen; font-weight:bold;">You have signed up for this!</p>
-                                        <form asp-action="CancelSignup" method="post" onsubmit="return confirm('Are you sure you want to cancel the session?');">
-                                            <input asp-for="SessionID" readonly hidden value="@Model.SessionID" />
-                                            <input asp-for="SessionDate" readonly hidden value="@Model.SessionDate" />
-                                            <input asp-for="Name" readonly hidden value="@Model.Name" />
-                                            <input asp-for="Description" readonly hidden value="@Model.Description" />
-                                            <input asp-for="Photo" readonly hidden value="@Model.Photo" />
-                                            <input asp-for="Hours" readonly hidden value="@Model.Hours" />
-                                            <input asp-for="Participants" readonly hidden value="@Model.Participants" />
-                                            <input asp-for="Status" readonly hidden value="@Model.Status" />
-                                            <input asp-for="StudentName" readonly hidden value="@Model.StudentName" />
-                                            <input asp-for="LocationName" readonly hidden value="@Model.LocationName" />
-                                            <input asp-for="CategoryName" readonly hidden value="@Model.CategoryName" />
-                                            @if (ViewData["Message"] == null)
-                                            {
-                                                <input type="submit" value="Cancel Sign Up" class="btn btn-danger" />
+                                                <input type="submit" value="Sign Up For This Session" class="btn btn-success" />
                                             }
                                             else
                                             {
                                                 <p class="text-danger">You can't sign up for a session 2 hours before</p>
-                                                <input type="submit" value="Cancel Sign Up" class="btn btn-danger" disabled />
+                                                <input type="submit" value="Sign Up For This Session" class="btn btn-success" disabled />
                                             }
                                         </form>
-                                    }
-                                </div>
-
+                                    @:</div>
+                                }
+                                else
+                                {
+                                    <p style="color:lawngreen; font-weight:bold;">You have signed up for this!</p>
+                                    <form asp-action="CancelSignup" method="post" onsubmit="return confirm('Are you sure you want to cancel the session?');">
+                                        <input asp-for="SessionID" readonly hidden value="@Model.SessionID" />
+                                        <input asp-for="SessionDate" readonly hidden value="@Model.SessionDate" />
+                                        <input asp-for="Name" readonly hidden value="@Model.Name" />
+                                        <input asp-for="Description" readonly hidden value="@Model.Description" />
+                                        <input asp-for="Photo" readonly hidden value="@Model.Photo" />
+                                        <input asp-for="Hours" readonly hidden value="@Model.Hours" />
+                                        <input asp-for="Participants" readonly hidden value="@Model.Participants" />
+                                        <input asp-for="Status" readonly hidden value="@Model.Status" />
+                                        <input asp-for="StudentName" readonly hidden value="@Model.StudentName" />
+                                        <input asp-for="LocationName" readonly hidden value="@Model.LocationName" />
+                                        <input asp-for="CategoryName" readonly hidden value="@Model.CategoryName" />
+                                        @if (ViewData["Message"] == null)
+                                        {
+                                            <input type="submit" value="Cancel Sign Up" class="btn btn-danger" />
+                                        }
+                                        else
+                                        {
+                                            <p class="text-danger">You can't sign up for a session 2 hours before</p>
+                                            <input type="submit" value="Cancel Sign Up" class="btn btn-danger" disabled />
+                                        }
+                                    </form>
+                                }
+                             }
+                         }        
+                        <div>
+                            @if (ViewData["Owner"] != null)
+                            {
+                                <a asp-action="MySession" class="btn btn-secondary">Back</a>
                             }
-                        }
-
+                            else
+                            {
+                                <a asp-action="Index" class="btn btn-secondary">Back</a>
+                            }
+                        </div>
                     </div>
-
-
-
-
-
                 </div>
             </div>
         </div>
-
-
-
-
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
            @*@<h2>Details</h2>
 
-<div>
-    <h4>SessionViewModel</h4>
-    <hr />
-    @if (TempData["Cancel"] != null)
-    {
-        <img src="~/images/Icons/sad1.png" style="max-width:20%; height:auto; display:block; margin-right:auto; margin-left: auto;">
-        <div style="text-align: center;">
-            <h4>@TempData["Cancel"]</h4>
-        </div>
-    }
-    @if (TempData["CannotCancel"] != null)
-    {
-        <h4 class="text-danger">@TempData["CannotCancel"]</h4>
-    }
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.SessionID)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.SessionID)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.SessionDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.SessionDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Photo)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Photo)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Hours)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Hours)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Participants)
-        </dt>
-        <dd>
-            @if (ViewData["Owner"] != null)
-             {
-                <a asp-controller="Session" asp-action="ViewSessionParticipant" asp-route-id="@Model.SessionID">@Html.DisplayFor(model => model.Participants) Participant</a>
-             }
-            else
-            {
-                @Html.DisplayFor(model => model.Participants)@: Participant
-            }
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.StudentName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.StudentName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.LocationName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.LocationName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CategoryName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CategoryName)
-        </dd>
-    </dl>
-</div>
 <div>
     @if (ViewData["Owner"] != null) //checks whether the user is the owner of the session | not null = owner
     {
