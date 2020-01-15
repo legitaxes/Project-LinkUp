@@ -199,11 +199,11 @@ namespace portfolio2.Controllers
             }
             StudentDetails sessionOwner = studentContext.GetStudentBasedOnSession(id); //gets session owner details
             sessionContext.MarkSessionAsComplete(id); //sets session table --> "Status" as 'Y'
-            //if (currentSession.Participants != 0) //only give points if there is at least 1 participant
-            //{
-            studentContext.UpdateStudentPoints(sessionOwner.StudentID, sessionOwner.Points + currentSession.Points);
-            //}
-            return View();
+            if (currentSession.Participants != 0) //only give points if there is at least 1 participant
+            {
+                studentContext.UpdateStudentPoints(sessionOwner.StudentID, sessionOwner.Points + currentSession.Points);
+            }
+            return RedirectToAction("MySession");
         }
 
         public SessionPhoto MapToSingleSessionVM(Session session)

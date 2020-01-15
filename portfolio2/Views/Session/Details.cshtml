@@ -53,17 +53,26 @@
                         <i class="fa fa-check-circle-o"></i>
                         <div class="text">
                             @{string status;
-                                    if (Model.Status == 'N')
-                                    {
-                                        status = "Not Completed";
+                                string color = "";
+
+                                if (Model.Status == 'N')
+                                {
+                                    status = "Not Completed";
+                                    color = "style='color: red; font-weight: bold;'";
+                                }
+                                else
+                                {
+                                    status = "Completed";
+                                    color = "style='color: darkgreen; font-weight: bold;'";
+                                    @if (ViewData["Message"] == null) //if the session is cancelled, set status to cancelled and style color to darkred
+                                    {                               //this checks whether the session is more than 2 hours before it starts - more than 2 hours && session status == 'Y'
+                                        status = "Cancelled";
+                                        color = "style='color: darkred; font-weight: bold;'";
                                     }
-                                    else
-                                    {
-                                        status = "Completed";
-                                    } 
+                                }
                             }
 
-                            <h6>@status</h6>
+                            <h6 @Html.Raw(color)>@status</h6>
                         </div>
 
 
@@ -138,29 +147,35 @@
                         {
                             @if (ViewData["SessionOver"] != null) //not null = session is over
                             {
-                                <h5 class="text-danger">@ViewData["SessionOver"]</h5>
-                                <a asp-controller="Session" asp-action="MarkSessionComplete" class="btn btn-success" asp-route-id="@Model.SessionID" onclick="return confirm('Are you sure you want to mark this session as complete?')">Mark Session Complete</a>
+                                @if(Model.Status == 'N')
+                                { 
+                                    <h5 class="text-danger">@ViewData["SessionOver"]</h5>
+                                    <a asp-controller="Session" asp-action="MarkSessionComplete" class="btn btn-success" asp-route-id="@Model.SessionID" onclick="return confirm('Are you sure you want to mark this session as complete?')">Mark Session Complete</a>
+                                }
                             }
-                            else //else session is not over
+                            else //else session is not over - session is still ongoing
                             {
-                                <a asp-controller="Session" asp-action="MarkSessionComplete" class="btn btn-success disabled" asp-route-id="@Model.SessionID" onclick="return confirm('Are you sure you want to mark this session as complete?')">Mark Session Complete</a>
+                                @if (ViewData["Message"] != null)
+                                {
+                                    <a asp-controller="Session" asp-action="MarkSessionComplete" class="btn btn-secondary disabled" asp-route-id="@Model.SessionID" onclick="return confirm('Are you sure you want to mark this session as complete?')">Mark Session Complete</a>
+                                }
                             }
                             @if (ViewData["Message"] != null) //checks whether the sesson is 2 hours before, null = it is 2 hours before
                             {
                                 if (ViewData["SessionOver"] == null)
                                 {
-                                <h5 class="text-danger">@ViewData["Message"]</h5>
-                                <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-danger disabled" role="button" aria-disabled="true">Cancel Session</a>
+                                    <h5 class="text-danger">@ViewData["Message"]</h5>
+                                    <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-secondary disabled" role="button" aria-disabled="true">Cancel Session</a>
                                 }
                             }
                             else if (Model.Status == 'N') //checks whether the viewdata message for cancel is null and checks whether the status is "N" (N means that it is still ongoing)
-                            {
-                                <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-info" onclick="return confirm('Are you sure you want to cancel the session?')">Cancel Session</a>
+                            {                           //this means that the session time is not less than 2 hours - current time, also checks whether the status is not completed
+                                <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-danger" onclick="return confirm('Are you sure you want to cancel the session?')">Cancel Session</a>
                             }
                             else
                             {
-                                <p class="text-danger">This session is cancelled... </p>
-                                <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-danger disabled" role="button" aria-disabled="true">Cancel Session</a>
+                                <h5 class="text-danger">This session has been cancelled... </h5> //thinking to remove the bottom code line
+                                <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-secondary disabled" role="button" aria-disabled="true">Cancel Session</a>
                             }
                         }
                         @if (ViewData["Owner"] == null)//checks whether the user is the owner of the session | null == not owner
@@ -189,8 +204,8 @@
                                             }
                                             else
                                             {
-                                                <p class="text-danger">You can't sign up for a session 2 hours before</p>
-                                                <input type="submit" value="Sign Up For This Session" class="btn btn-success" disabled />
+                                                <p class="text-danger">You can't sign up for a session that is happening 2 hours later</p>
+                                                <input type="submit" value="Sign Up For This Session" class="btn btn-secondary" disabled />
                                             }
                                         </form>
                                     @:</div>
@@ -217,7 +232,7 @@
                                         else
                                         {
                                             <p class="text-danger">You can't sign up for a session 2 hours before</p>
-                                            <input type="submit" value="Cancel Sign Up" class="btn btn-danger" disabled />
+                                            <input type="submit" value="Cancel Sign Up" class="btn btn-secondary" disabled />
                                         }
                                     </form>
                                 }
