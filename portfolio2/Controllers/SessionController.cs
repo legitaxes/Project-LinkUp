@@ -99,38 +99,41 @@ namespace portfolio2.Controllers
 
         public ActionResult Details(int id)
         {
-            if (id == null)
+            if (id == null) // if id is null
             {
                 return RedirectToAction("Error", "Home");
             }
             Session session = sessionContext.GetSessionDetails(id);
-            if (session == null)
+            if (session == null) //if session is not found in the database
             {
                 return RedirectToAction("Error", "Home");
             }
             SessionPhoto currentSession = MapToSingleSessionVM(session);
-            bool checksignup = sessionContext.CheckSignUp(id, HttpContext.Session.GetInt32("StudentID"));
-            if (checksignup == true) //checks whether the user have already signed up for the session
-            {
-                ViewData["CheckSignUp"] = "The User have signed up";
-            }
-            bool owner = sessionContext.CheckSessionOwner(id, HttpContext.Session.GetInt32("StudentID"));
+            bool owner = sessionContext.CheckSessionOwner(id, HttpContext.Session.GetInt32("StudentID")); //checks whether the session is the session owner
             if (owner == true) //checks whether the session is created by the user
             {
                 ViewData["Owner"] = "This is the session owner";
             }
+            else //else, - not owner.. check whether the user have already signup for the session
+            {
+                bool checksignup = sessionContext.CheckSignUp(id, HttpContext.Session.GetInt32("StudentID"));
+                if (checksignup == true) //checks whether the user have already signed up for the session
+                {
+                    ViewData["CheckSignUp"] = "The User have signed up";
+                }
+            }
             DateTime currenttime = DateTime.Now;
             TimeSpan ts = session.SessionDate - currenttime;
-            if (ts.TotalHours < 2) //checks whether the session is 2 hours before
+            if (ts.TotalHours < 2) //checks whether the session is 2 hours before || this is used for cancelling sign up (users) or cancelling session (session owner) 
             {
-                ViewData["Message"] = "You are not allowed to cancel the session 2 hours before it starts";
+                ViewData["Message"] = "You are not allowed to cancel the session 2 hours before and during the session!";
             }
             var sesover = session.SessionDate + TimeSpan.FromHours(session.Hours); //adds number of hours of a session to sessiondate of session, this gives the time the session ends
             if ((sesover - DateTime.Now).TotalHours <= 0) //take sesover deduct datetime.now, it should give negative number: meaning it is way past the session time. 
-            {                                             //if it is positive: the session is not over/not yet begun). ||(USE BREAKPOINTS HERE TO UNDERSTAND)||
+            {                                             //if it is positive: the session is not over/not yet begun. ||(USE BREAKPOINTS HERE TO UNDERSTAND)||
                 ViewData["SessionOver"] = "The session is over... Click to mark as complete"; 
             }
-            StudentDetails sessionOwner = studentContext.GetStudentBasedOnSession(id);
+            StudentDetails sessionOwner = studentContext.GetStudentBasedOnSession(id); //this gets the student details of the session owner!
             if (sessionOwner == null)
                 return RedirectToAction("Error", "Home");
             ViewData["SessionStudentNumber"] = sessionOwner.StudentNumber;
@@ -174,6 +177,32 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
+            return View();
+        }
+
+        public ActionResult MarkSessionComplete(int id)
+        {
+            if (id == null) //return to error page if user tries enter the page without any id
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            Session session = sessionContext.GetSessionDetails(id);
+            if (session == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            SessionPhoto currentSession = MapToSingleSessionVM(session);
+            bool owner = sessionContext.CheckSessionOwner(id, HttpContext.Session.GetInt32("StudentID")); //checks whether the session is the session owner || false = not owner
+            if (owner == false) //checks whether the session is the session owner, ONLY SESSION OWNER CAN MARK THEIR OWN SESSION COMPLETE
+            {                   // this check ensures that the user who tries to cheat his way through url manipulation will not even get pass here
+                return RedirectToAction("Error", "Home");
+            }
+            StudentDetails sessionOwner = studentContext.GetStudentBasedOnSession(id); //gets session owner details
+            sessionContext.MarkSessionAsComplete(id); //sets session table --> "Status" as 'Y'
+            //if (currentSession.Participants != 0) //only give points if there is at least 1 participant
+            //{
+            studentContext.UpdateStudentPoints(sessionOwner.StudentID, sessionOwner.Points + currentSession.Points);
+            //}
             return View();
         }
 

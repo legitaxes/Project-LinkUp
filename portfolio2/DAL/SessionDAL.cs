@@ -411,7 +411,18 @@ namespace portfolio2.DAL
             return session.SessionID;
         }
 
-        public List<Session> FilteredSession(int? categoryID)
+        public int MarkSessionAsComplete(int sessionid) //marks a session complete by setting the status to 'Y'
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE Session SET Status = 'Y'" +
+            " WHERE SessionID = @selectedsessionid", conn);
+            cmd.Parameters.AddWithValue("@selectedsessionid", sessionid);
+            conn.Open();
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+            return count;
+        }
+
+        public List<Session> FilteredSession(int? categoryID) //gets a list of ses
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE CategoryID = @selectedcategoryID", conn);
             cmd.Parameters.AddWithValue("@selectedcategoryID", categoryID);

@@ -136,12 +136,23 @@
                     <div class="session-buttons">
                         @if (ViewData["Owner"] != null) //checks whether the user is the owner of the session | not null = owner
                         {
+                            @if (ViewData["SessionOver"] != null) //not null = session is over
+                            {
+                                <h5 class="text-danger">@ViewData["SessionOver"]</h5>
+                                <a asp-controller="Session" asp-action="MarkSessionComplete" class="btn btn-success" asp-route-id="@Model.SessionID" onclick="return confirm('Are you sure you want to mark this session as complete?')">Mark Session Complete</a>
+                            }
+                            else //else session is not over
+                            {
+                                <a asp-controller="Session" asp-action="MarkSessionComplete" class="btn btn-success disabled" asp-route-id="@Model.SessionID" onclick="return confirm('Are you sure you want to mark this session as complete?')">Mark Session Complete</a>
+                            }
                             @if (ViewData["Message"] != null) //checks whether the sesson is 2 hours before, null = it is 2 hours before
                             {
+                                if (ViewData["SessionOver"] == null)
+                                {
                                 <h5 class="text-danger">@ViewData["Message"]</h5>
                                 <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-danger disabled" role="button" aria-disabled="true">Cancel Session</a>
+                                }
                             }
-
                             else if (Model.Status == 'N') //checks whether the viewdata message for cancel is null and checks whether the status is "N" (N means that it is still ongoing)
                             {
                                 <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-info" onclick="return confirm('Are you sure you want to cancel the session?')">Cancel Session</a>
@@ -154,7 +165,6 @@
                         }
                         @if (ViewData["Owner"] == null)//checks whether the user is the owner of the session | null == not owner
                         {
-
                             @if (ViewData["Session"] == null) //checks whether the user is logged in | null == logged in
                             {
                                 <a href="https://teams.microsoft.com/l/chat/0/0?users=@ViewData["SessionStudentNumber"]@@connect.np.edu.sg" target="_blank" class="btn btn-primary">Chat on Microsoft Teams</a>
@@ -211,8 +221,8 @@
                                         }
                                     </form>
                                 }
-                             }
-                         }        
+                                }
+                        }
                         <div>
                             @if (ViewData["Owner"] != null)
                             {

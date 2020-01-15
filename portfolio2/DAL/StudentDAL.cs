@@ -223,6 +223,18 @@ namespace portfolio2.DAL
             }
         }
 
+        //given the student id, add the number of points to the student
+        public void UpdateStudentPoints(int studentid, int? points)
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE Student SET Points = @selectedstudentpoints" +
+            " WHERE StudentID = @selectedstudentid", conn);
+            cmd.Parameters.AddWithValue("@selectedstudentpoints", points);
+            cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
+            conn.Open();
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+
         public StudentPhoto GetPhotoDetails(int studentID)
         {
             SqlCommand cmd = new SqlCommand("SELECT Name, Photo FROM Student WHERE StudentID = @selectedStudentID", conn);
