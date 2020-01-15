@@ -192,7 +192,7 @@ section.title {
 }
 
  .container.session {
-        padding: 3% !important;
+        padding: 3.5% !important;
         border-radius: 8px;
         box-shadow: 0 3px 10px 0 rgba(44,44,45,.07), inset 0 0 0 1px rgba(44,44,45,.07);
         border: 1px solid lightgrey;
@@ -212,3 +212,7 @@ i{
     display: inline-block;
 }
 
+img {
+    max-width: 97%;
+    max-height: 100%;
+}
