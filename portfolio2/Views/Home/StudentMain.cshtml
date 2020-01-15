@@ -1,6 +1,21 @@
-﻿@{
+﻿@model portfolio2.Models.StudentDetails
+
+@{
     ViewData["Title"] = "StudentMain";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>What are you going to learn today?</h2>
+@{
+    string userId = "Anonymous"; string userRole = "Unknown";
+    if (Context.Session.GetString("Role") != null) { userRole = Context.Session.GetString("Role"); }
+    if (Context.Session.GetString("LoginID") != null)
+    {
+        userId = Context.Session.GetString("LoginID");
+    }
+}
+
+<h1>Welcome, @userId!</h1>
+<h2>You have <b>2 or 3 or 4</b> notifications from sessions you have joined</h2>
+<h2>You have <b>1</b> notification from a session you've created</h2>
+<h2>What will you learn to learn today?</h2>
+<h2><a asp-controller="Session" asp-action="Index">Go to home page &#8250;</a></h2>
