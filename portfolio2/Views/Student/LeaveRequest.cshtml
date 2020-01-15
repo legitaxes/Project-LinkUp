@@ -1,0 +1,83 @@
+﻿@model portfolio2.Models.Request
+
+@{
+    ViewData["Title"] = "LeaveRequest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5 makerequest">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <span class="anchor" id="formUserEdit"></span>
+            <div class="card card-outline-secondary">
+                <div class="card-header text-center">
+                    <h3 class="mb-0">Are you sure you want to leave this request?</h3>
+                </div>
+                <div class="card-body">
+                    @ViewData["Error"]
+                    <form asp-action="LeaveRequest" class="form" role="form" autocomplete="off">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group row" readonly hidden>
+                            <label asp-for="RequestID" class="col-lg-3 col-form-label form-control-label">Request ID</label>
+                            <div class="col-lg-9">
+                                <input asp-for="RequestID" class="form-control" readonly hidden />
+                                <span asp-validation-for="RequestID" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row" readonly>
+                            <label asp-for="Description" class="col-lg-3 col-form-label form-control-label">Description</label>
+                            <div class="col-lg-9">
+                                <input asp-for="Description" class="form-control" readonly />
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row" readonly>
+                            <label asp-for="Title" class="col-lg-3 col-form-label form-control-label">Title</label>
+                            <div class="col-lg-9">
+                                <input asp-for="Title" class="form-control" readonly />
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row" readonly>
+                            <label asp-for="AvailabilityFrom" class="col-lg-3 col-form-label form-control-label">Availabile From</label>
+                            <div class="col-lg-9">
+                                <input asp-for="AvailabilityFrom" class="form-control" readonly />
+                                <span asp-validation-for="AvailabilityFrom" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row" readonly>
+                            <label asp-for="Hours" class="col-lg-3 col-form-label form-control-label">Hours</label>
+                            <div class="col-lg-9">
+                                <select asp-for="Hours" asp-items="@ViewData["Hourlist"] as List<SelectListItem>" class="form-control" readonly disabled></select>
+                                <span asp-validation-for="Hours" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row" readonly>
+                            <label asp-for="MaxCap" class="col-lg-3 col-form-label form-control-label">MaxCap</label>
+                            <div class="col-lg-9">
+                                <select asp-for="MaxCap" asp-items="@ViewData["MaxCaplist"] as List<SelectListItem>" class="form-control" readonly disabled></select>
+                                <span asp-validation-for="MaxCap" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row" readonly>
+                            <label aasp-for="LocationID" class="col-lg-3 col-form-label form-control-label">Location</label>
+                            <div class="col-lg-9">
+                                <select asp-for="LocationID" asp-items="@ViewData["Locationlist"] as List<SelectListItem>" class="form-control" readonly disabled></select>
+                                <span asp-validation-for="LocationID" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" readonly>
+                            <label class="col-lg-3 col-form-label form-control-label"></label>
+                            <div class="col-lg-9">
+                                <input type="reset" class="btn btn-secondary" value="Cancel">
+                                <input type="submit" class="btn btn-primary" value="Leave request">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

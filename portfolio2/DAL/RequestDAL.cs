@@ -228,7 +228,7 @@ namespace portfolio2.DAL
         public List<JoinedRequests> GetMyJoinedRequests(int studentid)
         {
             SqlCommand cmd = new SqlCommand(
-             "SELECT r.DateRequest, r.Description, r.Title, r.AvailabilityFrom, r.Hours, r.MaxCap, r.PointsEarned, l.LocationName" +
+             "SELECT r.RequestID, r.DateRequest, r.Description, r.Title, r.AvailabilityFrom, r.Hours, r.MaxCap, r.PointsEarned, l.LocationName" +
              " FROM Request r" + " INNER JOIN StudentRequest sr on r.RequestID = sr.RequestID" + " INNER JOIN Location l on r.LocationID = l.LocationID"
              + " WHERE sr.StudentID = @selectedstudentid", conn);
             cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
@@ -243,6 +243,7 @@ namespace portfolio2.DAL
                 joinedrequestsList.Add(
                     new JoinedRequests
                     {
+                        RequestID = Convert.ToInt32(row["RequestID"]),
                         DateRequest = Convert.ToDateTime(row["DateRequest"]),
                         Title = row["Title"].ToString(),
                         AvailabilityFrom = Convert.ToDateTime(row["AvailabilityFrom"]),

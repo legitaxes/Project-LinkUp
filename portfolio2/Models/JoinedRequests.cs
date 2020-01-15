@@ -8,6 +8,8 @@ namespace portfolio2.Models
 {
     public class JoinedRequests
     {
+        public int RequestID { get; set; }
+
         [Display(Name = "Date requested")]
         public DateTime DateRequest { get; set; }
 
