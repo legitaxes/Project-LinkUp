@@ -110,7 +110,7 @@ namespace portfolio2.DAL
         //        return null;
         //    }
         //}
-        public StudentDetails GetStudentBasedOnSession(int? sessionid)
+        public StudentDetails GetStudentBasedOnSession(int? sessionid) //gets sesion owner details
         {
             SqlCommand cmd = new SqlCommand(
             "SELECT * FROM Session s INNER JOIN Student st on s.StudentID = st.StudentID WHERE s.SessionID = @selectedsessionid", conn);
