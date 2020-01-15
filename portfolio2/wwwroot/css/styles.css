@@ -212,7 +212,9 @@ i{
     display: inline-block;
 }
 
-img {
+
+.session-photo img {
     max-width: 97%;
     max-height: 100%;
+    margin-bottom: 3%;
 }
