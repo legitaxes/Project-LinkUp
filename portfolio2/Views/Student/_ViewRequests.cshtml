@@ -14,6 +14,7 @@
                     <th>Participants</th>
                     <th>Points</th>
                     <th>Location</th>
+                    <th>Category</th>
                     <th>Requester</th>
                     <th></th>
                 </tr>
@@ -21,15 +22,18 @@
             <tbody>
                 @foreach (var item in Model)
                 {
+                    @if (item.Status == 'N')
+                    {
                     <tr>
                         <td>@item.DateRequest</td>
                         <td>@item.Description</td>
                         <td>@item.Title</td>
                         <td>@item.AvailabilityFrom</td>
                         <td>@item.Hours</td>
-                        <td>@item.CurrCap/@item.MaxCap</td>
+                        <td>@item.CurrCap</td>
                         <td>@item.PointsEarned</td>
                         <td>@item.LocationName</td>
+                        <td>@item.CategoryName</td>
                         <td>@item.Name</td>
                         <td>
                             @if (item.StudentID == Convert.ToInt32(Context.Session.GetInt32("StudentID")))
@@ -38,18 +42,19 @@
                                 DateTime currenttime = DateTime.Now;
                                 TimeSpan ts = item.AvailabilityFrom - currenttime;
                                 double hours = ts.TotalHours;
-                                if ( hours > 72)
+                                if (hours > 72)
                                 {
                                     <a asp-action="DeleteRequest" asp-controller="Student" asp-route-id="@item.RequestID">Delete</a>
                                 }
                             }
-                            @if (item.StudentID != Convert.ToInt32(Context.Session.GetInt32("StudentID"))&& item.CurrCap < item.MaxCap)
+                            @if (item.StudentID != Convert.ToInt32(Context.Session.GetInt32("StudentID")))
                             {
-                                <a asp-action="JoinRequest" asp-controller="Student" asp-route-id="@item.RequestID">Join</a>
+                                    <a asp-action="JoinRequest" asp-controller="Student" asp-route-id="@item.RequestID">Join</a>
                             }
                         </td>
                     </tr>
-                }
+                        }
+                    }
             </tbody>
         </table>
     }

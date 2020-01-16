@@ -25,9 +25,6 @@ namespace portfolio2.Models
         [Display(Name = "Hours")]
         public int Hours { get; set; }
 
-        [Display(Name = "Maximum capacity")]
-        public int MaxCap { get; set; }
-
         [Display(Name = "Points earned")]
         public int PointsEarned { get; set; }
 
@@ -39,5 +36,7 @@ namespace portfolio2.Models
 
         [Display(Name = "StudentID")]
         public int StudentID { get; set; }
+
+        public int CategoryID { get; set; }
     }
 }

@@ -77,5 +77,71 @@ namespace portfolio2.DAL
             conn.Close();
             return count;
         }
+
+        public int ConvertRequestToSession(Request request, int tutorstudentid)
+        {
+            SqlCommand cmd = new SqlCommand
+            ("INSERT INTO SESSION (DateCreated, SessionDate, Name, Description, Photo, Hours, Participants, Points, Status, StudentID, LocationID, CategoryID)" +
+            " OUTPUT INSERTED.SessionID" +
+            " VALUES(@daterequest, @availablefrom, @title, @description, @photo, @hours, @participants, @pointsearned, @status, @tutorstudentid, @locationid, @categoryid)", conn);
+            cmd.Parameters.AddWithValue("@daterequest", request.DateRequest);
+            cmd.Parameters.AddWithValue("@availablefrom", request.AvailabilityFrom);
+            cmd.Parameters.AddWithValue("@title", request.Title);
+            cmd.Parameters.AddWithValue("@description", request.Description);
+            string photo = "stocksession.jpg";
+            cmd.Parameters.AddWithValue("@photo", photo);
+            cmd.Parameters.AddWithValue("@hours", request.Hours);
+            int participants = 2;
+            cmd.Parameters.AddWithValue("@participants", participants);
+            cmd.Parameters.AddWithValue("@pointsearned", request.PointsEarned);
+            cmd.Parameters.AddWithValue("@status", request.Status);
+            cmd.Parameters.AddWithValue("@tutorstudentid", tutorstudentid);
+            cmd.Parameters.AddWithValue("@locationid", request.LocationID);
+            cmd.Parameters.AddWithValue("@categoryid", request.CategoryID);
+            conn.Open();
+            int sessionid = (int)cmd.ExecuteScalar();
+            conn.Close();
+           
+            return sessionid;
+        }
+
+        public int AddConversionToBooking(Request request, int sessionid)
+        {
+            SqlCommand cmd2 = new SqlCommand
+            ("INSERT INTO Booking (PointsEarned, SessionID)" +
+            " OUTPUT INSERTED.BookingID" +
+            " VALUES(@pointsearned, @sessionid)", conn);
+            cmd2.Parameters.AddWithValue("@pointsearned", request.PointsEarned);
+            cmd2.Parameters.AddWithValue("@sessionid", sessionid);
+            conn.Open();
+            int bookingid = (int)cmd2.ExecuteScalar();
+            conn.Close();
+            return bookingid;
+        }
+
+        public void AddConversionToStudentBooking(Request request, int bookingid)
+        {
+            SqlCommand cmd3 = new SqlCommand
+("INSERT INTO StudentBooking (StudentID, BookingID)" +
+" VALUES(@studentid, @bookingid)", conn);
+            cmd3.Parameters.AddWithValue("@studentid", request.StudentID);
+            cmd3.Parameters.AddWithValue("@bookingid", bookingid);
+            conn.Open();
+            cmd3.ExecuteScalar();
+            conn.Close();
+
+        }
+        public int UpdateConversionStatus(Request request)
+        {
+            SqlCommand cmd4 = new SqlCommand
+    ("UPDATE Request" +
+    " SET Status = 'Y'" +
+    " WHERE RequestID = @requestid", conn);
+            cmd4.Parameters.AddWithValue("@requestid", request.RequestID);
+            conn.Open();
+            int count = cmd4.ExecuteNonQuery();
+            conn.Close();
+            return count;
+        }
     }
 }

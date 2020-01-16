@@ -36,19 +36,19 @@ namespace portfolio2.DAL
         public int AddRequest(Request request)
         {
             SqlCommand cmd = new SqlCommand
-            ("INSERT INTO Request (DateRequest, Description, Title, AvailabilityFrom, Hours, MaxCap, PointsEarned, Status, LocationID, StudentID)" +
+            ("INSERT INTO Request (DateRequest, Description, Title, AvailabilityFrom, Hours, PointsEarned, Status, LocationID, StudentID, CategoryID)" +
             " OUTPUT INSERTED.RequestID" +
-            " VALUES(@daterequest, @description, @title, @availabilityfrom, @hours, @maxcap, @pointsearned, @status, @locationid, @studentid)", conn);
+            " VALUES(@daterequest, @description, @title, @availabilityfrom, @hours, @pointsearned, @status, @locationid, @studentid, @categoryid)", conn);
             cmd.Parameters.AddWithValue("@daterequest", request.DateRequest);
             cmd.Parameters.AddWithValue("@description", request.Description);
             cmd.Parameters.AddWithValue("@title", request.Title);
             cmd.Parameters.AddWithValue("@availabilityfrom", request.AvailabilityFrom);
             cmd.Parameters.AddWithValue("@hours", request.Hours);
-            cmd.Parameters.AddWithValue("@maxcap", request.MaxCap);
             cmd.Parameters.AddWithValue("@pointsearned", request.PointsEarned);
             cmd.Parameters.AddWithValue("@status", request.Status);
             cmd.Parameters.AddWithValue("@locationid", request.LocationID);
             cmd.Parameters.AddWithValue("@studentid", request.StudentID);
+            cmd.Parameters.AddWithValue("@categoryid", request.CategoryID);
             conn.Open();
             request.RequestID = (int)cmd.ExecuteScalar();
             conn.Close();
@@ -76,6 +76,7 @@ namespace portfolio2.DAL
             return count;
         }
         */
+
         //deletes record from database
         public int DeleteStudentRequest(int studentid, int requestid)
         {
@@ -124,17 +125,16 @@ namespace portfolio2.DAL
                         Title = row["Title"].ToString(),
                         AvailabilityFrom = Convert.ToDateTime(row["AvailabilityFrom"]),
                         Hours = Convert.ToInt32(row["Hours"]),
-                        MaxCap = Convert.ToInt32(row["MaxCap"]),
                         PointsEarned = Convert.ToInt32(row["PointsEarned"]),
                         Status = Convert.ToChar(row["Status"]),
                         LocationID = Convert.ToInt32(row["LocationID"]),
-                        StudentID = Convert.ToInt32(row["StudentID"])
+                        StudentID = Convert.ToInt32(row["StudentID"]),
+                        CategoryID = Convert.ToInt32(row["CategoryID"])
                     }
                 );
             }
             return requestList;
         }
-
 
         public List<Request> GetMyRequests(int? studentid)
         {
@@ -158,11 +158,11 @@ namespace portfolio2.DAL
                         Title = row["Title"].ToString(),
                         AvailabilityFrom = Convert.ToDateTime(row["AvailabilityFrom"]),
                         Hours = Convert.ToInt32(row["Hours"]),
-                        MaxCap = Convert.ToInt32(row["MaxCap"]),
                         PointsEarned = Convert.ToInt32(row["PointsEarned"]),
                         Status = Convert.ToChar(row["Status"]),
                         LocationID = Convert.ToInt32(row["LocationID"]),
-                        StudentID = Convert.ToInt32(row["StudentID"])
+                        StudentID = Convert.ToInt32(row["StudentID"]),
+                        CategoryID = Convert.ToInt32(row["CategoryID"])
                     }
                 );
             }
@@ -187,6 +187,9 @@ namespace portfolio2.DAL
 
                 DataTable table = result.Tables["RequestDetails"];
 
+                if (!DBNull.Value.Equals(table.Rows[0]["RequestID"]))
+                    request.RequestID = Convert.ToInt32(table.Rows[0]["RequestID"]);
+
                 if (!DBNull.Value.Equals(table.Rows[0]["DateRequest"]))
                     request.DateRequest = Convert.ToDateTime(table.Rows[0]["DateRequest"]);
 
@@ -202,9 +205,6 @@ namespace portfolio2.DAL
                 if (!DBNull.Value.Equals(table.Rows[0]["Hours"]))
                     request.Hours = Convert.ToInt32(table.Rows[0]["Hours"]);
 
-                if (!DBNull.Value.Equals(table.Rows[0]["MaxCap"]))
-                    request.MaxCap = Convert.ToInt32(table.Rows[0]["MaxCap"]);
-
                 if (!DBNull.Value.Equals(table.Rows[0]["PointsEarned"]))
                     request.PointsEarned = Convert.ToInt32(table.Rows[0]["PointsEarned"]);
 
@@ -217,6 +217,9 @@ namespace portfolio2.DAL
                 if (!DBNull.Value.Equals(table.Rows[0]["StudentID"]))
                     request.StudentID = Convert.ToInt32(table.Rows[0]["StudentID"]);
 
+                if (!DBNull.Value.Equals(table.Rows[0]["CategoryID"]))
+                    request.CategoryID = Convert.ToInt32(table.Rows[0]["CategoryID"]);
+
                 return request;
             }
 
@@ -228,8 +231,8 @@ namespace portfolio2.DAL
         public List<JoinedRequests> GetMyJoinedRequests(int studentid)
         {
             SqlCommand cmd = new SqlCommand(
-             "SELECT r.RequestID, r.DateRequest, r.Description, r.Title, r.AvailabilityFrom, r.Hours, r.MaxCap, r.PointsEarned, l.LocationName" +
-             " FROM Request r" + " INNER JOIN StudentRequest sr on r.RequestID = sr.RequestID" + " INNER JOIN Location l on r.LocationID = l.LocationID"
+             "SELECT r.RequestID, r.DateRequest, r.Description, r.Title, r.AvailabilityFrom, r.Hours, r.PointsEarned, l.LocationName, c.CategoryName" +
+             " FROM Request r" + " INNER JOIN StudentRequest sr on r.RequestID = sr.RequestID" + " INNER JOIN Location l on r.LocationID = l.LocationID" + " INNER JOIN Category c on r.CategoryID = c.CategoryID"
              + " WHERE sr.StudentID = @selectedstudentid", conn);
             cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -248,7 +251,7 @@ namespace portfolio2.DAL
                         Title = row["Title"].ToString(),
                         AvailabilityFrom = Convert.ToDateTime(row["AvailabilityFrom"]),
                         Hours = Convert.ToInt32(row["Hours"]),
-                        MaxCap = Convert.ToInt32(row["MaxCap"]),
+                        CategoryName = row["CategoryName"].ToString(),
                         PointsEarned = Convert.ToInt32(row["PointsEarned"]),
                         LocationName = row["LocationName"].ToString(),
                     });
