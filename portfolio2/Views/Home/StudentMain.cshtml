@@ -1,21 +1,27 @@
-﻿@model portfolio2.Models.StudentDetails
+﻿@model IEnumerable<portfolio2.Models.RequestViewModel>
 
 @{
-    ViewData["Title"] = "StudentMain";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "StudentMain";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @{
-    string userId = "Anonymous"; string userRole = "Unknown";
-    if (Context.Session.GetString("Role") != null) { userRole = Context.Session.GetString("Role"); }
-    if (Context.Session.GetString("LoginID") != null)
-    {
-        userId = Context.Session.GetString("LoginID");
-    }
+	string userId = "Anonymous"; string userRole = "Unknown";
+	if (Context.Session.GetString("Role") != null) { userRole = Context.Session.GetString("Role"); }
+	if (Context.Session.GetString("LoginID") != null)
+	{
+		userId = Context.Session.GetString("LoginID");
+	}
 }
 
-<h1>Welcome, @userId!</h1>
-<h2>You have <b>2 or 3 or 4</b> notifications from sessions you have joined</h2>
-<h2>You have <b>1</b> notification from a session you've created</h2>
-<h2>What will you learn to learn today?</h2>
-<h2><a asp-controller="Session" asp-action="Index">Go to home page &#8250;</a></h2>
+<center><h1>Hey there, @userId!</h1></center>
+<center>
+	<h2>You have <b>2 or so</b> notifications from sessions you have joined (will be functional when backend is done)</h2>
+	<h2>You have <b>1</b> notification from a session you've created (again, will be functional when backend is done)</h2>
+	<h2>There have been new sessions added recently! What will you learn today? (not sure how the backend will be able to track this)</h2>
+	<a asp-controller="Session" asp-action="Index" class="btn btn-primary">View Sessions</a>
+	<h2>There are still some unanswered requests! Think you could help someone out? (if no. of requests >0)</h2>
+	<a href="~/Student/AllRequests" class="btn btn-primary">View Requests</a>
+	<h2>There are no new requests! Did you need help with something? (if no. of requests =0)</h2>
+	<a href="~/Student/Create" class="btn btn-primary">Make Request</a>
+</center>
