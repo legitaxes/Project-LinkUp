@@ -28,9 +28,6 @@ namespace portfolio2.Models
         [Display(Name = "Current capacity")]
         public int CurrCap { get; set; }
 
-        [Display(Name = "Maximum capacity")]
-        public int MaxCap { get; set; }
-
         [Display(Name = "Points earned")]
         public int PointsEarned { get; set; }
 
@@ -40,13 +37,19 @@ namespace portfolio2.Models
         [Display(Name = "Location ID")]
         public int LocationID { get; set; }
 
+        [Display(Name = "Location Name")]
+        public string LocationName { get; set; }
+
         [Display(Name = "Student ID")]
         public int StudentID { get; set; }
 
         [Display(Name = "Student Name")]
         public string Name { get; set; }
 
+        public int CategoryID { get; set; }
+
         [Display(Name = "Location Name")]
-        public string LocationName { get; set; }
+        public string CategoryName { get; set; }
+
     }
 }
