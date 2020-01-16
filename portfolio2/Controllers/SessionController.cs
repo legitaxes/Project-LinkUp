@@ -202,6 +202,14 @@ namespace portfolio2.Controllers
             if (currentSession.Participants != 0) //only give points if there is at least 1 participant
             {
                 studentContext.UpdateStudentPoints(sessionOwner.StudentID, sessionOwner.Points + currentSession.Points);
+                List<StudentDetails> participantList = sessionContext.GetParticipantList(id);
+                if (participantList.Count > 0)
+                {
+                    foreach (StudentDetails participant in participantList)
+                    {
+                        studentContext.UpdateStudentPoints(participant.StudentID, participant.Points + currentSession.Points);
+                    }
+                }
             }
             return RedirectToAction("MySession");
         }
