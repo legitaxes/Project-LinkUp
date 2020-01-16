@@ -91,7 +91,7 @@ namespace portfolio2.DAL
             string photo = "stocksession.jpg";
             cmd.Parameters.AddWithValue("@photo", photo);
             cmd.Parameters.AddWithValue("@hours", request.Hours);
-            int participants = 2;
+            int participants = 1;
             cmd.Parameters.AddWithValue("@participants", participants);
             cmd.Parameters.AddWithValue("@pointsearned", request.PointsEarned);
             cmd.Parameters.AddWithValue("@status", request.Status);
