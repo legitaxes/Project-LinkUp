@@ -22,6 +22,7 @@ namespace portfolio2.Controllers
         private LocationDAL locationContext = new LocationDAL();
         private RequestDAL requestContext = new RequestDAL();
         private StudentRequestDAL studentrequestContext = new StudentRequestDAL();
+        private CategoryDAL categoryContext = new CategoryDAL();
 
         // GET: Student Method
         public IActionResult Index()
@@ -61,37 +62,25 @@ namespace portfolio2.Controllers
             }
             return course;
         }
-
-        private List<SelectListItem> DropDownMaxCap()
+      
+        private List<SelectListItem> DropDownCategory()
         {
-            List<SelectListItem> maxcap = new List<SelectListItem>();
-
-            maxcap.Add(new SelectListItem
+            List<SelectListItem> category = new List<SelectListItem>();
+            List<Category> allcategorylist = categoryContext.GetAllCategory();
+            category.Add(new SelectListItem
             {
-                Value = "1",
-                Text = "Private session",
+                Value = "",
+                Text = "---Select Category---",
             });
-            maxcap.Add(new SelectListItem
+            foreach (Category availablecategory in allcategorylist)
             {
-                Value = "2",
-                Text = "2",
-            });
-            maxcap.Add(new SelectListItem
-            {
-                Value = "3",
-                Text = "3",
-            });
-            maxcap.Add(new SelectListItem
-            {
-                Value = "4",
-                Text = "4",
-            });
-            maxcap.Add(new SelectListItem
-            {
-                Value = "5",
-                Text = "5",
-            });
-            return maxcap;
+                category.Add(new SelectListItem
+                {
+                    Value = availablecategory.CategoryID.ToString(),
+                    Text = availablecategory.CategoryName
+                });
+            }
+            return category;
         }
 
         private List<SelectListItem> DropDownHours()
@@ -418,8 +407,8 @@ namespace portfolio2.Controllers
                 return RedirectToAction("RequestRedirect", "Student");
             }
             ViewData["Hourlist"] = DropDownHours();
-            ViewData["MaxCaplist"] = DropDownMaxCap();
             ViewData["Locationlist"] = DropDownLocation();
+            ViewData["Categorylist"] = DropDownCategory();
             List<StudentDetails> studentList = studentContext.GetAllStudent();
             foreach (StudentDetails student in studentList)
                 if (student.StudentID == studentid)
@@ -451,7 +440,6 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Myrequests", "Student");
             }
             ViewData["Hourlist"] = DropDownHours();
-            ViewData["MaxCaplist"] = DropDownMaxCap();
             ViewData["Locationlist"] = DropDownLocation();
             return View();
         }
@@ -524,12 +512,11 @@ namespace portfolio2.Controllers
             DateTime currenttime = DateTime.Now;
             TimeSpan ts = request.AvailabilityFrom - currenttime;
             double hours = ts.TotalHours;
-            if (hours < 72)
+            if (hours < 48)
             {
                 return RedirectToAction("DeleteRedirect", "Student");
             }
             ViewData["Hourlist"] = DropDownHours();
-            ViewData["MaxCaplist"] = DropDownMaxCap();
             ViewData["Locationlist"] = DropDownLocation();
 
             if (request == null)
@@ -545,7 +532,6 @@ namespace portfolio2.Controllers
         public ActionResult DeleteRequest(Request request)
         {
             ViewData["Hourlist"] = DropDownHours();
-            ViewData["MaxCaplist"] = DropDownMaxCap();
             ViewData["Locationlist"] = DropDownLocation();
             requestContext.DeleteRequest(request.RequestID);
             return RedirectToAction("Myrequests", "Student");
@@ -568,12 +554,11 @@ namespace portfolio2.Controllers
             DateTime currenttime = DateTime.Now;
             TimeSpan ts = request.AvailabilityFrom - currenttime;
             double hours = ts.TotalHours;
-            if (hours < 72)
+            if (hours < 48)
             {
                 return RedirectToAction("DeleteRedirect", "Student");
             }
             ViewData["Hourlist"] = DropDownHours();
-            ViewData["MaxCaplist"] = DropDownMaxCap();
             ViewData["Locationlist"] = DropDownLocation();
 
             if (request == null)
@@ -589,7 +574,6 @@ namespace portfolio2.Controllers
         public ActionResult LeaveRequest(Request request)
         {
             ViewData["Hourlist"] = DropDownHours();
-            ViewData["MaxCaplist"] = DropDownMaxCap();
             ViewData["Locationlist"] = DropDownLocation();
             requestContext.DeleteStudentRequest(Convert.ToInt32(HttpContext.Session.GetInt32("StudentID")), request.RequestID);
             return RedirectToAction("Myrequests", "Student");
@@ -635,8 +619,10 @@ namespace portfolio2.Controllers
         {
             string name = "";
             string locationname = "";
+            string categoryname = "";
             List<StudentRequest> allstudentRequestList = studentrequestContext.GetAllStudentRequests();
             List<StudentDetails> allstudentList = studentContext.GetAllStudent();
+            List<Category> allcategoryList = categoryContext.GetAllCategory();
             List<Location> alllocationList = locationContext.GetAllLocations();
             List<RequestViewModel> requestVM = new List<RequestViewModel>();
             foreach (Request currentrequest in allrequestList)
@@ -660,7 +646,15 @@ namespace portfolio2.Controllers
                             {
                                 locationname = currentlocation.LocationName;
                             }
+
                         }
+                    }
+                }
+                foreach (Category currentcategory in allcategoryList)
+                {
+                    if (currentcategory.CategoryID == currentrequest.CategoryID)
+                    {
+                        categoryname = currentcategory.CategoryName;
                     }
                 }
                 requestVM.Add(
@@ -673,13 +667,14 @@ namespace portfolio2.Controllers
                     AvailabilityFrom = currentrequest.AvailabilityFrom,
                     Hours = currentrequest.Hours,
                     CurrCap = participantcount,
-                    MaxCap = currentrequest.MaxCap,
                     PointsEarned = currentrequest.PointsEarned,
                     Status = currentrequest.Status,
                     LocationID = currentrequest.LocationID,
                     StudentID = currentrequest.StudentID,
                     Name = name,
                     LocationName = locationname,
+                    CategoryID = currentrequest.CategoryID,
+                    CategoryName = categoryname
                 });
             }
             return requestVM;
@@ -696,20 +691,17 @@ namespace portfolio2.Controllers
             Request request = requestContext.GetRequestByID(id.Value);
 
             ViewData["Hourlist"] = DropDownHours();
-            List<SelectListItem> maxcapList = new List<SelectListItem>();
-            maxcapList = DropDownMaxCap();
-            int participantcount = studentrequestContext.GetNumberOfParticipants(request.RequestID);
-            for (int i = 0; i < participantcount; i++)
-            {
-                maxcapList.RemoveAt(0);
-            }
-            ViewData["MaxCaplist"] = maxcapList;
             ViewData["Locationlist"] = DropDownLocation();
-            participantcount += 1;
-            if (studentid == request.StudentID || participantcount >= request.MaxCap)
+            ViewData["Categorylist"] = DropDownCategory();
+            if (request.Status == 'Y')
+            {
+                return RedirectToAction("Error", " Home");
+            }
+            if (studentid == request.StudentID)
             {
                 return RedirectToAction("RequestRedirect", "Student");
             }
+            
 
             if (request == null)
             {
@@ -729,11 +721,15 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Error", "Home");
             }
             int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
-            int participantcount = studentrequestContext.GetNumberOfParticipants(request.RequestID) + 1;
 
-            if (studentid == request.StudentID || participantcount >= request.MaxCap)
+            if (studentid == request.StudentID)
             {
                 return RedirectToAction("RequestRedirect", "Student");
+            }
+
+            if (request.Status == 'Y')
+            {
+                return RedirectToAction("Error", " Home");
             }
 
             if (request == null)
@@ -741,9 +737,12 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Error", " Home");
             }
 
-            if (studentid != request.StudentID && participantcount < request.MaxCap)
+            if (studentid != request.StudentID)
             {
-                studentrequestContext.AddStudentRequest(studentid, request.RequestID);
+                int sessionid = studentrequestContext.ConvertRequestToSession(request, studentid);
+                int bookingid = studentrequestContext.AddConversionToBooking(request, sessionid);
+                studentrequestContext.AddConversionToStudentBooking(request, bookingid);
+                studentrequestContext.UpdateConversionStatus(request);
             }
 
             return RedirectToAction("AllRequests", "Student");

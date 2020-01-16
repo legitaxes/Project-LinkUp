@@ -22,13 +22,13 @@ namespace portfolio2.Models
         [Display(Name = "Hours")]
         public int Hours { get; set; }
 
-        [Display(Name = "Maximum capacity")]
-        public int MaxCap { get; set; }
-
         [Display(Name = "Points earned")]
         public int PointsEarned { get; set; }
 
         [Display(Name = "Location Name")]
         public string LocationName { get; set; }
+
+        [Display(Name = "Category Name")]
+        public string CategoryName { get; set; }
     }
 }

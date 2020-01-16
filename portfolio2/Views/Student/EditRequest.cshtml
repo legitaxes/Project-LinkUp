@@ -52,13 +52,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label asp-for="MaxCap" class="col-lg-3 col-form-label form-control-label">Maximum Participants</label>
-                            <div class="col-lg-9">
-                                <select asp-for="MaxCap" asp-items="@ViewData["MaxCaplist"] as List<SelectListItem>" class="form-control"></select>
-                                <span asp-validation-for="MaxCap" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label aasp-for="LocationID" class="col-lg-3 col-form-label form-control-label">Location</label>
                             <div class="col-lg-9">
                                 <select asp-for="LocationID" asp-items="@ViewData["Locationlist"] as List<SelectListItem>" class="form-control"></select>

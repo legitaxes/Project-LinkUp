@@ -16,24 +16,31 @@
                 <div class="card-body">
                     <form asp-action="JoinRequest" class="form" role="form" autocomplete="off">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group row" readonly hidden>
-                            <label asp-for="RequestID" class="col-lg-3 col-form-label form-control-label">Request ID </label>
+                        <div class="form-group row" hidden>
+                            <label asp-for="RequestID" class="col-lg-3 col-form-label form-control-label">Description</label>
                             <div class="col-lg-9">
-                                <input asp-for="RequestID" class="form-control" readonly hidden />
+                                <textarea asp-for="RequestID" class="form-control" rows="4"></textarea>
                                 <span asp-validation-for="RequestID" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="DateRequest" class="col-lg-3 col-form-label form-control-label">Date of request</label>
+                            <div class="col-lg-9">
+                                <textarea asp-for="DateRequest" class="form-control" rows="4" readonly></textarea>
+                                <span asp-validation-for="DateRequest" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label asp-for="Description" class="col-lg-3 col-form-label form-control-label">Description</label>
                             <div class="col-lg-9">
-                                <input asp-for="Description" class="form-control" readonly/>
+                                <textarea asp-for="Description" class="form-control" rows="4" readonly></textarea>
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label asp-for="Title" class="col-lg-3 col-form-label form-control-label">Title</label>
                             <div class="col-lg-9">
-                                <input asp-for="Title" class="form-control" readonly/>
+                                <input asp-for="Title" class="form-control" readonly />
                                 <span asp-validation-for="Title" class="text-danger"></span>
                             </div>
                         </div>
@@ -47,30 +54,44 @@
                         <div class="form-group row">
                             <label asp-for="Hours" class="col-lg-3 col-form-label form-control-label">Hours</label>
                             <div class="col-lg-9">
-                                <select asp-for="Hours" asp-items="@ViewData["Hourlist"] as List<SelectListItem>" class="form-control" readonly></select>
+                                <select asp-for="Hours" asp-items="@ViewData["Hourlist"] as List<SelectListItem>" readonly class="form-control"></select>
                                 <span asp-validation-for="Hours" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label asp-for="MaxCap" class="col-lg-3 col-form-label form-control-label">Maximum Participants</label>
+                        <div class="form-group row" hidden>
+                            <label asp-for="Status" class="col-lg-3 col-form-label form-control-label">Description</label>
                             <div class="col-lg-9">
-                                <select asp-for="MaxCap" asp-items="@ViewData["MaxCaplist"] as List<SelectListItem>" class="form-control" readonly></select>
-                                <span asp-validation-for="MaxCap" class="text-danger"></span>
+                                <textarea asp-for="Status" class="form-control" readonly hidden rows="4"></textarea>
+                                <span asp-validation-for="Status" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label aasp-for="LocationID" class="col-lg-3 col-form-label form-control-label">Location</label>
                             <div class="col-lg-9">
-                                <select asp-for="LocationID" asp-items="@ViewData["Locationlist"] as List<SelectListItem>" class="form-control" readonly></select>
+                                <select asp-for="LocationID" asp-items="@ViewData["Locationlist"] as List<SelectListItem>" readonly class="form-control"></select>
                                 <span asp-validation-for="LocationID" class="text-danger"></span>
                             </div>
                         </div>
-
+                        <div class="form-group row">
+                            <label asp-for="StudentID" class="col-lg-3 col-form-label form-control-label">Requester</label>
+                            <div class="col-lg-9">
+                                <textarea asp-for="StudentID" class="form-control" rows="4" readonly></textarea>
+                                <span asp-validation-for="StudentID" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label aasp-for="LocationID" class="col-lg-3 col-form-label form-control-label">Category</label>
+                            <div class="col-lg-9">
+                                <select asp-for="CategoryID" asp-items="@ViewData["Categorylist"] as List<SelectListItem>" readonly class="form-control"></select>
+                                <span asp-validation-for="CategoryID" class="text-danger"></span>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label"></label>
                             <div class="col-lg-9">
-                                <input type="reset" class="btn btn-secondary" value="Back">
-                                <input type="submit" class="btn btn-primary" value="Save">
+                                <input type="submit" class="btn btn-primary" value="Join">
+                                <input type="reset" class="btn btn-secondary" value="Reset">
+
                             </div>
                         </div>
                     </form>
