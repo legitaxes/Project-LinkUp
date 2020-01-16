@@ -110,7 +110,7 @@ namespace portfolio2.DAL
         //        return null;
         //    }
         //}
-        public StudentDetails GetStudentBasedOnSession(int? sessionid)
+        public StudentDetails GetStudentBasedOnSession(int? sessionid) //gets sesion owner details
         {
             SqlCommand cmd = new SqlCommand(
             "SELECT * FROM Session s INNER JOIN Student st on s.StudentID = st.StudentID WHERE s.SessionID = @selectedsessionid", conn);
@@ -221,6 +221,18 @@ namespace portfolio2.DAL
             {
                 return null;
             }
+        }
+
+        //given the student id, add the number of points to the student
+        public void UpdateStudentPoints(int studentid, int? points)
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE Student SET Points = @selectedstudentpoints" +
+            " WHERE StudentID = @selectedstudentid", conn);
+            cmd.Parameters.AddWithValue("@selectedstudentpoints", points);
+            cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
+            conn.Open();
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
         public StudentPhoto GetPhotoDetails(int studentID)

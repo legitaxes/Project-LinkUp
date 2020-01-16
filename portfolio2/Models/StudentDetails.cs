@@ -28,19 +28,19 @@ namespace portfolio2.Models
         public string Photo { get; set; }
 
         [Required(ErrorMessage = "Please do not leave this field blank!")]
-        [RegularExpression("^[689][0-9]{7}$", ErrorMessage = "Please enter a valid phone number")]
+        [RegularExpression("^[689][0-9]{7}$", ErrorMessage = "Please enter a 8 digit phone number")]
         [Display(Name = "Phone Number")]
         public int? PhoneNo { get; set; }
 
-        [StringLength(255, ErrorMessage = "Name Cannot Exceed 255 Characters!")]
+        [StringLength(255, ErrorMessage = "Interest Cannot Exceed 255 Characters!")]
         public string Interest { get; set; }
 
         [Display(Name = "External Link")]
-        [StringLength(255, ErrorMessage = "Name Cannot Exceed 255 Characters!")]
+        [StringLength(255, ErrorMessage = "External Link Cannot Exceed 255 Characters!")]
         public string ExternalLink { get; set; }
 
         [Display(Name = "Description")]
-        [StringLength(3000, ErrorMessage = "Name Cannot Exceed 3000 Characters!")]
+        [StringLength(3000, ErrorMessage = "Description Cannot Exceed 3000 Characters!")]
         public string Description { get; set; }
 
         public int? Points { get; set; }

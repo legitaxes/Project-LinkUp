@@ -552,6 +552,49 @@ namespace portfolio2.Controllers
 
         }
 
+        public ActionResult LeaveRequest(int? id)
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+           (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            Request request = requestContext.GetRequestByID(id.Value);
+            if (request.RequestID != id)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            DateTime currenttime = DateTime.Now;
+            TimeSpan ts = request.AvailabilityFrom - currenttime;
+            double hours = ts.TotalHours;
+            if (hours < 72)
+            {
+                return RedirectToAction("DeleteRedirect", "Student");
+            }
+            ViewData["Hourlist"] = DropDownHours();
+            ViewData["MaxCaplist"] = DropDownMaxCap();
+            ViewData["Locationlist"] = DropDownLocation();
+
+            if (request == null)
+            {
+                return RedirectToAction("Error", " Home");
+            }
+
+            return View(request);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LeaveRequest(Request request)
+        {
+            ViewData["Hourlist"] = DropDownHours();
+            ViewData["MaxCaplist"] = DropDownMaxCap();
+            ViewData["Locationlist"] = DropDownLocation();
+            requestContext.DeleteStudentRequest(Convert.ToInt32(HttpContext.Session.GetInt32("StudentID")), request.RequestID);
+            return RedirectToAction("Myrequests", "Student");
+        }
+
         public ActionResult MyRequests()
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
