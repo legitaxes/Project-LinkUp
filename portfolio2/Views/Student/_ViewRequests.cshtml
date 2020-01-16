@@ -42,7 +42,7 @@
                                 DateTime currenttime = DateTime.Now;
                                 TimeSpan ts = item.AvailabilityFrom - currenttime;
                                 double hours = ts.TotalHours;
-                                if (hours > 72)
+                                if (hours > 48)
                                 {
                                     <a asp-action="DeleteRequest" asp-controller="Student" asp-route-id="@item.RequestID">Delete</a>
                                 }

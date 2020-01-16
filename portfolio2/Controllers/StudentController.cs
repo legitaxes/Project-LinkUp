@@ -512,7 +512,7 @@ namespace portfolio2.Controllers
             DateTime currenttime = DateTime.Now;
             TimeSpan ts = request.AvailabilityFrom - currenttime;
             double hours = ts.TotalHours;
-            if (hours < 72)
+            if (hours < 48)
             {
                 return RedirectToAction("DeleteRedirect", "Student");
             }
@@ -554,7 +554,7 @@ namespace portfolio2.Controllers
             DateTime currenttime = DateTime.Now;
             TimeSpan ts = request.AvailabilityFrom - currenttime;
             double hours = ts.TotalHours;
-            if (hours < 72)
+            if (hours < 48)
             {
                 return RedirectToAction("DeleteRedirect", "Student");
             }
