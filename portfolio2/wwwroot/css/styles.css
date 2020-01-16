@@ -218,3 +218,9 @@ i{
     max-height: 100%;
     margin-bottom: 3%;
 }
+
+/*ERROR PAGE*/
+
+.container.errorpage {
+    margin-top: 5%;
+}

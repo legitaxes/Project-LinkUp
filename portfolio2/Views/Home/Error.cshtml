@@ -10,14 +10,18 @@
     }
 }
 
-<img src="~/images/Icons/error.png" style="max-width:20%; height:auto; display:block; margin-right:auto; margin-left: auto;">
-<div style="text-align: center;">
-    <h4>Something went wrong.... Please navigate else where!</h4>
-    <p></p>
-    <h5>This could possibly happen because:</h5>
-    <h5>1. You are not logged in</h5>
-    <h5>2. You tried to access a page that are not possible with your current permission</h5>
-    <p></p>
-    <h4><a href='javascript:history.go(-1)'>Go Back to Previous Page</a></h4>
+<div class="container errorpage">
+
+    <img src="~/images/Icons/error.png" style="max-width:20%; height:auto; display:block; margin-right:auto; margin-left: auto;">
+    <div style="text-align: center;">
+        <h4>Something went wrong... Please try navigating somewhere else!</h4>
+        <p></p>
+        <h5>This could have happened because:</h5>
+        <h5>You are not logged in</h5>
+        <h5>You tried to access a page that you do not have permission to view</h5>
+        <p></p>
+        <h4><a asp-controller="Session" asp-action="Index">Go back to homepage &#8250;</a></h4>
+
+    </div>
 
 </div>
