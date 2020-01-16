@@ -24,6 +24,7 @@ body, html {
 .signup {
     text-align: center;
     flex-grow: 2;
+    margin-top: 6%;
 }
 
 body > div.content {
