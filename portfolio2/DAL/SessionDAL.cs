@@ -400,7 +400,7 @@ namespace portfolio2.DAL
             cmd.Parameters.AddWithValue("@description", session.Description);
             cmd.Parameters.AddWithValue("@photo", session.Photo);
             cmd.Parameters.AddWithValue("@hours", session.Hours);
-            cmd.Parameters.AddWithValue("@points", (15 * session.Hours) / 2);
+             cmd.Parameters.AddWithValue("@points", (15 * session.Hours) / 2);
             cmd.Parameters.AddWithValue("@participants", session.Participants);
             cmd.Parameters.AddWithValue("@studentid", session.StudentID);
             cmd.Parameters.AddWithValue("@locationid", session.LocationID);

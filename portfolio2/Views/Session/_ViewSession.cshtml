@@ -107,15 +107,15 @@
         <div class="row mb-3">
             @foreach (var item in Model)
             {
-                string selectedCard = "";
+                string selectedCard = "class ='card bg-light h-100'";
                 if (item.StudentName == Context.Session.GetString("LoginID"))
                 {
-                    selectedCard = "style='color:darkgreen;";
+                    selectedCard = "class ='card bg-light border-success h-100'";
                 }
                 if (item.Status == 'N') //show all the listing where the status is not done
                 {
                     <div class="col-md-6 col-lg-3">
-                        <div class="card h-100">
+                        <div @Html.Raw(selectedCard)>
                             <a class="lightbox" asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID"><img src="~/images/Sessions/@item.Photo" class="card-img-top"></a>
                             <div class="card-body">
                                 <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
