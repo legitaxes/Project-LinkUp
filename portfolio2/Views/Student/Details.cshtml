@@ -1,7 +1,7 @@
 ﻿@model portfolio2.Models.StudentViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Profile Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
@@ -144,7 +144,7 @@
                     <h6>
                         @Html.DisplayFor(model => model.CourseName)
                     </h6>
-                    <p class="proile-rating">Rating: <span>@Html.DisplayFor(model => model.Rating)/5</span></p>
+                    <p class="proile-rating">Rating: <span>@Html.DisplayFor(model => model.Rating)/5</span>&#11088;</p>
                     <p class="proile-rating">Total ratings: @Html.DisplayFor(model => model.TotalRatings)</p>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
@@ -232,25 +232,60 @@
 
                     </div>
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <table id="viewStaff" class="table table-striped table-bordered">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Review date</th>
-                                    <th>Description</th>
-                                    <th>Stars</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var review in getlist)
-                                {
+                        @if (getlist.ToList().Count > 0)
+                        {
+                            <table id="viewStaff" class="table table-striped table-bordered">
+                                <thead class="thead-dark">
                                     <tr>
-                                        <td>@review.RatingDate</td>
-                                        <td>@review.Description</td>
-                                        <td>@review.Stars</td>
+                                        <th>Review date</th>
+                                        <th>Description</th>
+                                        <th>Stars</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach (var review in getlist)
+                                    {
+                                        string selectedRow = "";
+                                        @if (review.RatingType == 'O')
+                                        {
+                                            selectedRow = "class='table-info'";
+                                        }
+                                        <tr @Html.Raw(selectedRow)>
+                                            <td>@review.RatingDate</td>
+                                            <td>@review.Description</td>
+                                            <td>
+                                                @if (review.Stars == 5)
+                                                {
+                                                    @:★★★★★
+                                                }
+                                                else if (review.Stars == 4)
+                                                {
+                                                    @:★★★★☆
+                                                }
+                                                else if (review.Stars == 3)
+                                                {
+                                                    @:★★★☆☆
+                                                }
+                                                else if (review.Stars == 2)
+                                                {
+                                                    @:★★☆☆☆
+                                                }
+                                                else
+                                                {
+                                                    @:★☆☆☆☆
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <div class="col-md-8">
+                                <p class="text-danger">You currently do not have any reviews yet!</p>
+                                </div>
+                        }
                     </div>
                 </div>
             </div>

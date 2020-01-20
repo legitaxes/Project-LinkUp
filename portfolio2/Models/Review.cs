@@ -17,5 +17,8 @@ namespace portfolio2.Models
 
         [Display(Name = "Rating Date")]
         public DateTime RatingDate { get; set; }
+
+        [Display(Name = "Rating Type")]
+        public Char RatingType { get; set; }
     }
 }

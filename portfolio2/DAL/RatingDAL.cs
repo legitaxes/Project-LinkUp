@@ -51,10 +51,37 @@ namespace portfolio2.DAL
                         Description = row["Description"].ToString(),
                         Stars = Convert.ToInt32(row["Stars"]),
                         RatingDate = Convert.ToDateTime(row["RatingDate"]),
+                        RatingType = Convert.ToChar(row["RatingType"]),
                         SessionID = Convert.ToInt32(row["SessionID"])
                     });
             }
             return ratingList;
+        }
+
+        public int GiveReviewToParticipant(Rating review) //pass in the review to give to insert into the database, insert into rating
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO Rating (Description, Stars, RatingType, SessionID) " +
+                "OUTPUT INSERTED.RatingID " +
+                "VALUES(@desc, @stars, @ratingtype, @sessionid)", conn);
+            cmd.Parameters.AddWithValue("@desc", review.Description);
+            cmd.Parameters.AddWithValue("@stars", review.Stars);
+            cmd.Parameters.AddWithValue("@ratingtype", 'P');
+            cmd.Parameters.AddWithValue("@sessionid", review.SessionID);
+            conn.Open();
+            review.RatingID = (int)cmd.ExecuteScalar();
+            conn.Close();
+            return review.RatingID;
+        }
+
+        public void UpdateStudentRating(int studentid, int ratingid) //links ratingid to the student
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO StudentRating (StudentID, RatingID) " +
+                " VALUES(@studentid, @ratingid)", conn);
+            cmd.Parameters.AddWithValue("@studentid", studentid);
+            cmd.Parameters.AddWithValue("@ratingid", ratingid);
+            conn.Open();
+            cmd.ExecuteScalar();
+            conn.Close();
         }
     }
 }

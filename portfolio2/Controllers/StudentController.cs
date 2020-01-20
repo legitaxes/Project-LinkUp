@@ -203,7 +203,8 @@ namespace portfolio2.Controllers
                             {
                                 Description = currentrating.Description,
                                 RatingDate = currentrating.RatingDate,
-                                Stars = currentrating.Stars
+                                Stars = currentrating.Stars,
+                                RatingType = currentrating.RatingType
                             });
                         }
                     }
@@ -228,6 +229,10 @@ namespace portfolio2.Controllers
                 return RedirectToAction("Error", "Home");
             }
             StudentDetails student = studentContext.GetStudentDetails(id);
+            if (student == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             int studentid = student.StudentID;
             List<StudentRating> studentratingList = studentratingContext.GetAllStudentRatings();
             List<Rating> ratingList = ratingContext.GetAllRatings();
@@ -245,7 +250,8 @@ namespace portfolio2.Controllers
                             {
                                 Description = currentrating.Description,
                                 RatingDate = currentrating.RatingDate,
-                                Stars = currentrating.Stars
+                                Stars = currentrating.Stars,
+                                RatingType = currentrating.RatingType
                             });
                         }
                     }

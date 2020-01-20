@@ -22,6 +22,9 @@ namespace portfolio2.Models
         [Display(Name = "Rating Date")]
         public DateTime RatingDate { get; set; }
 
+        [Display(Name = "Rating Type")]
+        public char RatingType { get; set; }
+
         [Display(Name = "Session ID")]
         public int SessionID { get; set; }
     }

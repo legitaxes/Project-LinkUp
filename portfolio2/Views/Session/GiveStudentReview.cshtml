@@ -1,0 +1,43 @@
+﻿@model IEnumerable<portfolio2.Models.StudentDetails>
+
+@{
+    ViewData["Title"] = "GiveStudentReview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Give Student Review</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>Give Student Review</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a asp-action="StudentReview" asp-route-id="@item.StudentID">Give Review</a>
+                </td>
+            </tr>
+            @if (item == null)
+            {
+                <a asp-action="MySession" class="btn btn-success">Return To My Session</a>
+            }
+            else
+            {
+                <p class="text-danger">You can click this once you have done all the reviews for all the student!</p>
+                <a value="Return To My Session" class="btn btn-secondary disabled"></a> 
+            }
+}
+    </tbody>
+</table>
+
+

@@ -35,7 +35,14 @@
                 studentnumber += item.StudentNumber + "@connect.np.edu.sg,";
                 <tr>
                     <td>
-                        <img src="~/images/Profilepictures/@item.Photo" />
+                        @if (item.Photo != "")
+                        {
+                            <img src="~/images/Profilepictures/@item.Photo" />
+                        }
+                        else
+                        {
+                            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg">
+                        }
                     </td>
                     <td>
                         <a asp-controller="Student" asp-action="ProfileDetails" asp-route-id="@item.StudentNumber" target="_blank">@Html.DisplayFor(modelItem => item.Name)</a>

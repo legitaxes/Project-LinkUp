@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using portfolio2.DAL;
 using portfolio2.Models;
@@ -17,6 +18,7 @@ namespace portfolio2.Controllers
         private StudentDAL studentContext = new StudentDAL();
         private LocationDAL locationContext = new LocationDAL();
         private CategoryDAL categoryContext = new CategoryDAL();
+        private RatingDAL ratingContext = new RatingDAL();
 
         public IActionResult Index()
         {
@@ -131,7 +133,7 @@ namespace portfolio2.Controllers
             var sesover = session.SessionDate + TimeSpan.FromHours(session.Hours); //adds number of hours of a session to sessiondate of session, this gives the time the session ends
             if ((sesover - DateTime.Now).TotalHours <= 0) //take sesover deduct datetime.now, it should give negative number: meaning it is way past the session time. 
             {                                             //if it is positive: the session is not over/not yet begun. ||(USE BREAKPOINTS HERE TO UNDERSTAND)||
-                ViewData["SessionOver"] = "The session is over... Click to mark as complete"; 
+                ViewData["SessionOver"] = "The session is over... Click to mark as complete";
             }
             StudentDetails sessionOwner = studentContext.GetStudentBasedOnSession(id); //this gets the student details of the session owner!
             if (sessionOwner == null)
@@ -180,9 +182,103 @@ namespace portfolio2.Controllers
             return View();
         }
 
-        public ActionResult MarkSessionComplete(int id)
+        public ActionResult GiveStudentReview(int? id) //session id passed in
         {
             if (id == null) //return to error page if user tries enter the page without any id
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            Session session = sessionContext.GetSessionDetails(id); //get session details
+            if (session == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            if (session.Status == 'N')
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            SessionPhoto currentSession = MapToSingleSessionVM(session); //convert to viewmodel
+            bool owner = sessionContext.CheckSessionOwner(id, HttpContext.Session.GetInt32("StudentID")); //checks whether the session is the session owner || false = not owner
+            if (owner == false) //checks whether the session is the session owner, ONLY SESSION OWNER CAN MARK THEIR OWN SESSION COMPLETE
+            {                   // this check ensures that the user who tries to cheat his way through url manipulation will not even get pass here
+                return RedirectToAction("Error", "Home");
+            }
+            TempData["SessionID"] = session.SessionID;
+            TempData["SessionStatus"] = session.Status;
+            List<StudentDetails> SessionParticipantList = sessionContext.GetParticipantList(id);
+            return View(SessionParticipantList);
+        }
+
+        public ActionResult StudentReview(int id) // studentid to give review || this page is flawed... anyone can give reviews to anyone (that's if anyone bother reading through the code LUL
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            if (id == null) //return to error page if user tries enter the page without any id
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            if (Convert.ToChar(TempData["SessionStatus"]) == 'N' || TempData["SessionStatus"] == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            StudentDetails student = studentContext.GetStudentDetails(id); //gets the student details and store them in a viewbag below
+            if (student == null) //return to error page if the student cannot be found
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            ViewData["Stars"] = GetRatingStar(); //sets stars
+            TempData["id"] = id; //sets studentid to tempdata[id]
+            ViewBag.StudentDetails = student;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult StudentReview(Rating review) // studentid to give review || this page is flawed... anyone can give reviews to anyone (that's if anyone bother reading through the code LUL
+        {
+            ViewData["Stars"] = GetRatingStar();
+            if (ModelState.IsValid)
+            {
+                int studentid = Convert.ToInt32(TempData["id"]);
+                int ratingid = ratingContext.GiveReviewToParticipant(review); //updates the rating table with the new rating given by the user
+                ratingContext.UpdateStudentRating(studentid, ratingid); //updates studentrating table based on the ratings
+                int bookingid = sessionContext.GetBookingID(studentid, review.SessionID); //gets bookingid based on studentid and sessionid
+                sessionContext.RemoveStudentBooking(studentid, bookingid); //removes studentbooking based on the studentid and bookingid
+                sessionContext.UpdateBookingStatus(bookingid); //updates the bookingstatus for the student to be 'Y'
+                return RedirectToAction("GiveStudentReview", new { id = review.SessionID });
+            }
+            return RedirectToAction("GiveStudentReview", new { id = review.SessionID });
+        }
+
+        private List<SelectListItem> GetRatingStar()
+        {
+            List<SelectListItem> stars = new List<SelectListItem>();
+            for (int i = 1; i <= 5; i++)
+            {
+                stars.Add(new SelectListItem
+                {
+                    Value = i.ToString(),
+                    Text = i.ToString(),
+                });
+            }
+            return stars;
+        }
+
+        public ActionResult MarkSessionComplete(int? id) //change the status of the session to Y, update the points to the participants and the session owner + participants
+        {
+            if (id == null) //return to error page if user tries enter the page without any id
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
             {
                 return RedirectToAction("Error", "Home");
             }
@@ -207,11 +303,14 @@ namespace portfolio2.Controllers
                 {
                     foreach (StudentDetails participant in participantList)
                     {
-                        studentContext.UpdateStudentPoints(participant.StudentID, participant.Points + currentSession.Points);
+                        //to implement: attendance checklist or remove a student who didnt turn up
+                        studentContext.UpdateStudentPoints(participant.StudentID, participant.Points + currentSession.Points); //distribute the points to the participants for participanting
+                        sessionContext.AddReviewNotification(participant.StudentID); //gives a notification to the participant that they have to give reivew to the session owner
                     }
+                    return RedirectToAction("GiveStudentReview", new { id = id });
                 }
             }
-            return RedirectToAction("MySession");
+            return RedirectToAction("Details", new { id = id });
         }
 
         public SessionPhoto MapToSingleSessionVM(Session session)
@@ -287,9 +386,9 @@ namespace portfolio2.Controllers
             {
                 DateTime currenttime = DateTime.Now;
                 TimeSpan ts = session.SessionDate - currenttime;
-                if (ts.TotalHours < 1)
+                if (ts.TotalHours < 2)
                 {
-                    ViewData["Error"] = "You cannot create a session 1 hour before now!";
+                    ViewData["Error"] = "You cannot create a session 2 hour before now!";
                     return View(session);
                 }
                 session.SessionID = sessionContext.CreateSession(session);

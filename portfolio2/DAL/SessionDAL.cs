@@ -37,8 +37,8 @@ namespace portfolio2.DAL
         public int CreateBooking(int sessionid, int hours)
         {
             int points = (15 * hours) / 2; //formula to be confirmed
-            SqlCommand cmd = new SqlCommand("INSERT INTO Booking (PointsEarned, SessionID) " +
-                "OUTPUT INSERTED.BookingID " + "VALUES(@points, @session)", conn);
+            SqlCommand cmd = new SqlCommand("INSERT INTO Booking (PointsEarned, Status, SessionID) " +
+                "OUTPUT INSERTED.BookingID " + "VALUES(@points, 'N', @session)", conn);
             cmd.Parameters.AddWithValue("@points", points);
             cmd.Parameters.AddWithValue("@session", sessionid);
             conn.Open();
@@ -220,7 +220,7 @@ namespace portfolio2.DAL
                         Interest = row["Interest"].ToString(),
                         ExternalLink = row["ExternalLink"].ToString(),
                         Description = row["Description"].ToString(),
-                        //Points = Convert.ToInt32(row["Points"]),
+                        Points = Convert.ToInt32(row["Points"]),
                         CourseID = Convert.ToInt32(row["CourseID"])
                     });
             }
@@ -312,7 +312,6 @@ namespace portfolio2.DAL
                 return null;
             }
         }
-
         public List<Session> GetSignedUpSession(int? studentID) //queries for session the user have signed up
         {
             SqlCommand cmd = new SqlCommand("SELECT s.SessionID, s.SessionDate, s.Name, s.Description, s.Photo, s.Hours, s.Participants, s.Points, s.Status, s.StudentID, s.LocationID, s.CategoryID " +
@@ -411,7 +410,7 @@ namespace portfolio2.DAL
             return session.SessionID;
         }
 
-        public int MarkSessionAsComplete(int sessionid) //marks a session complete by setting the status to 'Y'
+        public int MarkSessionAsComplete(int? sessionid) //marks a session complete by setting the status to 'Y'
         {
             SqlCommand cmd = new SqlCommand("UPDATE Session SET Status = 'Y'" +
             " WHERE SessionID = @selectedsessionid", conn);
@@ -420,6 +419,32 @@ namespace portfolio2.DAL
             int count = cmd.ExecuteNonQuery();
             conn.Close();
             return count;
+        }
+
+        public int UpdateBookingStatus(int? bookingid) //given the bookingid, update the status of the booking to Y
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE Booking SET Status=@status" + 
+                " WHERE BookingID = @selectedbookingid", conn);
+            cmd.Parameters.AddWithValue("@status", 'Y');
+            cmd.Parameters.AddWithValue("@selectedbookingid", bookingid);
+            conn.Open();
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+            return count;
+        }
+
+        public int AddReviewNotification(int studentid)
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO Notification (NotificationName, Status, StudentID) " + 
+                "OUTPUT INSERTED.StaffID " +
+                "VALUES(@notiname, @status, @studentid)", conn);
+            cmd.Parameters.AddWithValue("@notiname", "You have a review to give to the session owner that you have recently attended of!");
+            cmd.Parameters.AddWithValue("@status", 'N');
+            cmd.Parameters.AddWithValue("@studentid", studentid);
+            conn.Open();
+            int notificationid = (int)cmd.ExecuteScalar();
+            conn.Close();
+            return notificationid;
         }
 
         public List<Session> FilteredSession(int? categoryID) //gets a list of ses

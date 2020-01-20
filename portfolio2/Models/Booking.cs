@@ -10,6 +10,7 @@ namespace portfolio2.Models
         public int BookingID { get; set; }
         public DateTime BookingDate { get; set; }
         public int PointsEarned { get; set; }
+        public char Status { get; set; }
         public int SessionID { get; set; }
     }
 }

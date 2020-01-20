@@ -20,6 +20,7 @@ namespace portfolio2.Controllers
         private SessionDAL sessionContext = new SessionDAL();
         private LocationDAL locationContext = new LocationDAL();
         private CategoryDAL categoryContext = new CategoryDAL();
+        private NotificationDAL notificationContext = new NotificationDAL();
 
         public IActionResult Index()
         {
@@ -65,11 +66,19 @@ namespace portfolio2.Controllers
 
         public ActionResult StudentMain()
         {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Error", "Home");
+            }
             //if student never signup on our site before
             if (studentContext.checkStudent(HttpContext.Session.GetString("StudentNumber")) == false)
                 return RedirectToAction("Create", "Student");
             else
-                return View();
+            {
+                List<Notification> notificationList = notificationContext.GetAllNotification(HttpContext.Session.GetInt32("StudentID"));
+                return View(notificationList);
+            }
         }
 
         public ActionResult Error() //main error page with fake error 404 message

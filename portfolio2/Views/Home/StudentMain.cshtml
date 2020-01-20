@@ -1,59 +1,84 @@
-﻿@model IEnumerable<portfolio2.Models.RequestViewModel>
+﻿@model IEnumerable<portfolio2.Models.Notification>
 
 @{
 	ViewData["Title"] = "StudentMain";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{
-	string userId = "Anonymous"; string userRole = "Unknown";
-	if (Context.Session.GetString("Role") != null) { userRole = Context.Session.GetString("Role"); }
-	if (Context.Session.GetString("LoginID") != null)
-	{
-		userId = Context.Session.GetString("LoginID");
-	}
-}
-
-<center><h1>Hey there, @userId!</h1></center>
+<center><h1>Hey there, @Context.Session.GetString("LoginID")!</h1></center>
 <center>
-	<h2>You have <b>2 or so</b> notifications from sessions you have joined (will be functional when backend is done)</h2>
-	<h2>You have <b>1</b> notification from a session you've created (again, will be functional when backend is done)</h2>
-	<div class="col-md-6 col-lg-4">
-		<div class="card border-0 transform-on-hover">
-			<a class="lightbox"><img src="~/images/npstudents.jpg" class="card-img-top" /></a>
-			<div class="card-body">
-				<h6>Students create new sessions everyday!</h6>
-				<p class="text-muted card-text">What will you lean today?</p>
-				<a asp-controller="Session" asp-action="Index" class="btn btn-primary">View Sessions</a>
-			</div>
-		</div>
-	</div>
-	@if (ViewData["MyRequestEmpty"] == null)
-	{
+    @if (Model.ToList().Count > 0)
+    {
+        <h2>You have <b>@Model.ToList().Count</b> notifications</h2>
+        <div class="table-responsive">
+            <table id="viewStaff" class="table table-striped table-bordered"> 
+                <thead class="thead-dark">
+                <tr> 
+                    <th>Number</th>
+                    <th>Notification Name</th> 
+                    <th>Status</th> 
+                    <th>Date Posted</th> 
+                    <th></th> 
+                </tr> 
+                </thead>
+                <tbody>
+                    @{int number = 1;}
+                    @foreach (var item in Model)
+                    {
+                        <tr class="table-danger">
+                            <td>@number</td>
+                            <td>@item.NotificationName</td>
+                            <td>@item.Status</td>
+                            <td>@item.DatePosted</td>
+                            <td><a asp-action="">Do Action</a></td>
+                        </tr>
+                        number++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 
-		<div class="col-md-6 col-lg-4">
-			<div class="card border-0 transform-on-hover">
-				<a class="lightbox"><img src="~/images/mail.jpg" class="card-img-top" /></a>
-				<div class="card-body">
-					<h6>There are still some unanswered requests!</h6>
-					<p class="text-muted card-text">Think you could help someone out?</p>
-					<a href="~/Student/AllRequests" class="btn btn-primary">View Requests</a>
-				</div>
-			</div>
-		</div>
-	}
-	else
-	{
-		<div class="col-md-6 col-lg-4">
-			<div class="card border-0 transform-on-hover">
-				<a class="lightbox"><img src="~/images/mail.jpg" class="card-img-top" /></a>
-				<div class="card-body">
-					<h6>There are no new requests!</h6>
-					<p class="text-muted card-text">Did you need help with something?</p>
-					<a href="~/Student/MakeRequest" class="btn btn-primary">Make Request</a>
-				</div>
-			</div>
-		</div>
-	}
+    else
+    {
+        <h2>You have <b>@Model.ToList().Count</b> notifications</h2>
+    }
+    <div class="col-md-6 col-lg-4">
+        <div class="card border-0 transform-on-hover">
+            <a class="lightbox"><img src="~/images/npstudents.jpg" class="card-img-top" /></a>
+            <div class="card-body">
+                <h6>Students create new sessions everyday!</h6>
+                <p class="text-muted card-text">What will you lean today?</p>
+                <a asp-controller="Session" asp-action="Index" class="btn btn-primary">View Sessions</a>
+            </div>
+        </div>
+    </div>
+    @if (ViewData["MyRequestEmpty"] == null)
+    {
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card border-0 transform-on-hover">
+                <a class="lightbox"><img src="~/images/mail.jpg" class="card-img-top" /></a>
+                <div class="card-body">
+                    <h6>There are still some unanswered requests!</h6>
+                    <p class="text-muted card-text">Think you could help someone out?</p>
+                    <a href="~/Student/AllRequests" class="btn btn-primary">View Requests</a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-md-6 col-lg-4">
+            <div class="card border-0 transform-on-hover">
+                <a class="lightbox"><img src="~/images/mail.jpg" class="card-img-top" /></a>
+                <div class="card-body">
+                    <h6>There are no new requests!</h6>
+                    <p class="text-muted card-text">Did you need help with something?</p>
+                    <a href="~/Student/MakeRequest" class="btn btn-primary">Make Request</a>
+                </div>
+            </div>
+        </div>
+    }
 
 </center>

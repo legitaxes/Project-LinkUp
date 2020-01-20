@@ -108,16 +108,18 @@
             @foreach (var item in Model)
             {
                 string selectedCard = "class ='card bg-light h-100'";
+                string sCard = "class='card-body'";
                 if (item.StudentName == Context.Session.GetString("LoginID"))
                 {
-                    selectedCard = "class ='card border-info text-blue h-100'";
+                    selectedCard = "class ='card border-primary text-blue h-100'";
+                    sCard = "class='card-body text-primary'";
                 }
                 if (item.Status == 'N') //show all the listing where the status is not done
                 {
                     <div class="col-md-6 col-lg-3">
                         <div @Html.Raw(selectedCard)>
                             <a class="lightbox" asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID"><img src="~/images/Sessions/@item.Photo" class="card-img-top"></a>
-                            <div class="card-body">
+                            <div @Html.Raw(sCard)>
                                 <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.SessionDate) | Duration: @Html.DisplayFor(modelItem => item.Hours)hrs | @Html.DisplayFor(modelItem => item.LocationName)</h6>
                                 <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
@@ -128,7 +130,14 @@
                                 <li class="list-group-item">Host: @Html.DisplayFor(modelItem => item.StudentName)</li>
                             </ul>
                             <div class="card-body">
-                                <a asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID" class="btn btn-primary">View Session Details</a>
+                                @if (item.StudentName == Context.Session.GetString("LoginID"))
+                                {
+                                    <a asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID" class="btn btn-warning">View Your Session Details</a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID" class="btn btn-primary">View Session Details</a>
+                                }
                             </div>
                         </div>
                     </div>
