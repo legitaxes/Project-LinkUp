@@ -6,7 +6,10 @@
 }
 
 <h2>Give Student Review</h2>
-
+@if (ViewData["ErrorMessage"] != null)
+{
+    <h2 class="text-danger">@ViewData["ErrorMessage"]</h2>
+}
 <table class="table">
     <thead>
         <tr>
@@ -27,17 +30,18 @@
                     <a asp-action="StudentReview" asp-route-id="@item.StudentID">Give Review</a>
                 </td>
             </tr>
-            @if (item == null)
-            {
-                <a asp-action="MySession" class="btn btn-success">Return To My Session</a>
-            }
-            else
-            {
-                <p class="text-danger">You can click this once you have done all the reviews for all the student!</p>
-                <a value="Return To My Session" class="btn btn-secondary disabled"></a> 
-            }
-}
+        }
     </tbody>
 </table>
+    @if (Model.ToList().Count == 0)
+    {
+        <a asp-action="MySession" class="btn btn-success">Return To My Session</a>
+    }
+    else
+    {
+        <p class="text-danger">You can click this once you have done all the reviews for all the student!</p>
+        <a value="Return To My Session" class="btn btn-secondary disabled" role="button" aria-disabled="true">Return To My Session</a>
+
+    }
 
 

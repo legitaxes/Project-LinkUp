@@ -52,10 +52,41 @@ namespace portfolio2.DAL
                         NotificationName = row["NotificationName"].ToString(),
                         Status = Convert.ToChar(row["Status"]),
                         DatePosted = Convert.ToDateTime(row["DatePosted"]),
+                        OwnerID = Convert.ToInt32(row["OwnerID"]),
+                        SessionID = Convert.ToInt32(row["SessionID"]),
                         StudentID = Convert.ToInt32(row["StudentID"])
                     });
             }
             return notificationList;
         }
+
+        public int RemoveNotification(int notificationid)
+        {
+            SqlCommand cmd = new SqlCommand("DELETE FROM Notification " + 
+                "WHERE NotificationID = @notificationid", conn);
+            cmd.Parameters.AddWithValue("@notificationid", notificationid);
+            conn.Open();
+            int count;
+            count = cmd.ExecuteNonQuery();
+            conn.Close();
+            return count;
+        }
+
+        public int AddReviewNotification(int studentid, int? ownerid, int? sessionid)
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO Notification (NotificationName, Status, OwnerID, SessionID, StudentID) " +
+                "OUTPUT INSERTED.NotificationID " +
+                "VALUES(@notiname, @status, @ownerid, @sessionid, @studentid)", conn);
+            cmd.Parameters.AddWithValue("@notiname", "You have a review to give to the session owner that you have recently attended of!");
+            cmd.Parameters.AddWithValue("@status", 'N');
+            cmd.Parameters.AddWithValue("@ownerid", ownerid);
+            cmd.Parameters.AddWithValue("@sessionid", sessionid);
+            cmd.Parameters.AddWithValue("@studentid", studentid);
+            conn.Open();
+            int notificationid = (int)cmd.ExecuteScalar();
+            conn.Close();
+            return notificationid;
+        }
+
     }
 }

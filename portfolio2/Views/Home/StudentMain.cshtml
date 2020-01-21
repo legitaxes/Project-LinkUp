@@ -30,7 +30,12 @@
                             <td>@item.NotificationName</td>
                             <td>@item.Status</td>
                             <td>@item.DatePosted</td>
-                            <td><a asp-action="">Do Action</a></td>
+                            <td>
+                                @if (item.NotificationName == "You have a review to give to the session owner that you have recently attended of!")
+                                {
+                                    <a asp-action="GiveSessionOwnerReview" asp-route-id="@item.OwnerID" asp-route-sessionid="@item.SessionID" asp-route-notificationid="@item.NotificationID" class="btn btn-primary">Give Review To Session Owner</a>
+                                }
+                            </td>
                         </tr>
                         number++;
                     }

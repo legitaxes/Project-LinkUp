@@ -81,6 +81,15 @@ namespace portfolio2.Controllers
             }
         }
 
+        public ActionResult GiveSessionOwnerReview(int id, int sessionid, int notificationid)
+        {
+            TempData["SessionStatus"] = 'Y'; //to get past the prevention system in check
+            TempData["SessionID"] = sessionid; //sets the sessionID for the notification
+            TempData["StudentReview"] = true;
+            TempData["NotificationID"] = notificationid;
+            return RedirectToAction("StudentReview", "Session", new { id = id });
+        }
+
         public ActionResult Error() //main error page with fake error 404 message
         {
             return View();

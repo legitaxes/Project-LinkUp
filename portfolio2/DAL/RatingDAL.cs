@@ -73,6 +73,22 @@ namespace portfolio2.DAL
             return review.RatingID;
         }
 
+        public int GiveReviewToSessionOwner(Rating review) //pass in the review to give to insert into the database, insert into rating
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO Rating (Description, Stars, RatingType, SessionID) " +
+                "OUTPUT INSERTED.RatingID " +
+                "VALUES(@desc, @stars, @ratingtype, @sessionid)", conn);
+            cmd.Parameters.AddWithValue("@desc", review.Description);
+            cmd.Parameters.AddWithValue("@stars", review.Stars);
+            cmd.Parameters.AddWithValue("@ratingtype", 'O');
+            cmd.Parameters.AddWithValue("@sessionid", review.SessionID);
+            conn.Open();
+            review.RatingID = (int)cmd.ExecuteScalar();
+            conn.Close();
+            return review.RatingID;
+        }
+
+
         public void UpdateStudentRating(int studentid, int ratingid) //links ratingid to the student
         {
             SqlCommand cmd = new SqlCommand("INSERT INTO StudentRating (StudentID, RatingID) " +

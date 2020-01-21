@@ -19,6 +19,7 @@ namespace portfolio2.Controllers
         private LocationDAL locationContext = new LocationDAL();
         private CategoryDAL categoryContext = new CategoryDAL();
         private RatingDAL ratingContext = new RatingDAL();
+        private NotificationDAL notificationContext = new NotificationDAL();
 
         public IActionResult Index()
         {
@@ -247,13 +248,27 @@ namespace portfolio2.Controllers
             if (ModelState.IsValid)
             {
                 int studentid = Convert.ToInt32(TempData["id"]);
-                int ratingid = ratingContext.GiveReviewToParticipant(review); //updates the rating table with the new rating given by the user
-                ratingContext.UpdateStudentRating(studentid, ratingid); //updates studentrating table based on the ratings
-                int bookingid = sessionContext.GetBookingID(studentid, review.SessionID); //gets bookingid based on studentid and sessionid
-                sessionContext.RemoveStudentBooking(studentid, bookingid); //removes studentbooking based on the studentid and bookingid
-                sessionContext.UpdateBookingStatus(bookingid); //updates the bookingstatus for the student to be 'Y'
-                return RedirectToAction("GiveStudentReview", new { id = review.SessionID });
+                if (TempData["StudentReview"] != null)
+                {
+                    int ratingid = ratingContext.GiveReviewToSessionOwner(review); //updates the rating table with the new rating given by the user
+                    ratingContext.UpdateStudentRating(studentid, ratingid); //updates studentrating table based on the ratings
+                    int bookingid = sessionContext.GetBookingID(studentid, review.SessionID); //gets bookingid based on studentid and sessionid
+                    //sessionContext.RemoveStudentBooking(studentid, bookingid); //removes studentbooking based on the studentid and bookingid
+                    sessionContext.UpdateBookingStatus(bookingid); //updates the bookingstatus for the student to be 'Y'
+                    notificationContext.RemoveNotification(Convert.ToInt32(TempData["NotificationID"]));
+                    return RedirectToAction("StudentMain", "Home");
+                }
+                else
+                {
+                    int ratingid = ratingContext.GiveReviewToParticipant(review); //updates the rating table with the new rating given by the user
+                    ratingContext.UpdateStudentRating(studentid, ratingid); //updates studentrating table based on the ratings
+                    int bookingid = sessionContext.GetBookingID(studentid, review.SessionID); //gets bookingid based on studentid and sessionid
+                    //sessionContext.RemoveStudentBooking(studentid, bookingid); //removes studentbooking based on the studentid and bookingid
+                    sessionContext.UpdateBookingStatus(bookingid); //updates the bookingstatus for the student to be 'Y'
+                    return RedirectToAction("GiveStudentReview", new { id = review.SessionID });
+                }
             }
+            ViewData["ErrorMessage"] = "You cannot submit an enter review! Please Try Again";
             return RedirectToAction("GiveStudentReview", new { id = review.SessionID });
         }
 
@@ -305,7 +320,7 @@ namespace portfolio2.Controllers
                     {
                         //to implement: attendance checklist or remove a student who didnt turn up
                         studentContext.UpdateStudentPoints(participant.StudentID, participant.Points + currentSession.Points); //distribute the points to the participants for participanting
-                        sessionContext.AddReviewNotification(participant.StudentID); //gives a notification to the participant that they have to give reivew to the session owner
+                        notificationContext.AddReviewNotification(participant.StudentID, HttpContext.Session.GetInt32("StudentID"), id); //gives a notification to the participant that they have to give reivew to the session owner
                     }
                     return RedirectToAction("GiveStudentReview", new { id = id });
                 }

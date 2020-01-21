@@ -12,6 +12,7 @@ namespace portfolio2.Models
         public int RatingID { get; set; }
 
         [Display(Name = "Description")]
+        [Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
         [StringLength(3000, ErrorMessage = "Name Cannot Exceed 3000 Characters!")]
         public string Description { get; set; }
 

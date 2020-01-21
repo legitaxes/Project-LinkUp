@@ -198,8 +198,9 @@ namespace portfolio2.DAL
         {
             SqlCommand cmd = new SqlCommand("Select * FROM Booking b INNER JOIN StudentBooking sb on sb.BookingID = b.BookingID " +
             "INNER JOIN Student s on s.StudentID = sb.StudentID " +
-            "WHERE SessionID = @selectedsessionid", conn);
+            "WHERE SessionID = @selectedsessionid AND b.Status = @status", conn);
             cmd.Parameters.AddWithValue("@selectedsessionid", sessionid);
+            cmd.Parameters.AddWithValue("@status", 'N');
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
             conn.Open();
@@ -431,20 +432,6 @@ namespace portfolio2.DAL
             int count = cmd.ExecuteNonQuery();
             conn.Close();
             return count;
-        }
-
-        public int AddReviewNotification(int studentid)
-        {
-            SqlCommand cmd = new SqlCommand("INSERT INTO Notification (NotificationName, Status, StudentID) " + 
-                "OUTPUT INSERTED.StaffID " +
-                "VALUES(@notiname, @status, @studentid)", conn);
-            cmd.Parameters.AddWithValue("@notiname", "You have a review to give to the session owner that you have recently attended of!");
-            cmd.Parameters.AddWithValue("@status", 'N');
-            cmd.Parameters.AddWithValue("@studentid", studentid);
-            conn.Open();
-            int notificationid = (int)cmd.ExecuteScalar();
-            conn.Close();
-            return notificationid;
         }
 
         public List<Session> FilteredSession(int? categoryID) //gets a list of ses
