@@ -82,6 +82,26 @@ namespace portfolio2.DAL
             return 0;
         }
 
+        public bool CheckBookingStatus(int? bookingid, int? sessionid)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Booking b " +
+                "WHERE BookingID = @selectedbookingid AND SessionID = @selectedsessionid", conn);
+            cmd.Parameters.AddWithValue("@selectedbookingid", bookingid);
+            cmd.Parameters.AddWithValue("@selectedsessionid", sessionid);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "BookingStatusList");
+            conn.Close();
+            foreach (DataRow row in result.Tables["BookingStatusList"].Rows)
+            {
+                if (Convert.ToChar(row["Status"]) == 'Y')
+                    return true;
+            }
+            return false;
+
+        }
+
         public int GetBookingID(int? studentid, int sessionid) //gets the bookingID based on the sessionID and studentID
         {
             SqlCommand cmd = new SqlCommand("Select b.BookingID from booking b INNER JOIN StudentBooking sb on sb.BookingID = b.BookingID" +

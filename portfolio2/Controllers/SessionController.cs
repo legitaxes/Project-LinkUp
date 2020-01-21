@@ -120,9 +120,15 @@ namespace portfolio2.Controllers
             else //else, - not owner.. check whether the user have already signup for the session
             {
                 bool checksignup = sessionContext.CheckSignUp(id, HttpContext.Session.GetInt32("StudentID"));
-                if (checksignup == true) //checks whether the user have already signed up for the session
+                int bookingid = sessionContext.GetBookingID(HttpContext.Session.GetInt32("StudentID"), id);
+                bool statuscancelled = sessionContext.CheckBookingStatus(bookingid, id);
+                if (checksignup == true && statuscancelled == false) //checks whether the user have already signed up for the session
                 {
                     ViewData["CheckSignUp"] = "The User have signed up";
+                }
+                else if (checksignup == true && statuscancelled == true)
+                {
+                    ViewData["StatusCancelled"] = "The session was cancelled...";
                 }
             }
             DateTime currenttime = DateTime.Now;
@@ -444,6 +450,17 @@ namespace portfolio2.Controllers
             {
                 TempData["CannotCancel"] = "You cannot cancel any session 2 hours before it starts";
                 return RedirectToAction("Details", new { id = session.SessionID });
+            }
+            List<StudentDetails> participantList = sessionContext.GetParticipantList(id);
+            if (participantList.Count() > 0)
+            {
+                foreach (StudentDetails participant in participantList)
+                {
+                    notificationContext.AddSessionCancelNotification(participant.StudentID, HttpContext.Session.GetInt32("StudentID"), session.SessionID); //gives notification to the participant
+                    int bookingid = sessionContext.GetBookingID(participant.StudentID, session.SessionID); //gets bookingoid
+                    sessionContext.UpdateBookingStatus(bookingid);
+                    sessionContext.UpdateSessionParticipant(session.Participants - 1, session.SessionID);
+                }
             }
             session.Status = 'Y';
             sessionContext.UpdateSession(session);

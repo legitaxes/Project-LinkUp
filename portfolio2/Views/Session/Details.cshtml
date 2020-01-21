@@ -192,7 +192,11 @@
                             {
                                 <a href="https://teams.microsoft.com/l/chat/0/0?users=@ViewData["SessionStudentNumber"]@@connect.np.edu.sg" target="_blank" class="btn btn-primary">Chat on Microsoft Teams</a>
                                 @:<div>
-                                    @if (ViewData["CheckSignUp"] == null) //checks whether the user has already signed up for the session, if not go to else
+                                    @if (ViewData["StatusCancelled"] != null)
+                                    {
+                                        <p style="color:darkorange; font-weight:bold;">@ViewData["StatusCancelled"]</p>
+                                    }
+                                    else if (ViewData["CheckSignUp"] == null) //checks whether the user has already signed up for the session, if not go to else
                                     {
                                         <form asp-action="Details" method="post" onsubmit="return confirm('Are you sure you want to signup for this session?');">
                                             <input asp-for="SessionID" readonly hidden value="@Model.SessionID" />
@@ -217,33 +221,33 @@
                                             }
                                         </form>
                                     @:</div>
-                                }
-                                else
-                                {
-                                    <p style="color:lawngreen; font-weight:bold;">You have signed up for this!</p>
-                                    <form asp-action="CancelSignup" method="post" onsubmit="return confirm('Are you sure you want to cancel the session?');">
-                                        <input asp-for="SessionID" readonly hidden value="@Model.SessionID" />
-                                        <input asp-for="SessionDate" readonly hidden value="@Model.SessionDate" />
-                                        <input asp-for="Name" readonly hidden value="@Model.Name" />
-                                        <input asp-for="Description" readonly hidden value="@Model.Description" />
-                                        <input asp-for="Photo" readonly hidden value="@Model.Photo" />
-                                        <input asp-for="Hours" readonly hidden value="@Model.Hours" />
-                                        <input asp-for="Participants" readonly hidden value="@Model.Participants" />
-                                        <input asp-for="Status" readonly hidden value="@Model.Status" />
-                                        <input asp-for="StudentName" readonly hidden value="@Model.StudentName" />
-                                        <input asp-for="LocationName" readonly hidden value="@Model.LocationName" />
-                                        <input asp-for="CategoryName" readonly hidden value="@Model.CategoryName" />
-                                        @if (ViewData["Message"] == null)
-                                        {
-                                            <input type="submit" value="Cancel Sign Up" class="btn btn-danger" />
-                                        }
-                                        else
-                                        {
-                                            <p class="text-danger">You can't sign up for a session 2 hours before</p>
-                                            <input type="submit" value="Cancel Sign Up" class="btn btn-secondary" disabled />
-                                        }
-                                    </form>
-                                }
+                                     }
+                                    else
+                                    {
+                                        <p style="color:lawngreen; font-weight:bold;">You have signed up for this!</p>
+                                        <form asp-action="CancelSignup" method="post" onsubmit="return confirm('Are you sure you want to cancel the session?');">
+                                            <input asp-for="SessionID" readonly hidden value="@Model.SessionID" />
+                                            <input asp-for="SessionDate" readonly hidden value="@Model.SessionDate" />
+                                            <input asp-for="Name" readonly hidden value="@Model.Name" />
+                                            <input asp-for="Description" readonly hidden value="@Model.Description" />
+                                            <input asp-for="Photo" readonly hidden value="@Model.Photo" />
+                                            <input asp-for="Hours" readonly hidden value="@Model.Hours" />
+                                            <input asp-for="Participants" readonly hidden value="@Model.Participants" />
+                                            <input asp-for="Status" readonly hidden value="@Model.Status" />
+                                            <input asp-for="StudentName" readonly hidden value="@Model.StudentName" />
+                                            <input asp-for="LocationName" readonly hidden value="@Model.LocationName" />
+                                            <input asp-for="CategoryName" readonly hidden value="@Model.CategoryName" />
+                                            @if (ViewData["Message"] == null)
+                                            {
+                                                <input type="submit" value="Cancel Sign Up" class="btn btn-danger" />
+                                            }
+                                            else
+                                            {
+                                                <p class="text-danger">You can't sign up for a session 2 hours before</p>
+                                                <input type="submit" value="Cancel Sign Up" class="btn btn-secondary" disabled />
+                                            }
+                                        </form>
+                                    }
                                 }
                         }
                     </div>

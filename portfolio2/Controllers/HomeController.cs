@@ -90,6 +90,12 @@ namespace portfolio2.Controllers
             return RedirectToAction("StudentReview", "Session", new { id = id });
         }
 
+        public ActionResult Dismiss(int id)
+        {
+            notificationContext.UpdateNotificationStatus(id);
+            return RedirectToAction("StudentMain");
+        }
+
         public ActionResult Error() //main error page with fake error 404 message
         {
             return View();

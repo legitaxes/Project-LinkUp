@@ -88,5 +88,32 @@ namespace portfolio2.DAL
             return notificationid;
         }
 
+        public int AddSessionCancelNotification(int studentid, int? ownerid, int? sessionid)
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO Notification (NotificationName, Status, OwnerID, SessionID, StudentID) " +
+            "OUTPUT INSERTED.NotificationID " +
+            "VALUES(@notiname, @status, @ownerid, @sessionid, @studentid)", conn);
+            cmd.Parameters.AddWithValue("@notiname", "A session that you have signed up for is cancelled!");
+            cmd.Parameters.AddWithValue("@status", 'N');
+            cmd.Parameters.AddWithValue("@ownerid", ownerid);
+            cmd.Parameters.AddWithValue("@sessionid", sessionid);
+            cmd.Parameters.AddWithValue("@studentid", studentid);
+            conn.Open();
+            int notificationid = (int)cmd.ExecuteScalar();
+            conn.Close();
+            return notificationid;
+        }
+
+        public int UpdateNotificationStatus(int notificationid)
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE Notification SET Status=@status" +
+                " WHERE NotificationID = @selectednotificationid", conn);
+            cmd.Parameters.AddWithValue("@status", 'Y');
+            cmd.Parameters.AddWithValue("@selectednotificationid", notificationid);
+            conn.Open();
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+            return count;
+        }
     }
 }

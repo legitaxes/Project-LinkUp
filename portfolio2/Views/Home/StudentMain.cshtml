@@ -7,37 +7,53 @@
 
 <center><h1>Hey there, @Context.Session.GetString("LoginID")!</h1></center>
 <center>
-    @if (Model.ToList().Count > 0)
+    @{int count = 0;}
+    @foreach (var item in Model)
     {
-        <h2>You have <b>@Model.ToList().Count</b> notifications</h2>
+        if (item.Status == 'N')
+        {
+            count++;
+        }
+    }
+    @if (count > 0)
+    {
+        <h2>You have <b>@count</b> notifications</h2>
         <div class="table-responsive">
-            <table id="viewStaff" class="table table-striped table-bordered"> 
+            <table id="viewStaff" class="table table-striped table-bordered">
                 <thead class="thead-dark">
-                <tr> 
-                    <th>Number</th>
-                    <th>Notification Name</th> 
-                    <th>Status</th> 
-                    <th>Date Posted</th> 
-                    <th></th> 
-                </tr> 
+                    <tr>
+                        <th>Number</th>
+                        <th>Notification Name</th>
+                        <th>Status</th>
+                        <th>Date Posted</th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody>
                     @{int number = 1;}
                     @foreach (var item in Model)
                     {
-                        <tr class="table-danger">
-                            <td>@number</td>
-                            <td>@item.NotificationName</td>
-                            <td>@item.Status</td>
-                            <td>@item.DatePosted</td>
-                            <td>
-                                @if (item.NotificationName == "You have a review to give to the session owner that you have recently attended of!")
-                                {
-                                    <a asp-action="GiveSessionOwnerReview" asp-route-id="@item.OwnerID" asp-route-sessionid="@item.SessionID" asp-route-notificationid="@item.NotificationID" class="btn btn-primary">Give Review To Session Owner</a>
-                                }
-                            </td>
-                        </tr>
-                        number++;
+                        @if (item.Status == 'N')
+                        {
+                            <tr class="table-danger">
+                                <td>@number</td>
+                                <td>@item.NotificationName</td>
+                                <td>@item.Status</td>
+                                <td>@item.DatePosted</td>
+                                <td>
+                                    @if (item.NotificationName == "You have a review to give to the session owner that you have recently attended of!")
+                                    {
+                                        <a asp-action="GiveSessionOwnerReview" asp-route-id="@item.OwnerID" asp-route-sessionid="@item.SessionID" asp-route-notificationid="@item.NotificationID" class="btn btn-primary">Give Review To Session Owner</a>
+                                    }
+                                    else if (item.NotificationName == "A session that you have signed up for is cancelled!")
+                                    {
+                                        <a asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID" class="btn btn-warning">View Details</a>
+                                        <a asp-action="Dismiss" asp-route-id="@item.NotificationID" class="btn btn-danger">Dismiss</a>
+                                    }
+                                </td>
+                            </tr>
+                            number++;
+                        }
                     }
                 </tbody>
             </table>
@@ -46,7 +62,7 @@
 
     else
     {
-        <h2>You have <b>@Model.ToList().Count</b> notifications</h2>
+        <h2>You have <b>@count</b> notifications</h2>
     }
     <div class="col-md-6 col-lg-4">
         <div class="card border-0 transform-on-hover">
