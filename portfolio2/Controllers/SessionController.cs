@@ -120,15 +120,18 @@ namespace portfolio2.Controllers
             else //else, - not owner.. check whether the user have already signup for the session
             {
                 bool checksignup = sessionContext.CheckSignUp(id, HttpContext.Session.GetInt32("StudentID"));
-                int bookingid = sessionContext.GetBookingID(HttpContext.Session.GetInt32("StudentID"), id);
-                bool statuscancelled = sessionContext.CheckBookingStatus(bookingid, id);
-                if (checksignup == true && statuscancelled == false) //checks whether the user have already signed up for the session
+                if (HttpContext.Session.GetInt32("StudentID") != null)
                 {
-                    ViewData["CheckSignUp"] = "The User have signed up";
-                }
-                else if (checksignup == true && statuscancelled == true)
-                {
-                    ViewData["StatusCancelled"] = "The session was cancelled...";
+                    int bookingid = sessionContext.GetBookingID(HttpContext.Session.GetInt32("StudentID"), id);
+                    bool statuscancelled = sessionContext.CheckBookingStatus(bookingid, id);
+                    if (checksignup == true && statuscancelled == false) //checks whether the user have already signed up for the session
+                    {
+                        ViewData["CheckSignUp"] = "The User have signed up";
+                    }
+                    else if (checksignup == true && statuscancelled == true)
+                    {
+                        ViewData["StatusCancelled"] = "The session was cancelled...";
+                    }
                 }
             }
             DateTime currenttime = DateTime.Now;
