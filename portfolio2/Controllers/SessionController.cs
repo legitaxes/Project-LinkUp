@@ -112,7 +112,7 @@ namespace portfolio2.Controllers
             else if (type == "users")
             {
                 ViewData["Search"] = searchedvalue;
-                return RedirectToAction("StudentList", "Student", new { searchedvalue = searchedvalue});
+                return RedirectToAction("StudentList", "Student", new { searchedvalue = searchedvalue });
             }
             return View();
         }

@@ -1,9 +1,15 @@
 ﻿@model portfolio2.Models.StudentDetails
 
-
 @{
     ViewData["Title"] = "Student Leaderboard";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Context.Session.GetInt32("StudentID") != null)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_SignInLayout.cshtml";
+    }
 }
 @{
     var getlist = ViewBag.list as IEnumerable<portfolio2.Models.StudentDetails>;
