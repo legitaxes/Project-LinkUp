@@ -100,6 +100,23 @@ namespace portfolio2.Controllers
             return View(participantList);
         }
 
+        public ActionResult Search(string searchedvalue, string type)
+        {
+            if (type == "sessions")
+            {
+                List<Session> sessionList = sessionContext.GetSearchedSession(searchedvalue);
+                List<SessionViewModel> sessionViewModelList = MapToSessionVM(sessionList);
+                ViewData["Searched"] = searchedvalue;
+                return View(sessionViewModelList);
+            }
+            else if (type == "users")
+            {
+                ViewData["Search"] = searchedvalue;
+                return RedirectToAction("StudentList", "Student", new { searchedvalue = searchedvalue});
+            }
+            return View();
+        }
+
         public ActionResult Details(int id)
         {
             if (id == null) // if id is null
@@ -600,5 +617,6 @@ namespace portfolio2.Controllers
             TempData["Success"] = "Photo has been uploaded successfully";
             return RedirectToAction("Details", new { id = session.SessionID });
         }
+
     }
 }

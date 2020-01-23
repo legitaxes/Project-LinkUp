@@ -373,6 +373,44 @@ namespace portfolio2.DAL
             return sessionList;
         }
 
+        public List<Session> GetSearchedSession(string searchedvalue)
+        {
+            searchedvalue = "%" + searchedvalue + "%";
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE Name LIKE @selectedsearchedname", conn);
+            cmd.Parameters.AddWithValue("@selectedsearchedname", searchedvalue);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "SearchedSessionList");
+            conn.Close();
+            List<Session> sessionList = new List<Session>();
+            foreach (DataRow row in result.Tables["SearchedSessionList"].Rows)
+            {
+                string photo = "";
+                if (!DBNull.Value.Equals(row["Photo"]))
+                    photo = row["Photo"].ToString();
+                else
+                    photo = "stocksession.jpg";
+                sessionList.Add(
+                    new Session
+                    {
+                        SessionID = Convert.ToInt32(row["SessionID"]),
+                        SessionDate = Convert.ToDateTime(row["SessionDate"]),
+                        Name = row["Name"].ToString(),
+                        Description = row["Description"].ToString(),
+                        Photo = photo,
+                        Hours = Convert.ToInt32(row["Hours"]),
+                        Participants = Convert.ToInt32(row["Participants"]),
+                        Points = Convert.ToInt32(row["Points"]),
+                        Status = Convert.ToChar(row["Status"]),
+                        StudentID = Convert.ToInt32(row["StudentID"]),
+                        LocationID = Convert.ToInt32(row["LocationID"]),
+                        CategoryID = Convert.ToInt32(row["CategoryID"])
+                    });
+            }
+            return sessionList;
+        }
+
         public List<Session> GetMySession(int? studentID)
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM Session WHERE StudentID = @selectedstudentID", conn);
