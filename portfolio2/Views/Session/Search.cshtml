@@ -1,0 +1,14 @@
+﻿@model IEnumerable<portfolio2.Models.SessionViewModel>
+
+@{
+    ViewData["Title"] = "Session";
+    if (Context.Session.GetInt32("StudentID") != null)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_SignInLayout.cshtml";
+    }
+}
+<partial name="~/Views/Session/_ViewSession.cshtml" model="@Model" />

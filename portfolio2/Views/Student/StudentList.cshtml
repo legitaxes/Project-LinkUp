@@ -1,0 +1,55 @@
+﻿@model IEnumerable<portfolio2.Models.StudentDetails>
+
+@{
+    ViewData["Title"] = "StudentList";
+    if (Context.Session.GetInt32("StudentID") != null)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_SignInLayout.cshtml";
+    }
+}
+
+<h2>StudentList</h2>
+@if (ViewData["SearchedValue"] != null)
+{
+    <h2>You searched for the user..."<span class="text-danger">@ViewData["SearchedValue"]</span>"</h2>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Points)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Points)
+                </td>
+                <td>
+                    <a asp-controller="Student" asp-action="ProfileDetails" asp-route-id="@item.StudentNumber">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -321,6 +321,47 @@ namespace portfolio2.DAL
             conn.Close();
             return count;
         }
+
+        public List<StudentDetails> GetSearchedStudent(string searchedvalue)
+        {
+            searchedvalue = "%" + searchedvalue + "%";
+            SqlCommand cmd = new SqlCommand(
+            "SELECT * FROM Student WHERE Name LIKE @selectedname", conn);
+            cmd.Parameters.AddWithValue("@selectedname", searchedvalue);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "StudentDetails");
+            conn.Close();
+            List<StudentDetails> studentList = new List<StudentDetails>();
+            foreach (DataRow row in result.Tables["StudentDetails"].Rows)
+            {
+                int? points;
+                if (!DBNull.Value.Equals(row["Points"]))
+                    points = Convert.ToInt32(row["Points"]);
+                else
+                    points = null;
+                studentList.Add(
+                    new StudentDetails
+                    {
+                        StudentID = Convert.ToInt32(row["StudentID"]),
+                        Name = row["Name"].ToString(),
+                        Year = Convert.ToInt32(row["Year"]),
+                        StudentNumber = row["StudentNo"].ToString(),
+                        Photo = row["Photo"].ToString(),
+                        PhoneNo = Convert.ToInt32(row["PhoneNo"]),
+                        Interest = row["Interest"].ToString(),
+                        //Password = row["Password"].ToString(),
+                        ExternalLink = row["ExternalLink"].ToString(),
+                        Description = row["Description"].ToString(),
+                        Points = points,
+                        CourseID = Convert.ToInt32(row["CourseID"])
+                    }
+                );
+            }
+            return studentList;
+        }
+
         public List<StudentDetails> GetAllStudent()
         {
             SqlCommand cmd = new SqlCommand(

@@ -217,13 +217,27 @@ namespace portfolio2.Controllers
             return View(studentVM);
         }
 
+        public ActionResult StudentList(string searchedvalue)
+        {
+            List<StudentDetails> studentList = studentContext.GetSearchedStudent(searchedvalue);
+            ViewData["SearchedValue"] = searchedvalue;
+            if (studentList != null)
+            {
+                return View(studentList);
+            }
+            else
+            {
+                return View();
+            }
+        }
+
         public ActionResult ProfileDetails(string id) //profile detail page of another student, provided ID is given
         {
-            if ((HttpContext.Session.GetString("Role") == null) ||
-           (HttpContext.Session.GetString("Role") != "Student"))
-            {
-                return RedirectToAction("Error", "Home");
-            }
+           // if ((HttpContext.Session.GetString("Role") == null) ||
+           //(HttpContext.Session.GetString("Role") != "Student"))
+           // {
+           //     return RedirectToAction("Error", "Home");
+           // }
             if (id == null)
             {
                 return RedirectToAction("Error", "Home");
@@ -315,6 +329,7 @@ namespace portfolio2.Controllers
             }
             return RedirectToAction("Update");
         }
+
 
         public StudentViewModel MapToCourseAndRating(StudentDetails student)
         {
