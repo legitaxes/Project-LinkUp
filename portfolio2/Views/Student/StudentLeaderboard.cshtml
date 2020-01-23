@@ -1,0 +1,33 @@
+﻿@model portfolio2.Models.StudentDetails
+
+
+@{
+    ViewData["Title"] = "Student Leaderboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var getlist = ViewBag.list as IEnumerable<portfolio2.Models.StudentDetails>;
+}
+<table id="viewRequests" class="table table-striped table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Total points</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{int counter = 1; }
+        @foreach (var item in getlist)
+        {
+            <tr>
+                <td>@counter</td>
+                <td>@item.Name</td>
+                <td>@item.Points</td>
+                <td><a asp-action="ProfileDetails" asp-controller="Student" asp-route-id="@item.StudentNumber">View Profile</a></td>
+            </tr>
+            counter++;
+        }
+    </tbody>
+</table>

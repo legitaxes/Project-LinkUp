@@ -403,5 +403,37 @@ namespace portfolio2.DAL
             conn.Close();
             return student.StudentID;
         }
+
+        public List<StudentDetails> GetPoints()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT Name, Points, StudentNo FROM Student ORDER BY Points DESC", conn);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "StudentPointsList");
+            conn.Close();
+            List<StudentDetails> studentpointsList = new List<StudentDetails>();
+            int p = 0;
+            foreach (DataRow row in result.Tables["StudentPointsList"].Rows)
+            {
+                if (row["Points"] == DBNull.Value)
+                {
+                     p = 0;
+                }
+                else
+                {
+                     p = Convert.ToInt32(row["Points"]);
+                }
+                studentpointsList.Add(
+                     new StudentDetails
+                     {
+                         StudentNumber = row["StudentNo"].ToString(),
+                         Name = row["Name"].ToString(),
+                         Points = p
+
+                    });
+            }
+            return studentpointsList;
+        }
     }
 }
