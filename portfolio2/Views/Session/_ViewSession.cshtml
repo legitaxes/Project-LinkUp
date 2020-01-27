@@ -139,7 +139,7 @@
                             <div class="card-body">
                                 @if (item.StudentName == Context.Session.GetString("LoginID"))
                                 {
-                                    <a asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID" class="btn btn-warning">View Your Session Details</a>
+                                    <a asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID" class="btn btn-warning">View Your Session</a>
                                 }
                                 else
                                 {

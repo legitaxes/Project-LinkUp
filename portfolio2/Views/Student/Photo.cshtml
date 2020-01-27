@@ -15,11 +15,12 @@
                     <h3 class="mb-0">Update Photo</h3>
                 </div>
                 <div class="card-body">
-                    <form aasp-action="Photo" class="form" role="form" enctype="multipart/form-data" autocomplete="off">
+                    <form asp-action="Photo" class="form" role="form" enctype="multipart/form-data" autocomplete="off">
 
 
                         <input asp-for="FileToUpload" accept="image/jpeg" type="hidden" class="form-control" />
                         <input asp-for="Name" type="hidden" readonly />
+                        <input asp-for="StudentID" type="hidden" readonly />
 
                         <div class="form-group row">
                             <label asp-for="Photo" class="col-lg-3 col-form-label form-control-label">Photo</label>

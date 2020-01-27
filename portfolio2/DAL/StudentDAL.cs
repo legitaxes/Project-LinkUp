@@ -241,7 +241,7 @@ namespace portfolio2.DAL
 
         public StudentPhoto GetPhotoDetails(int studentID)
         {
-            SqlCommand cmd = new SqlCommand("SELECT Name, Photo FROM Student WHERE StudentID = @selectedStudentID", conn);
+            SqlCommand cmd = new SqlCommand("SELECT Name, Photo, StudentID FROM Student WHERE StudentID = @selectedStudentID", conn);
             cmd.Parameters.AddWithValue("@selectedStudentID", studentID);
             //object “cmd” as parameter.
             SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -262,6 +262,7 @@ namespace portfolio2.DAL
             if (studentresult.Tables["StudentDetails"].Rows.Count > 0)
             {
                 studentPhoto.StudentID = studentID;
+
                 DataTable table = studentresult.Tables["StudentDetails"];
 
                 if (!DBNull.Value.Equals(table.Rows[0]["Name"]))
@@ -269,6 +270,7 @@ namespace portfolio2.DAL
 
                 if (!DBNull.Value.Equals(table.Rows[0]["Photo"]))
                     studentPhoto.Photo = table.Rows[0]["Photo"].ToString();
+
                 return studentPhoto;
             }
             else
@@ -277,14 +279,12 @@ namespace portfolio2.DAL
 
         public int UploadPhoto(StudentPhoto student)
         {
-            SqlCommand cmd = new SqlCommand("UPDATE Student SET Name=@name, Photo=@photo" +
+            SqlCommand cmd = new SqlCommand("UPDATE Student SET Photo=@photo" +
                 " WHERE StudentID=@selectedStudentID", conn);
-
-            cmd.Parameters.AddWithValue("@name", student.Name);
             if (student.Photo != null)
                 cmd.Parameters.AddWithValue("@photo", student.Photo);
-            else
-                cmd.Parameters.AddWithValue("@photo", DBNull.Value);
+            //else
+            //    cmd.Parameters.AddWithValue("@photo", DBNull.Value);
             cmd.Parameters.AddWithValue("@selectedStudentID", student.StudentID);
             conn.Open();
 

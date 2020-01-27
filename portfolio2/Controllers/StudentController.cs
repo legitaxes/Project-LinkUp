@@ -462,6 +462,7 @@ namespace portfolio2.Controllers
             }
             ViewData["Hourlist"] = DropDownHours();
             ViewData["Locationlist"] = DropDownLocation();
+            ViewData["Categorylist"] = DropDownCategory();
             return View();
         }
 
