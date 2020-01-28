@@ -53,20 +53,25 @@ footer{
 }
 
 
+
+
+
+
+
 /* MAINPAGE */
-
-
 body {
     background-color: #FBF9FF;
     background-image: url(../images/blue-snow.png);
 }
 
+
+
 .search {
-  background: #B3B7EE;
-  padding-top: 50px;
-  padding-bottom: 50px;
-
-
+    background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(../images/home-bg.jpg);
+    padding-top: 60px;
+    padding-bottom: 60px;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .search img{
@@ -75,13 +80,13 @@ body {
 }
 
 
-.explore{
-  padding-top: 50px;
-  padding-bottom: 50px;
+.explore {
+    padding-top: 30px;
 }
 
+
 .sessions{
-  padding-bottom: 50px;
+  padding-bottom: 30px;
 }
 
 .sessions img{
@@ -90,18 +95,19 @@ body {
 
 
 
+.col-md-6.col-lg-3 {
+    margin-bottom: 30px;
+}
+
+
 /*PROFILE PAGE*/
-
-
-.emp-profile{
-
-  border: 2px solid #A2A3BB;
-  padding: 3%;
-  margin-top: 2.5%;
-  margin-bottom: 2%;
-  border-radius: 0.5rem;
-  background: #fff;
-
+.emp-profile {
+    border: 2px solid #A2A3BB;
+    padding: 3%;
+    margin-top: 2.5%;
+    margin-bottom: 2%;
+    border-radius: 0.5rem;
+    background: #fff;
 }
 .profile-img{
     text-align: center;
@@ -240,6 +246,7 @@ i{
 /*INDEX PAGE*/
 
 section.intro h1 {
+    font-family: 'Source Sans Pro', sans-serif;
     font-size: 75px;
     font-weight: 700;
     line-height: 75px;
@@ -247,7 +254,7 @@ section.intro h1 {
 }
 
 section.intro p {
-    font-size: 18px;
+    font-size: 15px;
     font-style:italic;
     line-height: 40px;
     margin-bottom: 50px;
@@ -270,7 +277,7 @@ section.intro {
 }
 
 section.categories h1 {
-    font-style:italic;
+    font-family: 'Source Sans Pro', sans-serif;
     font-size: 40px;
     font-weight: 600;
     line-height: 75px;
@@ -306,7 +313,20 @@ section.about {
 }
 
 
+/*STUDENT INDEX PAGE*/
+
+section.welcome {
+    font-family: 'Source Sans Pro', sans-serif;
+    background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(../images/gsm.jpg);
+    padding-top: 120px;
+    padding-bottom: 120px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
 
 
-
+    section.welcome h1 {
+        font-size: 50px;
+        font-weight: 700;
+    }

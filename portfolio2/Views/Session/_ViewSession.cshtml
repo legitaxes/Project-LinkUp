@@ -3,7 +3,7 @@
 <section class="search">
     <div class="container">
         <div class="logo">
-            <img src="~/images/logo.png" class="rounded mx-auto d-block" alt="LinkUp Logo">
+            <img src="~/images/Icon (1).png" class="rounded mx-auto d-block" alt="LinkUp Logo">
         </div>
 
         <div class="col-lg-10 mx-auto">
@@ -42,7 +42,7 @@
             <div class="row mb-3">
                 <div class="col">
                     <h1>Explore LinkUp!</h1>
-                    <p class="text-muted">Find what you want to learn!</p>
+                    <h6 class="text-muted">Find what you want to learn!</h6>
                 </div>
                 <div class="col text-right">
                     <a asp-controller="Category" asp-action="Index" class="btn btn-outline-dark">See All Categories</a>
@@ -102,7 +102,7 @@
                 @if (ViewData["Searched"] != null)
                 {
                     <h1>You searched for '<span class="text-danger">@ViewData["Searched"]</span>'...</h1>
-                    <p class="text-muted">Here are the results:</p>
+                    <h6 class="text-muted">Here are the results:</h6>
 
                     @foreach (var item in Model)
                     {
@@ -123,7 +123,7 @@
                 else
                 {
                     <h1> Trending Sessions </h1>
-                    <p class="text-muted">Browse recent listings added into the mix</p>
+                    <h6 class="text-muted">Browse recent listings added into the mix</h6>
                 }
             </div>
         </div>
