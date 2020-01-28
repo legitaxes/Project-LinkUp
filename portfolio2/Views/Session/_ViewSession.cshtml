@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<portfolio2.Models.SessionViewModel>
-
+@{int count = 0;}
 <section class="search">
     <div class="container">
         <div class="logo">
@@ -101,8 +101,24 @@
             <div class="col">
                 @if (ViewData["Searched"] != null)
                 {
-                    <h1>You searched for "<span class="text-danger">@ViewData["Searched"]</span>"...</h1>
+                    <h1>You searched for '<span class="text-danger">@ViewData["Searched"]</span>'...</h1>
                     <p class="text-muted">Here are the results:</p>
+
+                    @foreach (var item in Model)
+                    {
+                        if (item.Status == 'Y')
+                        {
+                            count++;
+                        }
+                        else if (item.Status == 'N')
+                        {
+                            count = 0;
+                        }
+                    }
+                    if (count > 0)
+                    {
+                        <h4>There does not seem to be any session of the name '<span class="text-danger">@ViewData["Searched"]</span>'</h4>
+                    }
                 }
                 else
                 {
@@ -149,7 +165,7 @@
                         </div>
                     </div>
                 }
-             }
+            }
         </div>
 
     </div>

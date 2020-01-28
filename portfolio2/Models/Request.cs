@@ -13,9 +13,11 @@ namespace portfolio2.Models
         [Display(Name = "Date requested")]
         public DateTime DateRequest { get; set; }
 
+        [Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
         [Display(Name = "Description")]
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "Please Do not Leave This Field Blank!")]
         [Display(Name = "Title")]
         public string Title { get; set; }
 

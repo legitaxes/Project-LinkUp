@@ -31,7 +31,7 @@
                 <td>@counter</td>
                 <td>@item.Name</td>
                 <td>@item.Points</td>
-                <td><a asp-action="ProfileDetails" asp-controller="Student" asp-route-id="@item.StudentNumber">View Profile</a></td>
+                <td><a asp-action="ProfileDetails" asp-controller="Student" asp-route-id="@item.StudentNumber" class="btn btn-info">View Profile</a></td>
             </tr>
             counter++;
         }

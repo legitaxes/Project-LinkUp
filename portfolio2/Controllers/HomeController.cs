@@ -20,6 +20,7 @@ namespace portfolio2.Controllers
         private SessionDAL sessionContext = new SessionDAL();
         private LocationDAL locationContext = new LocationDAL();
         private CategoryDAL categoryContext = new CategoryDAL();
+        private RequestDAL requestContext = new RequestDAL();
         private NotificationDAL notificationContext = new NotificationDAL();
 
         public IActionResult Index()
@@ -77,6 +78,11 @@ namespace portfolio2.Controllers
             else
             {
                 List<Notification> notificationList = notificationContext.GetAllNotification(HttpContext.Session.GetInt32("StudentID"));
+                List<Request> allRequestList = requestContext.GetAllRequestNotCompleted();
+                if (allRequestList.Count() == 0)
+                {
+                    ViewData["MyRequestEmpty"] = "This checks whether there are any request here";
+                }
                 return View(notificationList);
             }
         }

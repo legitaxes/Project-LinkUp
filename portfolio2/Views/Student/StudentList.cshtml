@@ -15,7 +15,7 @@
 <h2>StudentList</h2>
 @if (ViewData["SearchedValue"] != null)
 {
-    <h2>You searched for the user..."<span class="text-danger">@ViewData["SearchedValue"]</span>"</h2>
+    <h2>You searched for the user...'<span class="text-danger">@ViewData["SearchedValue"]</span>'</h2>
 }
 
 <table class="table">
@@ -47,7 +47,7 @@
                     @Html.DisplayFor(modelItem => item.Points)
                 </td>
                 <td>
-                    <a asp-controller="Student" asp-action="ProfileDetails" asp-route-id="@item.StudentNumber">Details</a>
+                    <a asp-controller="Student" asp-action="ProfileDetails" asp-route-id="@item.StudentNumber" class="btn btn-info">View Profile</a>
                 </td>
             </tr>
         }

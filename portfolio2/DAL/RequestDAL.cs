@@ -103,11 +103,11 @@ namespace portfolio2.DAL
             conn.Close();
             return rowCount;
         }
-       
-        public List<Request> GetAllRequests()
+
+        public List<Request> GetAllRequestNotCompleted()
         {
-            SqlCommand cmd = new SqlCommand(
-             "SELECT * FROM Request ORDER BY RequestID DESC", conn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Request WHERE Status = @status ORDER BY RequestID DESC", conn);
+            cmd.Parameters.AddWithValue("@status", 'N');
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
             conn.Open();
@@ -135,6 +135,38 @@ namespace portfolio2.DAL
             }
             return requestList;
         }
+
+        //public List<Request> GetAllRequests()
+        //{
+        //    SqlCommand cmd = new SqlCommand(
+        //     "SELECT * FROM Request ORDER BY RequestID DESC", conn);
+        //    SqlDataAdapter da = new SqlDataAdapter(cmd);
+        //    DataSet result = new DataSet();
+        //    conn.Open();
+        //    da.Fill(result, "Request");
+        //    conn.Close();
+        //    List<Request> requestList = new List<Request>();
+        //    foreach (DataRow row in result.Tables["Request"].Rows)
+        //    {
+        //        requestList.Add(
+        //            new Request
+        //            {
+        //                RequestID = Convert.ToInt32(row["RequestID"]),
+        //                DateRequest = Convert.ToDateTime(row["DateRequest"]),
+        //                Description = row["Description"].ToString(),
+        //                Title = row["Title"].ToString(),
+        //                AvailabilityFrom = Convert.ToDateTime(row["AvailabilityFrom"]),
+        //                Hours = Convert.ToInt32(row["Hours"]),
+        //                PointsEarned = Convert.ToInt32(row["PointsEarned"]),
+        //                Status = Convert.ToChar(row["Status"]),
+        //                LocationID = Convert.ToInt32(row["LocationID"]),
+        //                StudentID = Convert.ToInt32(row["StudentID"]),
+        //                CategoryID = Convert.ToInt32(row["CategoryID"])
+        //            }
+        //        );
+        //    }
+        //    return requestList;
+        //}
 
         public List<Request> GetMyRequests(int? studentid)
         {

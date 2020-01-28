@@ -560,46 +560,46 @@ namespace portfolio2.Controllers
 
         }
 
-        public ActionResult LeaveRequest(int? id)
-        {
-            if ((HttpContext.Session.GetString("Role") == null) ||
-           (HttpContext.Session.GetString("Role") != "Student"))
-            {
-                return RedirectToAction("Error", "Home");
-            }
+        //public ActionResult LeaveRequest(int? id)
+        //{
+        //    if ((HttpContext.Session.GetString("Role") == null) ||
+        //   (HttpContext.Session.GetString("Role") != "Student"))
+        //    {
+        //        return RedirectToAction("Error", "Home");
+        //    }
 
-            Request request = requestContext.GetRequestByID(id.Value);
-            if (request.RequestID != id)
-            {
-                return RedirectToAction("Error", "Home");
-            }
-            DateTime currenttime = DateTime.Now;
-            TimeSpan ts = request.AvailabilityFrom - currenttime;
-            double hours = ts.TotalHours;
-            if (hours < 48)
-            {
-                return RedirectToAction("DeleteRedirect", "Student");
-            }
-            ViewData["Hourlist"] = DropDownHours();
-            ViewData["Locationlist"] = DropDownLocation();
+        //    Request request = requestContext.GetRequestByID(id.Value);
+        //    if (request.RequestID != id)
+        //    {
+        //        return RedirectToAction("Error", "Home");
+        //    }
+        //    DateTime currenttime = DateTime.Now;
+        //    TimeSpan ts = request.AvailabilityFrom - currenttime;
+        //    double hours = ts.TotalHours;
+        //    if (hours < 48)
+        //    {
+        //        return RedirectToAction("DeleteRedirect", "Student");
+        //    }
+        //    ViewData["Hourlist"] = DropDownHours();
+        //    ViewData["Locationlist"] = DropDownLocation();
 
-            if (request == null)
-            {
-                return RedirectToAction("Error", " Home");
-            }
+        //    if (request == null)
+        //    {
+        //        return RedirectToAction("Error", " Home");
+        //    }
 
-            return View(request);
-        }
+        //    return View(request);
+        //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LeaveRequest(Request request)
-        {
-            ViewData["Hourlist"] = DropDownHours();
-            ViewData["Locationlist"] = DropDownLocation();
-            requestContext.DeleteStudentRequest(Convert.ToInt32(HttpContext.Session.GetInt32("StudentID")), request.RequestID);
-            return RedirectToAction("Myrequests", "Student");
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult LeaveRequest(Request request)
+        //{
+        //    ViewData["Hourlist"] = DropDownHours();
+        //    ViewData["Locationlist"] = DropDownLocation();
+        //    requestContext.DeleteStudentRequest(Convert.ToInt32(HttpContext.Session.GetInt32("StudentID")), request.RequestID);
+        //    return RedirectToAction("Myrequests", "Student");
+        //}
 
         public ActionResult MyRequests()
         {
@@ -610,9 +610,9 @@ namespace portfolio2.Controllers
             }
             int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
             List<Request> allrequestsList = requestContext.GetMyRequests(HttpContext.Session.GetInt32("StudentID"));
-            if (allrequestsList.Count == 0)
+            if (allrequestsList.Count() == 0)
             {
-                ViewData["MyRequestEmpty"] = "It doesn't seem like you have created any request...";
+                ViewData["MyRequestEmpty"] = "It does not seem like you have created any request!";
             }
             List<RequestViewModel> allrequestviewmodelList = MapToStudentAndLocation(allrequestsList);
             List<JoinedRequests> myjoinedrequestsList = requestContext.GetMyJoinedRequests(studentid);
@@ -631,7 +631,11 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
-            List<Request> allrequestsList = requestContext.GetAllRequests();
+            List<Request> allrequestsList = requestContext.GetAllRequestNotCompleted();
+            if (allrequestsList.Count() == 0)
+            {
+                ViewData["MyRequestEmpty"] = "It does not seem like there is any request right now";
+            }
             List<RequestViewModel> allrequestviewmodelList= MapToStudentAndLocation(allrequestsList);
 
             return View(allrequestviewmodelList);
@@ -764,6 +768,7 @@ namespace portfolio2.Controllers
                 int sessionid = studentrequestContext.ConvertRequestToSession(request, studentid);
                 int bookingid = studentrequestContext.AddConversionToBooking(request, sessionid);
                 studentrequestContext.AddConversionToStudentBooking(request, bookingid);
+                studentrequestContext.AddStudentRequest(studentid, request.RequestID);
                 studentrequestContext.UpdateConversionStatus(request);
             }
 
