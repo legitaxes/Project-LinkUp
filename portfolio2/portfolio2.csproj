@@ -12,8 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\css\freelancer.css" />
+    <Content Remove="wwwroot\css\freelancer.min.css" />
     <Content Remove="wwwroot\images\Icons\noun_hello_1391878.svg" />
     <Content Remove="wwwroot\images\noun_hello_1391878.svg" />
+    <Content Remove="wwwroot\images\pattern.jpg" />
+    <Content Remove="wwwroot\images\spikes.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -47,11 +47,18 @@
 }
 
 
+footer{
+    padding-top: 10px;
+    padding-bottom:10px;
+}
+
+
 /* MAINPAGE */
 
 
-body{
-  background-color: #FBF9FF;
+body {
+    background-color: #FBF9FF;
+    background-image: url(../images/blue-snow.png);
 }
 
 .search {
@@ -224,3 +231,82 @@ i{
 .container.errorpage {
     margin-top: 5%;
 }
+
+
+
+
+
+
+/*INDEX PAGE*/
+
+section.intro h1 {
+    font-size: 75px;
+    font-weight: 700;
+    line-height: 75px;
+    margin-bottom: 25px;
+}
+
+section.intro p {
+    font-size: 18px;
+    font-style:italic;
+    line-height: 40px;
+    margin-bottom: 50px;
+}
+
+section.intro a {
+    font-size: 18px;
+    font-style:normal;
+    padding: 20px 40px;
+}
+
+
+section.intro {
+    font-family: 'Montserrat', sans-serif;
+    padding-top: 120px;
+    padding-bottom: 120px;
+    background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(../images/hero.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+section.categories h1 {
+    font-style:italic;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 75px;
+    margin-bottom: 25px;
+}
+
+section.about h2 {
+    font-size: 70px;
+    font-weight: 600;
+    line-height: 75px;
+    margin-bottom: 30px;
+}
+
+section.about p {
+    padding-top:25px;
+    font-size: 1rem;
+    font-weight: 300;
+}
+
+section.about a {
+    font-size: 18px;
+    font-style: normal;
+    padding: 20px 40px;
+}
+
+section.about {
+    font-family: 'Montserrat', sans-serif;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(../images/starbucks.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+
+
+
+

@@ -7,242 +7,82 @@
     Layout = "~/Views/Shared/_SignInLayout.cshtml";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <!-- Unicode character encoding - multi-language compatibility -->
-    <meta charset="utf-8">
-
-    <!-- Set the initial view zooming scale for mobile device -->
-    <meta name="viewport" content="width = device-width,
- initial-scale = 1" />
-
-    <title>LinkUp</title>
-
-    <!-- Reference to customized styling for this website -->
-    <link rel="stylesheet" type="text/css" href="~/css/Site.css">
-    <link rel="stylesheet" type="text/css" href="~/css/gallerystyles.css" />
-
-</head>
-<body>
 
 
-    <div class="container" id="mainContainer">
 
-        <!-- 2nd row -->
-        <div>
-            <div style="text-align: center;">
-                <br />
-                <h1>Xtra help. Xtra easy.</h1>
-                <h2>LinkUp is a matchmaking service that connects NP students with each other for the purposes of tutoring</h2>
-                <p>
-                    <img id="imgLogo" src="~/images/hero.jpg"
-                         style="width: 100%" />
-                </p>
-                <br />
-                <h1>For every topic, a tutor.</h1>
-                <h2>Check out the broad range of topics our student tutors can teach.</h2>
-                <h2>Don't see what you want to learn yet? Go ahead and request for a topic!</h2>
-                @*<section class="gallery-block cards-gallery">
-                    <div class="container">
-                        <div class="row">
-                            @foreach (var item in Model)
-                            {
-                                <div class="col-md-6 col-lg-4">
-                                    <div class="card border-0 transform-on-hover">
-                                        <a class="lightbox" asp-route-id="@Html.DisplayFor(modelItem => item.CategoryID)" asp-controller="Category" asp-action="Filtered"><img src="~/images/Categories/@Html.DisplayFor(modelItem => item.CategoryPhoto)" class="card-img-top" /></a>
-                                        <div class="card-body">
-                                            <h6>@Html.DisplayFor(modelItem => item.CategoryName)</h6>
-                                            <p class="text-muted card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </section>*@
-                <div class="gallery-block cards-gallery">
-                    @{int i = 1; }
-                    <div class="row">
-                        @foreach (var item in Model)
-                        {
-                            <div class="col-md-6 col-lg-4">
-                                <div class="card border-0 transform-on-hover">
-                                    <a class="lightbox" asp-route-id="@i" asp-controller="Category" asp-action="Filtered"><img src="~/images/Categories/@Html.DisplayFor(modelItem => item.CategoryPhoto)" class="card-img-top" /></a>
-                                    <div class="card-body">
-                                        <h6>@Html.DisplayFor(modelItem => item.CategoryName)</h6>
-                                        <p class="text-muted card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-                                    </div>
-                                </div>
-                            </div>
-                            i++;
-                        }
-                    </div>
-                </div>
+<section class="intro">
+    <div class="container text-center">
 
-                <h1>Just as rewarding for volunteers as it is for learners.</h1>
-                <h2>Accumulate points whenever you volunteer and exchange them for rewards.</h2>
-                <h2>Easily host your own sessions and chat with learners to coordinate sessions.</h2>
-                <h2>Let learners rate and leave you a review to climb up the leaderboard!</h2>
-                <p>
-                    <img id="imgLogo" src="~/images/starbucks.jpg"
-                         style="height: 100%; width: 80%" />
-                </p>
+        <h1 class="text-uppercase">Xtra help. Xtra easy.</h1>
+        <p class="font-weight-light">For every topic, a tutor. Check out the broad range of topics our student tutors can teach!</p>
+        <p>
+            <a class="btn btn-primary btn-lg text-uppercase" asp-controller="Session" role="button">View all Sessions</a>
 
-                <br />
-                <h1>Ready to LinkUp?</h1>
-                <p></p>
-                <h2><a href="~/Home/StudentLogin">Sign in with your school email &#8250;</a> </h2>
-                <p></p>
-                <h2><a asp-controller="Session" asp-action="Index">Explore available sessions &#8250;</a></h2>
+        </p>
 
-                @*
-        === Old cards flexbox interface to show categories, no longer used ===
-        <main class="cards">
-            <article class="card">
-                <img src="~/images/Categories/academic.jpg" alt="Sample photo">
-                <div class="text">
-                    <div class="text">
-                        <h3>Academics</h3>
-                        <p>Meet students that are more academically driven and learn a thing or two</p>
-                    </div>
-                    <button onclick="window.location.href = 'https://youtube.com';">View more</button>
-                </div>
-            </article>
-            <article class="card">
-                <img src="~/images/Categories/artsandcraft.jpg" alt="Sample photo">
-                <div class="text">
-                    <div class="text">
-                        <h3>Arts and Crafts</h3>
-                        <p>Meet creative students to widen your creativity and learn how to create different masterpieces</p>
-                    </div>
-                    <button onclick="window.location.href = 'https://youtube.com';">View more</button>
-                </div>
-            </article>
-            <article class="card">
-                <img src="~/images/Categories/Career.jpg" alt="Sample photo">
-                <div class="text">
-                    <div class="text">
-                        <h3>Career</h3>
-                        <p>Meet students that are keen in entrepreneurship and potentially start a business together</p>
-                    </div>
-                    <button onclick="window.location.href = 'https://youtube.com';">View more</button>
-                </div>
-            </article>
-            <article class="card">
-                <img src="~/images/Categories/Languages.jpg" alt="Sample photo">
-                <div class="text">
-                    <div class="text">
-                        <h3>Languages</h3>
-                        <p>Meet multilingual individuals and learn how to converse in a different language</p>
-                    </div>
-                    <button onclick="window.location.href = 'https://youtube.com';">View more</button>
-                </div>
-            </article>
-            <article class="card">
-                <img src="~/images/Categories/lifeskills.jpg" alt="Sample photo">
-                <div class="text">
-                    <div class="text">
-                        <h3>Life Skills</h3>
-                        <p>Meet students and learn essential life skills</p>
-                    </div>
-                    <button onclick="window.location.href = 'https://youtube.com';">View more</button>
-                </div>
-            </article>
-            <article class="card">
-                <img src="~/images/Categories/Music.jpg" alt="Sample photo">
-                <div class="text">
-                    <div class="text">
-                        <h3>Music</h3>
-                        <p>Meet students with musical talents and string along</p>
-                    </div>
-                    <button onclick="window.location.href = 'https://youtube.com';">View more</button>
-                </div>
-            </article>
-            <article class="card">
-                <img src="~/images/Categories/sportsandfitness.jpg" alt="Sample photo">
-                <div class="text">
-                    <div class="text">
-                        <h3>Sports</h3>
-                        <p>Meet gym rats and athletes, learn a new sport and stay active</p>
-                    </div>
-                    <button onclick="window.location.href = 'https://youtube.com';">View more</button>
-                </div>
-            </article>
-            <article class="card">
-                <img src="~/images/Categories/Technology.jpg" alt="Sample photo">
-                <div class="text">
-                    <div class="text">
-                        <h3>Technology</h3>
-                        <p>Meet tech savvy students that are proficient programmers and software developers</p>
-                    </div>
-                    <button onclick="window.location.href = 'https://youtube.com';">View more</button>
-                </div>
-            </article>
-            <article class="card">
-                <img src="~/images/Categories/gaming.jpg" alt="Sample photo">
-                <div class="text">
-                    <div class="text">
-                        <h3>Gaming</h3>
-                        <p>Meet students with a passion for gaming and learn new strategies and mechanics for various games</p>
-                    </div>
-                    <button onclick="window.location.href = 'https://youtube.com';">View more</button>
-                </div>
-            </article>
-        </main>*@
-
-            </div>
-
-        </div>
     </div>
 
-    @*
-        === Style for old cards flexbox interface, no longer used ===
-        <style>
-        .cards {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: stretch;
-        }
+</section>
 
-        .card {
-            display: inline-flex;
-            flex-direction: column;
-            flex: 0 0 200px;
-            margin: 10px;
-            border: 1px solid #ccc;
-            box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
-        }
 
-            .card img {
-                max-width: 100%;
-            }
+<section class="categories">
 
-            .card > .text {
-                padding: 0 20px 20px;
-                flex-grow: 3;
-                display: flex;
-                flex-direction: column;
-            }
 
-                .card > .text > .text {
-                    flex-grow: 2;
+
+    <div class="container text-center">
+
+        <h1 class="text-uppercase">Categories</h1>
+        <hr width="20%" />
+        <div class="gallery-block cards-gallery">
+            @{int i = 1; }
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card border-0 transform-on-hover">
+                            <a class="lightbox" asp-route-id="@i" asp-controller="Category" asp-action="Filtered"><img src="~/images/Categories/@Html.DisplayFor(modelItem => item.CategoryPhoto)" class="card-img-top" /></a>
+                            <div class="card-body">
+                                <h6>@Html.DisplayFor(modelItem => item.CategoryName)</h6>
+                                <p class="text-muted card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                            </div>
+                        </div>
+                    </div>
+                    i++;
                 }
+            </div>
+        </div>
 
-            .card .text > button {
-                background: gray;
-                border: 0;
-                color: white;
-                padding: 10px;
-                width: 100%;
-            }
+    </div>
 
-        .button {
-            transform: translateY(-100%);
-            display: inline-block;
-        }
-    </style>*@
+</section>
 
-</body>
-</html>
+
+<section class="about">
+    <div class="container">
+
+        <!-- About Section Heading -->
+        <h2 class="page-section-heading text-center text-uppercase">About</h2>
+
+        <hr width="20%"/>
+
+        <div class="row">
+            <div class="col-lg-4 ml-auto">
+                <p class="lead">LinkUp is a matchmaking service that connects NP students with each other for the purposes of tutoring. In LinkUp, we believe that for every topic, there will be a tutor.</p>
+            </div>
+            <div class="col-lg-4 mr-auto">
+                <p class="lead">LinkUp is just as rewarding for volunteers as it is for learners. Accumulate points whenever you volunteer and exchange them for attractive rewards! Don't see what you want to learn yet? Go ahead and request for a topic!</p>
+            </div>
+        </div>
+
+
+        <div class="text-center mt-4">
+            <a class="btn btn-outline-primary btn-lg text-uppercase" href="~/Home/StudentLogin" role="button">
+                Sign Up Now!
+            </a>
+        </div>
+
+    </div>
+
+</section>
+
+
