@@ -317,9 +317,9 @@ section.about {
 
 section.welcome {
     font-family: 'Source Sans Pro', sans-serif;
-    background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(../images/gsm.jpg);
-    padding-top: 120px;
-    padding-bottom: 120px;
+    background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(../images/home-bg.jpg);
+    padding-top: 100px;
+    padding-bottom: 100px;
     background-repeat: no-repeat;
     background-size: cover;
 }
