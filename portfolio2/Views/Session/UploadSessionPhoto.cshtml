@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>UploadSessionPhoto</h2>
+@*<h2>UploadSessionPhoto</h2>
 
 <h4>SessionPhoto</h4>
 <hr />
@@ -14,7 +14,7 @@
         <form asp-action="UploadSessionPhoto" enctype="multipart/form-data">
             <input asp-for="SessionID" class="form-control" readonly hidden />
             <div class="form-group">
-                <input asp-for="SessionDate" class="form-control" readonly hidden/>
+                <input asp-for="SessionDate" class="form-control" readonly hidden />
             </div>
             <div class="form-group">
                 <label asp-for="Name"></label>
@@ -48,7 +48,7 @@
                 <input asp-for="LocationName" class="form-control" hidden readonly />
             </div>
             <div class="form-group">
-                <input asp-for="CategoryName" class="form-control" hidden readonly/>
+                <input asp-for="CategoryName" class="form-control" hidden readonly />
             </div>
             <div class="form-group">
                 <input type="submit" value="Upload Photo" class="btn btn-warning" />
@@ -59,5 +59,93 @@
 
 <div>
     <a asp-action="MySession" class="btn btn-secondary">Skip Uploading</a>
+</div>*@
+
+
+<div class="container py-3">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <span class="anchor" id="formUserEdit"></span>
+            <div class="card card-outline-secondary">
+                <div class="card-header text-center">
+                    <h3 class="mb-0">Upload Session Photo</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="UploadSessionPhoto" class="form" role="form" enctype="multipart/form-data" autocomplete="off">
+
+
+                        <input asp-for="SessionID" class="form-control" readonly hidden />
+                        <div class="form-group">
+                            <input asp-for="SessionDate" class="form-control" readonly hidden />
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="Name" class="form-control" readonly hidden/>
+                        </div>
+
+
+                        <div class="form-group">
+                            <input asp-for="Description" class="form-control" readonly hidden />
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="Hours" class="form-control" readonly hidden />
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="Participants" class="form-control" readonly hidden />
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="Status" class="form-control" readonly hidden />
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label asp-for="Photo" class="col-lg-3 col-form-label form-control-label">Photo</label>
+                            <input asp-for="Photo" class="form-control" hidden readonly />
+                            <div class="col-lg-9">
+                                <img src="~/images/Sessions/@Model.Photo" width="300" class="border border-secondary rounded">
+                                <p></p>
+                                <p class="text-danger">Please upload a JPG file</p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">
+                            </label>
+                            <div class="col-sm-9">
+                                <input asp-for="FileToUpload" accept="image/jpeg" />
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <input asp-for="StudentName" class="form-control" hidden readonly />
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="LocationName" class="form-control" hidden readonly />
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="CategoryName" class="form-control" hidden readonly />
+                        </div>
+
+
+
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label"></label>
+                            <div class="col-lg-9">
+                                <a asp-action="MySession" class="btn btn-secondary">Skip</a>
+                                <input type="submit" class="btn btn-primary" value="Upload Photo">
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
+
 
