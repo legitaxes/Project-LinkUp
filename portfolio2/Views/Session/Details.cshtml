@@ -181,16 +181,19 @@
                             {
                                 <h6 class="text-danger">@ViewData["Message"]</h6>
                                 <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-secondary disabled btn-lg col-md-8" role="button" aria-disabled="true">Cancel Session</a>
+                                <br />
                             }
                         }
                         else if (Model.Status == 'N') //checks whether the viewdata message for cancel is null and checks whether the status is "N" (N means that it is still ongoing)
                         {                           //this means that the session time is not less than 2 hours - current time, also checks whether the status is not completed
                             <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-danger btn-lg col-md-8" onclick="return confirm('Are you sure you want to cancel the session?')">Cancel Session</a>
+                            <br />
                         }
                         else
                         {
                             <h5 class="text-danger">This session has been cancelled... </h5> //thinking to remove the bottom code line
                             <a asp-controller="Session" asp-action="Cancel" asp-route-id="@Model.SessionID" class="btn btn-secondary btn-lg disabled btn-lg col-md-8" role="button" aria-disabled="true">Cancel Session</a>
+                            <br />
                         }
                     }
                     @if (ViewData["Owner"] == null)//checks whether the user is the owner of the session | null == not owner

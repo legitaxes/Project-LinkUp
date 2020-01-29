@@ -171,8 +171,9 @@ namespace portfolio2.DAL
         public List<Request> GetMyRequests(int? studentid)
         {
             SqlCommand cmd = new SqlCommand(
-             "SELECT * FROM Request WHERE StudentID = @selectedstudentid", conn);
+             "SELECT * FROM Request WHERE StudentID = @selectedstudentid AND Status = @status", conn);
             cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
+            cmd.Parameters.AddWithValue("@status", 'N');
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
             conn.Open();
