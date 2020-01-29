@@ -31,21 +31,30 @@
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">Rank</th>
+                            <th scope="col">Photo</th>
                             <th scope="col">Name</th>
                             <th scope="col">Total points</th>
-                            <th scope="col"></th>
+                            <th scope="col">View profile</th>
                         </tr>
                     </thead>
                     <tbody>
                         @{int counter = 1; }
                         @foreach (var item in getlist)
                         {
-                            <tr>
-                                <td scope="row">@counter</td>
-                                <td>@item.Name</td>
-                                <td>@item.Points</td>
-                                <td><a asp-action="ProfileDetails" asp-controller="Student" asp-route-id="@item.StudentNumber" class="btn btn-info">View Profile</a></td>
-                            </tr>
+                        <tr>
+                            <td scope="row">@counter</td>
+                            @if (item.Photo != "")
+                            {
+                                <td><img src="~/images/Profilepictures/@item.Photo" style="width:50px" ></td>
+                            }
+                            else
+                            {
+                                <td><img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" alt="Profile Picture"></td>
+                            }
+                            <td>@item.Name</td>
+                            <td>@item.Points</td>
+                            <td><a asp-action="ProfileDetails" asp-controller="Student" asp-route-id="@item.StudentNumber" class="btn btn-info">View Profile</a></td>
+                        </tr>
                             counter++;
                         }
                     </tbody>

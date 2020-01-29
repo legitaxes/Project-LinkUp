@@ -798,7 +798,7 @@ namespace portfolio2.Controllers
         public ActionResult StudentLeaderBoard()
         {
             List<StudentDetails> studentList = new List<StudentDetails>();
-            studentList = studentContext.GetPoints();
+            studentList = studentContext.GetLeaderboardPoints();
             ViewBag.List = studentList;
             return View();
 

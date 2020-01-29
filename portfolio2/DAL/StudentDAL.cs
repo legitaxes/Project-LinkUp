@@ -445,9 +445,9 @@ namespace portfolio2.DAL
             return student.StudentID;
         }
 
-        public List<StudentDetails> GetPoints()
+        public List<StudentDetails> GetLeaderboardPoints()
         {
-            SqlCommand cmd = new SqlCommand("SELECT Name, Points, StudentNo FROM Student ORDER BY Points DESC", conn);
+            SqlCommand cmd = new SqlCommand("SELECT Photo, Name, Points, StudentNo FROM Student ORDER BY Points DESC", conn);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
             conn.Open();
@@ -468,6 +468,7 @@ namespace portfolio2.DAL
                 studentpointsList.Add(
                      new StudentDetails
                      {
+                         Photo = row["Photo"].ToString(),
                          StudentNumber = row["StudentNo"].ToString(),
                          Name = row["Name"].ToString(),
                          Points = p
