@@ -320,8 +320,6 @@ namespace portfolio2.DAL
                     sessionDetails.Participants = Convert.ToInt32(table.Rows[0]["Participants"]);
                 if (!DBNull.Value.Equals(table.Rows[0]["Status"]))
                     sessionDetails.Status = Convert.ToChar(table.Rows[0]["Status"]);
-                if (!DBNull.Value.Equals(table.Rows[0]["Points"]))
-                    sessionDetails.Points = Convert.ToInt32(table.Rows[0]["Points"]);
                 if (!DBNull.Value.Equals(table.Rows[0]["StudentID"]))
                     sessionDetails.StudentID = Convert.ToInt32(table.Rows[0]["StudentID"]);
                 if (!DBNull.Value.Equals(table.Rows[0]["LocationID"]))
