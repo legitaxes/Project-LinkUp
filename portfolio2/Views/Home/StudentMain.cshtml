@@ -40,9 +40,8 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th>Number</th>
-                                <th>Notification Name</th>
-                                <th>Status</th>
-                                <th>Date Posted</th>
+                                <th>Notification</th>
+                                <th>Date</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -52,17 +51,21 @@
                             {
                                 @if (item.Status == 'N')
                                 {
-                                    <tr class="table-danger">
+                                    string selectedrow = "class='table-danger'";
+                                    @if (item.NotificationName == "Someone has took up your request! Click the button to view the session details!")
+                                    {
+                                        selectedrow = "class='table-success'";
+                                    }
+                                    <tr @Html.Raw(selectedrow)>
                                         <td>@number</td>
                                         <td>@item.NotificationName</td>
-                                        <td>@item.Status</td>
                                         <td>@item.DatePosted</td>
                                         <td>
                                             @if (item.NotificationName == "You have a review to give to the session owner that you have recently attended of!")
                                             {
                                                 <a asp-action="GiveSessionOwnerReview" asp-route-id="@item.OwnerID" asp-route-sessionid="@item.SessionID" asp-route-notificationid="@item.NotificationID" class="btn btn-primary">Give Review To Session Owner</a>
                                             }
-                                            else if (item.NotificationName == "A session that you have signed up for is cancelled!")
+                                            else if (item.NotificationName == "A session that you have signed up for is cancelled!" || item.NotificationName == "Someone has took up your request! Click the button to view the session details!")
                                             {
                                                 <a asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID" class="btn btn-warning">View Details</a>
                                                 <a asp-action="Dismiss" asp-route-id="@item.NotificationID" class="btn btn-danger">Dismiss</a>

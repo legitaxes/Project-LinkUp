@@ -346,7 +346,7 @@ namespace portfolio2.Controllers
                     foreach (StudentDetails participant in participantList)
                     {
                         //to implement: attendance checklist or remove a student who didnt turn up
-                        studentContext.UpdateStudentPoints(participant.StudentID, participant.Points + sessionPoints); //distribute the points to the participants for participanting
+                        studentContext.UpdateStudentPoints(participant.StudentID, participant.Points + (sessionPoints/2)); //distribute the points to the participants for participanting
                         notificationContext.AddReviewNotification(participant.StudentID, HttpContext.Session.GetInt32("StudentID"), id); //gives a notification to the participant that they have to give reivew to the session owner
                     }
                     return RedirectToAction("GiveStudentReview", new { id = id });
