@@ -173,10 +173,10 @@ namespace portfolio2.Controllers
             {
                 studentContext.Update(student);
                 ViewData["Message"] = "Profile updated successfully!";
-                return View(student);
+                return RedirectToAction("Details");
             }
             ViewData["Message"] = "Could Not Update Profile. Please Try Again!";
-            return RedirectToAction("Details");
+            return View(student);
         }
 
         //view the details of the logged in user
