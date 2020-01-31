@@ -295,8 +295,9 @@ namespace portfolio2.DAL
         public int GetNumberOfRequests(int studentid)
         {
             SqlCommand cmd = new SqlCommand(
-           "SELECT COUNT(*) FROM Request WHERE StudentID = @selectedstudentid", conn);
+           "SELECT COUNT(*) FROM Request WHERE StudentID = @selectedstudentid AND Status = @status", conn);
             cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
+            cmd.Parameters.AddWithValue("@status", 'N');
             conn.Open();
             int rowsAmount = (int)cmd.ExecuteScalar();
             conn.Close();

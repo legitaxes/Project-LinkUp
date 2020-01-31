@@ -733,7 +733,7 @@ namespace portfolio2.Controllers
             }
             if (studentid == request.StudentID)
             {
-                return RedirectToAction("RequestRedirect", "Student");
+                return RedirectToAction("Error", "Home");
             }
             return View(request);
         }
@@ -751,7 +751,7 @@ namespace portfolio2.Controllers
 
             if (studentid == request.StudentID)
             {
-                return RedirectToAction("RequestRedirect", "Student");
+                return RedirectToAction("Error", "Home");
             }
 
             if (request.Status == 'Y')
