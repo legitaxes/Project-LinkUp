@@ -30,7 +30,7 @@
                         <div class="form-group row">
                             <label label asp-for="SessionDate" class="col-lg-3 col-form-label form-control-label">Session Date</label>
                             <div class="col-lg-9">
-                                <input asp-for="SessionDate" class="form-control" />
+                                <input asp-for="SessionDate" class="form-control" data-toggle="tooltip" data-placement="top" title="Press Tab to fill it in easily" />
                                 @if (ViewData["Error"] == null)
                                 {
                                     <span asp-validation-for="SessionDate" class="text-danger">@ViewData["Error"]</span>

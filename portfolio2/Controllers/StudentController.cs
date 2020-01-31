@@ -175,7 +175,7 @@ namespace portfolio2.Controllers
                 return View(student);
             }
             ViewData["Message"] = "Could Not Update Profile. Please Try Again!";
-            return View(student);
+            return RedirectToAction("Details");
         }
 
         //view the details of the logged in user

@@ -113,7 +113,7 @@ namespace portfolio2.DAL
         public StudentDetails GetStudentBasedOnSession(int? sessionid) //gets sesion owner details
         {
             SqlCommand cmd = new SqlCommand(
-            "SELECT * FROM Session s INNER JOIN Student st on s.StudentID = st.StudentID WHERE s.SessionID = @selectedsessionid", conn);
+            "SELECT st.Name, st.StudentID, st.Year, st.StudentNo, st.Photo, st.PhoneNo, st.Interest, st.ExternalLink, st.Description, st.Points, st.CourseID  FROM Session s INNER JOIN Student st on s.StudentID = st.StudentID WHERE s.SessionID = @selectedsessionid", conn);
             cmd.Parameters.AddWithValue("@selectedsessionid", sessionid);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
