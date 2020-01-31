@@ -402,6 +402,37 @@ namespace portfolio2.Controllers
             return newSession;
         }
 
+        private List<SelectListItem> DropDownHours()
+        {
+            List<SelectListItem> hours = new List<SelectListItem>();
+            hours.Add(new SelectListItem
+            {
+                Value = "1",
+                Text = "1",
+            });
+            hours.Add(new SelectListItem
+            {
+                Value = "2",
+                Text = "2",
+            });
+            hours.Add(new SelectListItem
+            {
+                Value = "3",
+                Text = "3",
+            });
+            hours.Add(new SelectListItem
+            {
+                Value = "4",
+                Text = "4",
+            });
+            hours.Add(new SelectListItem
+            {
+                Value = "5",
+                Text = "5",
+            });
+            return hours;
+        }
+
         public ActionResult Create() //create a session page
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
@@ -411,6 +442,7 @@ namespace portfolio2.Controllers
             }
             ViewData["CategoryList"] = categoryContext.GetCategoryList(); //fills in category list 
             ViewData["LocationList"] = locationContext.GetLocationList(); //fills in location list
+            ViewData["DropDownHours"] = DropDownHours();
             return View();
         }
 
@@ -443,6 +475,7 @@ namespace portfolio2.Controllers
             else
             {
                 ViewData["Error"] = "There is an invalid field. Please Try Again!";
+                ViewData["DropDownHours"] = DropDownHours();
                 return View(session);
             }
         }
