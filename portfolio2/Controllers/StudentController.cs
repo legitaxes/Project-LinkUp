@@ -330,8 +330,7 @@ namespace portfolio2.Controllers
             }
             return RedirectToAction("Update");
         }
-
-
+        
         public StudentViewModel MapToCourseAndRating(StudentDetails student)
         {
             string coursename = "";
@@ -801,6 +800,11 @@ namespace portfolio2.Controllers
         {
             List<StudentDetails> studentList = new List<StudentDetails>();
             studentList = studentContext.GetLeaderboardPoints();
+            foreach (StudentDetails student in studentList)
+            {
+                double totalstars = studentContext.GetReviewScore(student.StudentID);
+                student.TotalReviewScore = totalstars;
+            }
             ViewBag.List = studentList;
             return View();
 

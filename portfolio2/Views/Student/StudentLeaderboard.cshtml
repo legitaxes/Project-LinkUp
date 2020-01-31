@@ -1,4 +1,4 @@
-﻿@model portfolio2.Models.StudentDetails
+﻿@model IEnumerable<portfolio2.Models.StudentViewModel>
 
 @{
     ViewData["Title"] = "Student Leaderboard";
@@ -33,6 +33,7 @@
                             <th scope="col">Rank</th>
                             <th scope="col">Photo</th>
                             <th scope="col">Name</th>
+                            <th scope="col">Stars</th>
                             <th scope="col">Total points</th>
                             <th scope="col">View profile</th>
                         </tr>
@@ -50,7 +51,7 @@
                             {
                                 topthree = "class='table-warning'";
                             }
-                            else if(counter == 3)
+                            else if (counter == 3)
                             {
                                 topthree = "class='table-danger'";
                             }
@@ -65,10 +66,12 @@
                                     <td><img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" alt="Profile Picture" style="width:50px"></td>
                                 }
                                 <td>@item.Name</td>
+                                <td>@item.TotalReviewScore&#11088;</td>
                                 <td>@item.Points</td>
                                 <td><a asp-action="ProfileDetails" asp-controller="Student" asp-route-id="@item.StudentNumber" class="btn btn-info">View Profile</a></td>
                             </tr>
-                            counter++;
+                                counter++;
+                            }
                         }
                     </tbody>
                 </table>

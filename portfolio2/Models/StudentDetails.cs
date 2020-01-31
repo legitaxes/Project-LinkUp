@@ -47,5 +47,7 @@ namespace portfolio2.Models
         
         [Display(Name="Course Name")]
         public int CourseID { get; set; }
+
+        public double TotalReviewScore { get; set; }
     }
 }

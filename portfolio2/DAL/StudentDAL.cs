@@ -445,9 +445,32 @@ namespace portfolio2.DAL
             return student.StudentID;
         }
 
+        public double GetReviewScore(int studentid)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM StudentRating sr INNER JOIN Rating r on r.RatingID = sr.RatingID WHERE StudentID = @selectedstudentid", conn);
+            cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "ReviewPoints");
+            conn.Close();
+            double reviewstar = 0;
+            int counter = 0;
+            foreach (DataRow row in result.Tables["ReviewPoints"].Rows)
+            {
+                reviewstar = reviewstar + Convert.ToInt32(row["Stars"]);
+                counter++;
+            }
+            if (counter != 0)
+            {
+                reviewstar = reviewstar / counter;
+            }
+            return reviewstar;
+        }
+
         public List<StudentDetails> GetLeaderboardPoints()
         {
-            SqlCommand cmd = new SqlCommand("SELECT Photo, Name, Points, StudentNo FROM Student ORDER BY Points DESC", conn);
+            SqlCommand cmd = new SqlCommand("SELECT StudentID, Photo, Name, Points, StudentNo FROM Student ORDER BY Points DESC", conn);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
             conn.Open();
@@ -468,6 +491,7 @@ namespace portfolio2.DAL
                 studentpointsList.Add(
                      new StudentDetails
                      {
+                         StudentID = Convert.ToInt32(row["StudentID"]),
                          Photo = row["Photo"].ToString(),
                          StudentNumber = row["StudentNo"].ToString(),
                          Name = row["Name"].ToString(),
