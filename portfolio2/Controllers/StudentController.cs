@@ -22,6 +22,7 @@ namespace portfolio2.Controllers
         private LocationDAL locationContext = new LocationDAL();
         private RequestDAL requestContext = new RequestDAL();
         private StudentRequestDAL studentrequestContext = new StudentRequestDAL();
+        private NotificationDAL notificationContext = new NotificationDAL();
         private CategoryDAL categoryContext = new CategoryDAL();
 
         // GET: Student Method
@@ -713,9 +714,16 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
+            if (id == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
             Request request = requestContext.GetRequestByID(id.Value);
-
+            if (request == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             ViewData["Hourlist"] = DropDownHours();
             ViewData["Locationlist"] = DropDownLocation();
             ViewData["Categorylist"] = DropDownCategory();
@@ -727,13 +735,6 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("RequestRedirect", "Student");
             }
-            
-
-            if (request == null)
-            {
-                return RedirectToAction("Error", " Home");
-            }
-
             return View(request);
         }
 
@@ -770,6 +771,7 @@ namespace portfolio2.Controllers
                 studentrequestContext.AddConversionToStudentBooking(request, bookingid);
                 studentrequestContext.AddStudentRequest(studentid, request.RequestID);
                 studentrequestContext.UpdateConversionStatus(request);
+                notificationContext.AddJoinedRequestNotification(studentid, sessionid, request.StudentID);
             }
 
             return RedirectToAction("AllRequests", "Student");

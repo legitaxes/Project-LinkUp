@@ -104,6 +104,22 @@ namespace portfolio2.DAL
             return notificationid;
         }
 
+        public int AddJoinedRequestNotification(int ownerid, int sessionid, int studentid)
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO Notification (NotificationName, Status, OwnerID, SessionID, StudentID) " +
+            "OUTPUT INSERTED.NotificationID " +
+            "VALUES(@notiname, @status, @ownerid, @sessionid, @studentid)", conn);
+            cmd.Parameters.AddWithValue("@notiname", "Someone has took up your request! Click the button to view the session details!");
+            cmd.Parameters.AddWithValue("@status", 'N');
+            cmd.Parameters.AddWithValue("@ownerid", ownerid);
+            cmd.Parameters.AddWithValue("@sessionid", sessionid);
+            cmd.Parameters.AddWithValue("@studentid", studentid);
+            conn.Open();
+            int notificationid = (int)cmd.ExecuteScalar();
+            conn.Close();
+            return notificationid;
+        }
+
         public int UpdateNotificationStatus(int notificationid)
         {
             SqlCommand cmd = new SqlCommand("UPDATE Notification SET Status=@status" +
