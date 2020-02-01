@@ -35,7 +35,7 @@ namespace portfolio2.DAL
 
         public List<Rating> GetAllRatings()
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM Rating", conn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Rating ORDER BY RatingDate DESC", conn);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
             conn.Open();
