@@ -278,6 +278,7 @@ namespace portfolio2.Controllers
                 {
                     int ratingid = ratingContext.GiveReviewToSessionOwner(review); //updates the rating table with the new rating given by the user
                     ratingContext.UpdateStudentRating(studentid, ratingid); //updates studentrating table based on the ratings
+                    notificationContext.AddReviewGivenNotification(studentid, HttpContext.Session.GetInt32("StudentID")); //gives a notification to the user if they have received a review
                     int bookingid = sessionContext.GetBookingID(studentid, review.SessionID); //gets bookingid based on studentid and sessionid
                     //sessionContext.RemoveStudentBooking(studentid, bookingid); //removes studentbooking based on the studentid and bookingid
                     sessionContext.UpdateBookingStatus(bookingid); //updates the bookingstatus for the student to be 'Y'
@@ -288,6 +289,7 @@ namespace portfolio2.Controllers
                 {
                     int ratingid = ratingContext.GiveReviewToParticipant(review); //updates the rating table with the new rating given by the user
                     ratingContext.UpdateStudentRating(studentid, ratingid); //updates studentrating table based on the ratings
+                    notificationContext.AddReviewGivenNotification(studentid, HttpContext.Session.GetInt32("StudentID")); //gives a notification to the user if they have received a review
                     int bookingid = sessionContext.GetBookingID(studentid, review.SessionID); //gets bookingid based on studentid and sessionid
                     //sessionContext.RemoveStudentBooking(studentid, bookingid); //removes studentbooking based on the studentid and bookingid
                     sessionContext.UpdateBookingStatus(bookingid); //updates the bookingstatus for the student to be 'Y'

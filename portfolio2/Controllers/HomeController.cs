@@ -95,6 +95,11 @@ namespace portfolio2.Controllers
             TempData["NotificationID"] = notificationid;
             return RedirectToAction("StudentReview", "Session", new { id = id });
         }
+        public ActionResult DismissReviewNotification(int id)
+        {
+            notificationContext.UpdateNotificationStatus(id);
+            return RedirectToAction("Details", "Student");
+        }
 
         public ActionResult Dismiss(int id)
         {

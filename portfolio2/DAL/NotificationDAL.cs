@@ -43,8 +43,13 @@ namespace portfolio2.DAL
             da.Fill(result, "NotificationDetails");
             conn.Close();
             List<Notification> notificationList = new List<Notification>();
+            int sid = 0;
             foreach (DataRow row in result.Tables["NotificationDetails"].Rows)
             {
+                if (row["SessionID"] != DBNull.Value)
+                {
+                    sid = Convert.ToInt32(row["SessionID"]);
+                }
                 notificationList.Add(
                     new Notification
                     {
@@ -53,7 +58,7 @@ namespace portfolio2.DAL
                         Status = Convert.ToChar(row["Status"]),
                         DatePosted = Convert.ToDateTime(row["DatePosted"]),
                         OwnerID = Convert.ToInt32(row["OwnerID"]),
-                        SessionID = Convert.ToInt32(row["SessionID"]),
+                        SessionID = sid,
                         StudentID = Convert.ToInt32(row["StudentID"])
                     });
             }
@@ -131,5 +136,22 @@ namespace portfolio2.DAL
             conn.Close();
             return count;
         }
+
+        public int AddReviewGivenNotification(int studentid, int? ownerid)
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO Notification (NotificationName, Status, OwnerID, SessionID, StudentID) " +
+            "OUTPUT INSERTED.NotificationID " +
+            "VALUES(@notiname, @status, @ownerid, @sessionid, @studentid)", conn);
+            cmd.Parameters.AddWithValue("@notiname", "Someone left you a review!");
+            cmd.Parameters.AddWithValue("@status", 'N');
+            cmd.Parameters.AddWithValue("@ownerid", ownerid);
+            cmd.Parameters.AddWithValue("@sessionid", DBNull.Value);
+            cmd.Parameters.AddWithValue("@studentid", studentid);
+            conn.Open();
+            int notificationid = (int)cmd.ExecuteScalar();
+            conn.Close();
+            return notificationid;
+        }
+
     }
 }

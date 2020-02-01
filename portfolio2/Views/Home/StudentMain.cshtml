@@ -56,6 +56,10 @@
                                     {
                                         selectedrow = "class='table-success'";
                                     }
+                                    else if (item.NotificationName == "Someone left you a review!")
+                                    {
+                                        selectedrow = "class='table-warning'";
+                                    }
                                     <tr @Html.Raw(selectedrow)>
                                         <td>@number</td>
                                         <td>@item.NotificationName</td>
@@ -69,6 +73,10 @@
                                             {
                                                 <a asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID" class="btn btn-warning">View Details</a>
                                                 <a asp-action="Dismiss" asp-route-id="@item.NotificationID" class="btn btn-danger">Dismiss</a>
+                                            }
+                                            else if (item.NotificationName == "Someone left you a review!")
+                                            {
+                                                <a asp-action="DismissReviewNotification" asp-route-id="@item.NotificationID" class="btn btn-success">View Profile</a>
                                             }
                                         </td>
                                     </tr>
