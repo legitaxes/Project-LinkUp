@@ -35,7 +35,7 @@ namespace portfolio2.DAL
 
         public List<Notification> GetAllNotification(int? studentid) //gets all the notification of the student
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM Notification WHERE StudentID = @selectedstudentid", conn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Notification WHERE StudentID = @selectedstudentid ORDER BY DatePosted DESC", conn);
             cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
