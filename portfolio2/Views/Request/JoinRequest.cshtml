@@ -54,7 +54,8 @@
                         <div class="form-group row">
                             <label asp-for="Hours" class="col-lg-3 col-form-label form-control-label">Hours</label>
                             <div class="col-lg-9">
-                                <select asp-for="Hours" asp-items="@ViewData["Hourlist"] as List<SelectListItem>" readonly class="form-control"></select>
+                                <select asp-for="Hours" asp-items="@ViewData["Hourlist"] as List<SelectListItem>" readonly hidden class="form-control"></select>
+                                <select asp-for="Hours" asp-items="@ViewData["Hourlist"] as List<SelectListItem>" readonly disabled class="form-control"></select>
                                 <span asp-validation-for="Hours" class="text-danger"></span>
                             </div>
                         </div>
@@ -68,7 +69,8 @@
                         <div class="form-group row">
                             <label aasp-for="LocationID" class="col-lg-3 col-form-label form-control-label">Location</label>
                             <div class="col-lg-9">
-                                <select asp-for="LocationID" asp-items="@ViewData["Locationlist"] as List<SelectListItem>" readonly class="form-control"></select>
+                                <select asp-for="LocationID" asp-items="@ViewData["Locationlist"] as List<SelectListItem>" readonly hidden class="form-control"></select>
+                                <select asp-for="LocationID" asp-items="@ViewData["Locationlist"] as List<SelectListItem>" readonly disabled class="form-control"></select>
                                 <span asp-validation-for="LocationID" class="text-danger"></span>
                             </div>
                         </div>
