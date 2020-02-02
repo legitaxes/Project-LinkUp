@@ -5,13 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\images\Sessions\**" />
-    <Content Remove="wwwroot\images\Sessions\**" />
-    <EmbeddedResource Remove="wwwroot\images\Sessions\**" />
-    <None Remove="wwwroot\images\Sessions\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="wwwroot\css\freelancer.css" />
     <Content Remove="wwwroot\css\freelancer.min.css" />
     <Content Remove="wwwroot\images\gsm.jpg" />
