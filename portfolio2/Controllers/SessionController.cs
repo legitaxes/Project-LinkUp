@@ -407,31 +407,14 @@ namespace portfolio2.Controllers
         private List<SelectListItem> DropDownHours()
         {
             List<SelectListItem> hours = new List<SelectListItem>();
-            hours.Add(new SelectListItem
+            for (int i = 1; i <= 5; i++)
             {
-                Value = "1",
-                Text = "1",
-            });
-            hours.Add(new SelectListItem
-            {
-                Value = "2",
-                Text = "2",
-            });
-            hours.Add(new SelectListItem
-            {
-                Value = "3",
-                Text = "3",
-            });
-            hours.Add(new SelectListItem
-            {
-                Value = "4",
-                Text = "4",
-            });
-            hours.Add(new SelectListItem
-            {
-                Value = "5",
-                Text = "5",
-            });
+                hours.Add(new SelectListItem
+                {
+                    Value = i.ToString(),
+                    Text = i.ToString(),
+                });
+            }
             return hours;
         }
 
