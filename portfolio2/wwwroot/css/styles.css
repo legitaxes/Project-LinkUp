@@ -68,8 +68,8 @@ body {
 
 .search {
     background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(../images/home-bg.jpg);
-    padding-top: 60px;
-    padding-bottom: 60px;
+    padding-top: 40px;
+    padding-bottom: 40px;
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -232,6 +232,13 @@ i{
     margin-bottom: 3%;
 }
 
+.container.session {
+    background-color: white;
+}
+
+
+
+
 /*ERROR PAGE*/
 
 .container.errorpage {
@@ -246,16 +253,14 @@ i{
 /*INDEX PAGE*/
 
 section.intro h1 {
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 75px;
+    font-size: 70px;
     font-weight: 700;
     line-height: 75px;
     margin-bottom: 25px;
 }
 
 section.intro p {
-    font-size: 15px;
-    font-style:italic;
+    font-size: 18px;
     line-height: 40px;
     margin-bottom: 50px;
 }
@@ -268,20 +273,18 @@ section.intro a {
 
 
 section.intro {
-    font-family: 'Montserrat', sans-serif;
-    padding-top: 120px;
-    padding-bottom: 120px;
+    padding-top: 80px;
+    padding-bottom: 80px;
     background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(../images/hero.jpg);
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 section.categories h1 {
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 40px;
-    font-weight: 600;
+    font-size: 50px;
+    font-weight: 500;
     line-height: 75px;
-    margin-bottom: 25px;
+    text-shadow: 2px 2px lightgrey;
 }
 
 section.about h2 {
@@ -304,9 +307,8 @@ section.about a {
 }
 
 section.about {
-    font-family: 'Montserrat', sans-serif;
-    padding-top: 100px;
-    padding-bottom: 100px;
+    padding-top: 80px;
+    padding-bottom: 80px;
     background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(../images/starbucks.jpg);
     background-repeat: no-repeat;
     background-size: cover;
@@ -316,17 +318,15 @@ section.about {
 /*STUDENT INDEX PAGE*/
 
 section.welcome {
-    font-family: 'Source Sans Pro', sans-serif;
     background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(../images/home-bg.jpg);
-    padding-top: 100px;
-    padding-bottom: 100px;
+    padding-top: 80px;
+    padding-bottom: 80px;
     background-repeat: no-repeat;
     background-size: cover;
 }
 
+.leaderboard-table {
+    margin: 30px;
+    padding:0;
+}
 
-
-    section.welcome h1 {
-        font-size: 50px;
-        font-weight: 700;
-    }
