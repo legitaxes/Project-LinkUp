@@ -490,6 +490,9 @@ namespace portfolio2.Controllers
                 TempData["CannotCancel"] = "You cannot cancel any session 2 hours before it starts";
                 return RedirectToAction("Details", new { id = session.SessionID });
             }
+            session.Status = 'Y';
+            sessionContext.UpdateSession(session);
+            int participantcount = session.Participants;
             List<StudentDetails> participantList = sessionContext.GetParticipantList(id);
             if (participantList.Count() > 0)
             {
@@ -498,11 +501,10 @@ namespace portfolio2.Controllers
                     notificationContext.AddSessionCancelNotification(participant.StudentID, HttpContext.Session.GetInt32("StudentID"), session.SessionID); //gives notification to the participant
                     int bookingid = sessionContext.GetBookingID(participant.StudentID, session.SessionID); //gets bookingoid
                     sessionContext.UpdateBookingStatus(bookingid);
-                    sessionContext.UpdateSessionParticipant(session.Participants - 1, session.SessionID);
+                    sessionContext.UpdateSessionParticipant(participantcount - 1, session.SessionID);
+                    participantcount--;
                 }
             }
-            session.Status = 'Y';
-            sessionContext.UpdateSession(session);
             TempData["Cancel"] = "This session has been cancelled";
             return RedirectToAction("Details", new { id = session.SessionID });
         }

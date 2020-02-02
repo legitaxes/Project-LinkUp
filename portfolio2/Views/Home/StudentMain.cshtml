@@ -69,7 +69,7 @@
                                             {
                                                 <a asp-action="GiveSessionOwnerReview" asp-route-id="@item.OwnerID" asp-route-sessionid="@item.SessionID" asp-route-notificationid="@item.NotificationID" class="btn btn-primary">Give Review To Session Owner</a>
                                             }
-                                            else if (item.NotificationName == "A session that you have signed up for is cancelled!" || item.NotificationName == "Someone has took up your request! Click the button to view the session details!")
+                                            else if (item.NotificationName == "A session that you have signed up for was cancelled!" || item.NotificationName == "Someone has took up your request! Click the button to view the session details!")
                                             {
                                                 <a asp-controller="Session" asp-action="Details" asp-route-id="@item.SessionID" class="btn btn-warning">View Details</a>
                                                 <a asp-action="Dismiss" asp-route-id="@item.NotificationID" class="btn btn-danger">Dismiss</a>

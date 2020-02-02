@@ -79,9 +79,10 @@ namespace portfolio2.DAL
 
         public int AddReviewNotification(int studentid, int? ownerid, int? sessionid)
         {
-            SqlCommand cmd = new SqlCommand("INSERT INTO Notification (NotificationName, Status, OwnerID, SessionID, StudentID) " +
+            SqlCommand cmd = new SqlCommand("INSERT INTO Notification (DatePosted, NotificationName, Status, OwnerID, SessionID, StudentID) " +
                 "OUTPUT INSERTED.NotificationID " +
-                "VALUES(@notiname, @status, @ownerid, @sessionid, @studentid)", conn);
+                "VALUES(@dateposted, @notiname, @status, @ownerid, @sessionid, @studentid)", conn);
+            cmd.Parameters.AddWithValue("@dateposted", DateTime.Now);
             cmd.Parameters.AddWithValue("@notiname", "You have a review to give to the session owner that you have recently attended of!");
             cmd.Parameters.AddWithValue("@status", 'N');
             cmd.Parameters.AddWithValue("@ownerid", ownerid);
@@ -95,10 +96,11 @@ namespace portfolio2.DAL
 
         public int AddSessionCancelNotification(int studentid, int? ownerid, int? sessionid)
         {
-            SqlCommand cmd = new SqlCommand("INSERT INTO Notification (NotificationName, Status, OwnerID, SessionID, StudentID) " +
+            SqlCommand cmd = new SqlCommand("INSERT INTO Notification (DatePosted, NotificationName, Status, OwnerID, SessionID, StudentID) " +
             "OUTPUT INSERTED.NotificationID " +
-            "VALUES(@notiname, @status, @ownerid, @sessionid, @studentid)", conn);
-            cmd.Parameters.AddWithValue("@notiname", "A session that you have signed up for is cancelled!");
+            "VALUES(@dateposted, @notiname, @status, @ownerid, @sessionid, @studentid)", conn);
+            cmd.Parameters.AddWithValue("@dateposted", DateTime.Now);
+            cmd.Parameters.AddWithValue("@notiname", "A session that you have signed up for was cancelled!");
             cmd.Parameters.AddWithValue("@status", 'N');
             cmd.Parameters.AddWithValue("@ownerid", ownerid);
             cmd.Parameters.AddWithValue("@sessionid", sessionid);
@@ -111,9 +113,10 @@ namespace portfolio2.DAL
 
         public int AddJoinedRequestNotification(int ownerid, int sessionid, int studentid)
         {
-            SqlCommand cmd = new SqlCommand("INSERT INTO Notification (NotificationName, Status, OwnerID, SessionID, StudentID) " +
+            SqlCommand cmd = new SqlCommand("INSERT INTO Notification (DatePosted, NotificationName, Status, OwnerID, SessionID, StudentID) " +
             "OUTPUT INSERTED.NotificationID " +
-            "VALUES(@notiname, @status, @ownerid, @sessionid, @studentid)", conn);
+            "VALUES(@dateposted, @notiname, @status, @ownerid, @sessionid, @studentid)", conn);
+            cmd.Parameters.AddWithValue("@dateposted", DateTime.Now);
             cmd.Parameters.AddWithValue("@notiname", "Someone has took up your request! Click the button to view the session details!");
             cmd.Parameters.AddWithValue("@status", 'N');
             cmd.Parameters.AddWithValue("@ownerid", ownerid);
@@ -139,9 +142,10 @@ namespace portfolio2.DAL
 
         public int AddReviewGivenNotification(int studentid, int? ownerid)
         {
-            SqlCommand cmd = new SqlCommand("INSERT INTO Notification (NotificationName, Status, OwnerID, SessionID, StudentID) " +
+            SqlCommand cmd = new SqlCommand("INSERT INTO Notification (DatePosted, NotificationName, Status, OwnerID, SessionID, StudentID) " +
             "OUTPUT INSERTED.NotificationID " +
-            "VALUES(@notiname, @status, @ownerid, @sessionid, @studentid)", conn);
+            "VALUES(@dateposted, @notiname, @status, @ownerid, @sessionid, @studentid)", conn);
+            cmd.Parameters.AddWithValue("@dateposted", DateTime.Now);
             cmd.Parameters.AddWithValue("@notiname", "Someone left you a review!");
             cmd.Parameters.AddWithValue("@status", 'N');
             cmd.Parameters.AddWithValue("@ownerid", ownerid);

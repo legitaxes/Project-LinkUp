@@ -14,8 +14,8 @@ namespace portfolio2.Models
         public string NotificationName { get; set; }
         public char Status { get; set; }
         [Display(Name = "Date Posted")]
-        [DataType(DataType.DateTime)] //-default html5 calendarpicker
-        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy HH:mm}")]
+        //[DataType(DataType.DateTime)] //-default html5 calendarpicker
+        //[DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy HH:mm}")]
         public DateTime DatePosted { get; set; }
         public int OwnerID { get; set; }
         public int SessionID { get; set; }
