@@ -55,27 +55,25 @@ namespace portfolio2.DAL
             return request.RequestID;
         }
 
-        /*public int EditRequest(Request request)
+        public int EditRequest(Request request)
         {
             SqlCommand cmd = new SqlCommand
-            ("UPDATE Request SET Description = @description, Title = @title, AvailabilityFrom = @availabilityfrom, Hours = @hours, MaxCap = @maxcap, PointsEarned = @pointsearned, Status = @status, LocationID = @locationid WHERE RequestID = @selectedrequestID", conn);
+            ("UPDATE Request SET Description = @description, Title = @title, AvailabilityFrom = @availabilityfrom, Hours = @hours, PointsEarned = @pointsearned, Status = @status, LocationID = @locationid, CategoryID = @categoryid WHERE RequestID = @selectedrequestID", conn);
             cmd.Parameters.AddWithValue("@selectedrequestID", request.RequestID);
             cmd.Parameters.AddWithValue("@description", request.Description);
             cmd.Parameters.AddWithValue("@title", request.Title);
             cmd.Parameters.AddWithValue("@availabilityfrom", request.AvailabilityFrom);
             cmd.Parameters.AddWithValue("@hours", request.Hours);
-            cmd.Parameters.AddWithValue("@maxcap", request.MaxCap);
             cmd.Parameters.AddWithValue("@pointsearned", request.PointsEarned);
             cmd.Parameters.AddWithValue("@status", request.Status);
             cmd.Parameters.AddWithValue("@locationid", request.LocationID);
-
+            cmd.Parameters.AddWithValue("@categoryid", request.CategoryID);
             conn.Open();
             int count = cmd.ExecuteNonQuery();
             conn.Close();
 
             return count;
         }
-        */
 
         //deletes record from database
         public int DeleteStudentRequest(int studentid, int requestid)

@@ -148,7 +148,7 @@ namespace portfolio2.Controllers
             return View();
         }
 
-        /*public ActionResult EditRequest(int? id)
+        public ActionResult EditRequest(int? id)
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
            (HttpContext.Session.GetString("Role") != "Student"))
@@ -164,14 +164,7 @@ namespace portfolio2.Controllers
             }
 
             ViewData["Hourlist"] = DropDownHours();
-            List<SelectListItem> maxcapList = new List<SelectListItem>();
-            maxcapList = DropDownMaxCap();
-            int participantcount = studentrequestContext.GetNumberOfParticipants(request.RequestID);
-            for (int i = 0; i < participantcount; i++)
-            {
-                maxcapList.RemoveAt(0);
-            }
-            ViewData["MaxCaplist"] = maxcapList;
+            ViewData["Categorylist"] = DropDownCategory();
             ViewData["Locationlist"] = DropDownLocation();
 
             if (request == null)
@@ -195,10 +188,10 @@ namespace portfolio2.Controllers
             if (ModelState.IsValid)
             {
                 requestContext.EditRequest(request);
-                return RedirectToAction("Myrequests", "Student");
+                return RedirectToAction("Myrequests", "Request");
             }
             return View(request);
-        }*/
+        }
 
         public ActionResult DeleteRequest(int? id)
         {
@@ -213,13 +206,7 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
-            DateTime currenttime = DateTime.Now;
-            TimeSpan ts = request.AvailabilityFrom - currenttime;
-            double hours = ts.TotalHours;
-            if (hours < 48)
-            {
-                return RedirectToAction("DeleteRedirect", "Request");
-            }
+
             ViewData["Hourlist"] = DropDownHours();
             ViewData["Locationlist"] = DropDownLocation();
 
@@ -459,16 +446,6 @@ namespace portfolio2.Controllers
         }
 
         public ActionResult RequestRedirect()
-        {
-            if ((HttpContext.Session.GetString("Role") == null) ||
-            (HttpContext.Session.GetString("Role") != "Student"))
-            {
-                return RedirectToAction("Error", "Home");
-            }
-            return View();
-        }
-
-        public ActionResult DeleteRedirect()
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))

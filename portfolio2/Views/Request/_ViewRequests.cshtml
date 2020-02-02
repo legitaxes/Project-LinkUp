@@ -36,14 +36,9 @@
                         <td>
                             @if (item.StudentID == Convert.ToInt32(Context.Session.GetInt32("StudentID")))
                             {
-                                /*<a asp-action="EditRequest" asp-controller="Student" asp-route-id="@item.RequestID">Edit</a>*/
-                                DateTime currenttime = DateTime.Now;
-                                TimeSpan ts = item.AvailabilityFrom - currenttime;
-                                double hours = ts.TotalHours;
-                                if (hours > 48)
-                                {
-                                    <a asp-action="DeleteRequest" asp-controller="Request" asp-route-id="@item.RequestID">Delete</a>
-                                }
+                                <a asp-action="EditRequest" asp-controller="Request" asp-route-id="@item.RequestID">Edit</a>
+                                <a asp-action="DeleteRequest" asp-controller="Request" asp-route-id="@item.RequestID">Delete</a>
+                                
                             }
                             @if (item.StudentID != Convert.ToInt32(Context.Session.GetInt32("StudentID")))
                             {
