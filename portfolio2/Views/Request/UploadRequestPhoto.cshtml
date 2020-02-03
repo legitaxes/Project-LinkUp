@@ -5,7 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Upload a photo for your request</h2>
 
 <div class="container py-3">
     <div class="row">
@@ -13,7 +12,7 @@
             <span class="anchor" id="formUserEdit"></span>
             <div class="card card-outline-secondary">
                 <div class="card-header text-center">
-                    <h3 class="mb-0">Upload request photo</h3>
+                    <h3 class="mb-0">Upload Request Photo</h3>
                 </div>
                 <div class="card-body">
                     <form asp-action="UploadRequestPhoto" enctype="multipart/form-data" class="form" role="form" autocomplete="off">
@@ -64,7 +63,7 @@
                         <label class="col-lg-3 col-form-label form-control-label"></label>
                         <div class="col-lg-9">
                             <a asp-action="MyRequests" class="btn btn-secondary">Skip</a>
-                            <input type="submit" class="btn btn-primary" value="Upload photo">
+                            <input type="submit" class="btn btn-warning" value="Upload photo">
                         </div>
                     </form>
                 </div>
