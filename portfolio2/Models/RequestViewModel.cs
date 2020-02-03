@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,6 +25,8 @@ namespace portfolio2.Models
 
         [Display(Name = "Hours")]
         public int Hours { get; set; }
+
+        public string Photo { get; set; }
 
         [Display(Name = "Current capacity")]
         public int CurrCap { get; set; }

@@ -36,14 +36,15 @@ namespace portfolio2.DAL
         public int AddRequest(Request request)
         {
             SqlCommand cmd = new SqlCommand
-            ("INSERT INTO Request (DateRequest, Description, Title, AvailabilityFrom, Hours, PointsEarned, Status, LocationID, StudentID, CategoryID)" +
+            ("INSERT INTO Request (DateRequest, Description, Title, AvailabilityFrom, Hours, Photo, PointsEarned, Status, LocationID, StudentID, CategoryID)" +
             " OUTPUT INSERTED.RequestID" +
-            " VALUES(@daterequest, @description, @title, @availabilityfrom, @hours, @pointsearned, @status, @locationid, @studentid, @categoryid)", conn);
+            " VALUES(@daterequest, @description, @title, @availabilityfrom, @hours, @photo, @pointsearned, @status, @locationid, @studentid, @categoryid)", conn);
             cmd.Parameters.AddWithValue("@daterequest", request.DateRequest);
             cmd.Parameters.AddWithValue("@description", request.Description);
             cmd.Parameters.AddWithValue("@title", request.Title);
             cmd.Parameters.AddWithValue("@availabilityfrom", request.AvailabilityFrom);
             cmd.Parameters.AddWithValue("@hours", request.Hours);
+            cmd.Parameters.AddWithValue("@photo", request.Photo);
             cmd.Parameters.AddWithValue("@pointsearned", request.PointsEarned);
             cmd.Parameters.AddWithValue("@status", request.Status);
             cmd.Parameters.AddWithValue("@locationid", request.LocationID);
@@ -53,6 +54,19 @@ namespace portfolio2.DAL
             request.RequestID = (int)cmd.ExecuteScalar();
             conn.Close();
             return request.RequestID;
+        }
+
+        public int UploadRequestPhoto(RequestPhoto requestphoto)
+        {
+            SqlCommand cmd = new SqlCommand
+            ("UPDATE Request SET Photo = @photo WHERE RequestID = @selectedrequestID", conn);
+            cmd.Parameters.AddWithValue("@selectedrequestID", requestphoto.RequestID);
+            cmd.Parameters.AddWithValue("@photo", requestphoto.Photo);
+            conn.Open();
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+
+            return count;
         }
 
         public int EditRequest(Request request)
@@ -123,6 +137,7 @@ namespace portfolio2.DAL
                         Title = row["Title"].ToString(),
                         AvailabilityFrom = Convert.ToDateTime(row["AvailabilityFrom"]),
                         Hours = Convert.ToInt32(row["Hours"]),
+                        Photo = row["Photo"].ToString(),
                         PointsEarned = Convert.ToInt32(row["PointsEarned"]),
                         Status = Convert.ToChar(row["Status"]),
                         LocationID = Convert.ToInt32(row["LocationID"]),
@@ -189,6 +204,7 @@ namespace portfolio2.DAL
                         Title = row["Title"].ToString(),
                         AvailabilityFrom = Convert.ToDateTime(row["AvailabilityFrom"]),
                         Hours = Convert.ToInt32(row["Hours"]),
+                        Photo = row["Photo"].ToString(),
                         PointsEarned = Convert.ToInt32(row["PointsEarned"]),
                         Status = Convert.ToChar(row["Status"]),
                         LocationID = Convert.ToInt32(row["LocationID"]),
@@ -232,6 +248,9 @@ namespace portfolio2.DAL
 
                 if (!DBNull.Value.Equals(table.Rows[0]["AvailabilityFrom"]))
                     request.AvailabilityFrom = Convert.ToDateTime(table.Rows[0]["AvailabilityFrom"]);
+
+                if (!DBNull.Value.Equals(table.Rows[0]["Photo"]))
+                    request.Photo = table.Rows[0]["Photo"].ToString();
 
                 if (!DBNull.Value.Equals(table.Rows[0]["Hours"]))
                     request.Hours = Convert.ToInt32(table.Rows[0]["Hours"]);

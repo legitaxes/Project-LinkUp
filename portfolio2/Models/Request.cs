@@ -27,6 +27,8 @@ namespace portfolio2.Models
         [Display(Name = "Hours")]
         public int Hours { get; set; }
 
+        public string Photo { get; set; }
+
         [Display(Name = "Points earned")]
         public int PointsEarned { get; set; }
 

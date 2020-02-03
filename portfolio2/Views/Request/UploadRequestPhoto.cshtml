@@ -1,0 +1,74 @@
+﻿@model portfolio2.Models.RequestPhoto
+
+@{
+    ViewData["Title"] = "UploadRequestPhoto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Upload a photo for your request</h2>
+
+<div class="container py-3">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <span class="anchor" id="formUserEdit"></span>
+            <div class="card card-outline-secondary">
+                <div class="card-header text-center">
+                    <h3 class="mb-0">Upload request photo</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="UploadRequestPhoto" enctype="multipart/form-data" class="form" role="form" autocomplete="off">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group row" hidden readonly>
+                            <label asp-for="RequestID" class="col-lg-3 col-form-label form-control-label">Title</label>
+                            <div class="col-lg-9">
+                                <input asp-for="RequestID" class="form-control" />
+                                <span asp-validation-for="RequestID" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row" hidden readonly>
+                            <label asp-for="Title" class="col-lg-3 col-form-label form-control-label">Title</label>
+                            <div class="col-lg-9">
+                                <input asp-for="Title" class="form-control" />
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row" hidden readonly>
+                            <label asp-for="Description" class="col-lg-3 col-form-label form-control-label">Description</label>
+                            <div class="col-lg-9">
+                                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="Photo" class="col-lg-3 col-form-label form-control-label">Photo</label>
+                            <input asp-for="Photo" class="form-control" hidden readonly />
+                            <div class="col-lg-9">
+
+                                    <img src="~/images/Sessions/@Model.Photo" width="300" class="border border-secondary rounded">
+
+                                <p></p>
+                                <p class="text-danger">Please upload a JPG file</p>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">
+                            </label>
+                            <div class="col-sm-9">
+                                <input asp-for="FileToUpload" accept="image/jpeg" />
+                            </div>
+                        </div>
+
+                        <label class="col-lg-3 col-form-label form-control-label"></label>
+                        <div class="col-lg-9">
+                            <a asp-action="MyRequests" class="btn btn-secondary">Skip</a>
+                            <input type="submit" class="btn btn-primary" value="Upload photo">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

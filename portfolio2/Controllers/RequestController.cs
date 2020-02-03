@@ -135,17 +135,89 @@ namespace portfolio2.Controllers
             request.DateRequest = DateTime.Now;
             request.PointsEarned = points;
             request.Status = 'N';
+            request.Photo = "stocksession.jpg";
             request.StudentID = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
             if (ModelState.IsValid)
             {
                 request.RequestID = Convert.ToInt32(requestContext.AddRequest(request));
                 ViewData["Locationlist"] = DropDownLocation();
-                return RedirectToAction("Myrequests", "Request");
+                return RedirectToAction("UploadRequestPhoto", new { requestid = request.RequestID });
             }
             ViewData["Hourlist"] = DropDownHours();
             ViewData["Locationlist"] = DropDownLocation();
             ViewData["Categorylist"] = DropDownCategory();
             return View();
+        }
+
+        public ActionResult UploadRequestPhoto(int requestid)
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            Request request = requestContext.GetRequestByID(requestid);
+            RequestPhoto requestphoto = MapToRequestPhoto(request);
+
+            return View(requestphoto);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadRequestPhoto(RequestPhoto requestphoto)
+        {
+            if (requestphoto.FileToUpload != null && requestphoto.FileToUpload.Length > 0)
+            {
+                try
+                { // Find the filename extension of the file to be uploaded.
+                    string fileExt = Path.GetExtension(requestphoto.FileToUpload.FileName);
+                    string uploadedFile = requestphoto.RequestID + fileExt;
+                    string savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\sessions", uploadedFile);
+                    using (var fileSteam = new FileStream(savePath, FileMode.Create))
+                    {
+                        await requestphoto.FileToUpload.CopyToAsync(fileSteam);
+                    }
+                    requestphoto.Photo = uploadedFile;
+                    requestContext.UploadRequestPhoto(requestphoto);
+                    ViewData["Message"] = "File uploaded successfully.";
+                }
+                catch (IOException)
+                {
+                    ViewData["Message"] = "File uploading failed!";
+                }
+                catch (Exception ex)
+                {
+                    ViewData["Message"] = ex.Message;
+                }
+            }
+            TempData["Success"] = "Photo has been uploaded successfully";
+            return RedirectToAction("MyRequests", "Request");
+        }
+
+        public RequestPhoto MapToRequestPhoto(Request request)
+        {
+            string title = "";
+            string description = "";
+            string photo = "";
+            List<Request> allrequestList = requestContext.GetAllRequestNotCompleted();
+            int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
+            foreach (Request currentrequest in allrequestList)
+            {
+                if (request.RequestID == currentrequest.RequestID && currentrequest.StudentID == studentid) 
+                {
+                    title = currentrequest.Title;
+                    description = currentrequest.Description;
+                    photo = currentrequest.Photo;
+                    break;
+                }
+            }
+            RequestPhoto newrequestphoto = new RequestPhoto();
+            newrequestphoto.RequestID = request.RequestID;
+            newrequestphoto.Title = title;
+            newrequestphoto.Photo = photo;
+            newrequestphoto.Description = description;
+
+            return newrequestphoto;
         }
 
         public ActionResult EditRequest(int? id)
@@ -315,6 +387,7 @@ namespace portfolio2.Controllers
             string name = "";
             string locationname = "";
             string categoryname = "";
+            string photo = "";
             List<StudentRequest> allstudentRequestList = studentrequestContext.GetAllStudentRequests();
             List<StudentDetails> allstudentList = studentContext.GetAllStudent();
             List<Category> allcategoryList = categoryContext.GetAllCategory();
@@ -322,6 +395,7 @@ namespace portfolio2.Controllers
             List<RequestViewModel> requestVM = new List<RequestViewModel>();
             foreach (Request currentrequest in allrequestList)
             {
+                photo = currentrequest.Photo;
                 int participantcount = 1;
                 foreach (StudentRequest currentstudentrequest in allstudentRequestList)
                 {
@@ -362,6 +436,7 @@ namespace portfolio2.Controllers
                         AvailabilityFrom = currentrequest.AvailabilityFrom,
                         Hours = currentrequest.Hours,
                         CurrCap = participantcount,
+                        Photo = photo,
                         PointsEarned = currentrequest.PointsEarned,
                         Status = currentrequest.Status,
                         LocationID = currentrequest.LocationID,

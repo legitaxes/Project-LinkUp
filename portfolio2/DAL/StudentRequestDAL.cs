@@ -88,8 +88,7 @@ namespace portfolio2.DAL
             cmd.Parameters.AddWithValue("@availablefrom", request.AvailabilityFrom);
             cmd.Parameters.AddWithValue("@title", request.Title);
             cmd.Parameters.AddWithValue("@description", request.Description);
-            string photo = "stocksession.jpg";
-            cmd.Parameters.AddWithValue("@photo", photo);
+            cmd.Parameters.AddWithValue("@photo", request.Photo);
             cmd.Parameters.AddWithValue("@hours", request.Hours);
             int participants = 1;
             cmd.Parameters.AddWithValue("@participants", participants);

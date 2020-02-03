@@ -638,6 +638,5 @@ namespace portfolio2.Controllers
             TempData["Success"] = "Photo has been uploaded successfully";
             return RedirectToAction("Details", new { id = session.SessionID });
         }
-
     }
 }

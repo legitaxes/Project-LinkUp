@@ -47,8 +47,15 @@
                         <div class="form-group row">
                             <label asp-for="AvailabilityFrom" class="col-lg-3 col-form-label form-control-label">Availabile From</label>
                             <div class="col-lg-9">
-                                <input asp-for="AvailabilityFrom" class="form-control" readonly/>
+                                <input asp-for="AvailabilityFrom" class="form-control" readonly />
                                 <span asp-validation-for="AvailabilityFrom" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row" hidden readonly>
+                            <label asp-for="Photo" class="col-lg-3 col-form-label form-control-label">Availabile From</label>
+                            <div class="col-lg-9">
+                                <input asp-for="Photo" class="form-control" readonly />
+                                <span asp-validation-for="Photo" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -86,9 +93,9 @@
                             <div class="col-lg-9">
                                 <select asp-for="CategoryID" asp-items="@ViewData["Categorylist"] as List<SelectListItem>" readonly hidden class="form-control"></select>
                                 <select asp-for="CategoryID" asp-items="@ViewData["Categorylist"] as List<SelectListItem>" readonly disabled class="form-control"></select>
-                                </div><span asp-validation-for="CategoryID" class="text-danger"></span>
-                            </div>
+                            </div><span asp-validation-for="CategoryID" class="text-danger"></span>
                         </div>
+</div>
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label"></label>
                             <div class="col-lg-9">

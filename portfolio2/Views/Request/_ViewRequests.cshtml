@@ -7,6 +7,7 @@
             <thead class="thead-light">
                 <tr>
                     <th>Date</th>
+                    <th>Photo</th>
                     <th>Description</th>
                     <th>Title</th>
                     <th>Start Time</th>
@@ -23,29 +24,30 @@
                 {
                     @if (item.Status == 'N')
                     {
-                    <tr>
-                        <td>@item.DateRequest</td>
-                        <td>@item.Description</td>
-                        <td>@item.Title</td>
-                        <td>@item.AvailabilityFrom</td>
-                        <td>@item.Hours</td>
-                        <td>@item.PointsEarned</td>
-                        <td>@item.LocationName</td>
-                        <td>@item.CategoryName</td>
-                        <td>@item.Name</td>
-                        <td>
-                            @if (item.StudentID == Convert.ToInt32(Context.Session.GetInt32("StudentID")))
-                            {
-                                <a asp-action="EditRequest" asp-controller="Request" asp-route-id="@item.RequestID">Edit</a>
-                                <a asp-action="DeleteRequest" asp-controller="Request" asp-route-id="@item.RequestID">Delete</a>
-                                
-                            }
-                            @if (item.StudentID != Convert.ToInt32(Context.Session.GetInt32("StudentID")))
-                            {
-                                    <a asp-action="JoinRequest" asp-controller="Request" asp-route-id="@item.RequestID">Join as tutor</a>
-                            }
-                        </td>
-                    </tr>
+                <tr>
+                    <td>@item.DateRequest</td>
+                    <td class="align-middle" style="width: 50%"><img src="~/images/Sessions/@item.Photo" class="img-fluid" style="width:70px;height:70px;margin-right:20px;"></td>
+                    <td>@item.Description</td>
+                    <td>@item.Title</td>
+                    <td>@item.AvailabilityFrom</td>
+                    <td>@item.Hours</td>
+                    <td>@item.PointsEarned</td>
+                    <td>@item.LocationName</td>
+                    <td>@item.CategoryName</td>
+                    <td>@item.Name</td>
+                    <td>
+                        @if (item.StudentID == Convert.ToInt32(Context.Session.GetInt32("StudentID")))
+                        {
+                            <a asp-action="EditRequest" asp-controller="Request" asp-route-id="@item.RequestID">Edit</a>
+                            <a asp-action="DeleteRequest" asp-controller="Request" asp-route-id="@item.RequestID">Delete</a>
+
+                        }
+                        @if (item.StudentID != Convert.ToInt32(Context.Session.GetInt32("StudentID")))
+                        {
+                            <a asp-action="JoinRequest" asp-controller="Request" asp-route-id="@item.RequestID">Join as tutor</a>
+                        }
+                    </td>
+                </tr>
                         }
                     }
             </tbody>
