@@ -1,66 +1,43 @@
 ﻿@model IEnumerable<portfolio2.Models.RequestViewModel>
 
-<div class="table-responsive">
-    @if (ViewData["MyRequestEmpty"] == null)
-    {
-        <table id="viewRequests" class="table table-striped table-hover">
-            <thead class="thead-light">
-                <tr>
-                    <th>Date</th>
-                    <th>Photo</th>
-                    <th>Description</th>
-                    <th>Title</th>
-                    <th>Start Time</th>
-                    <th>Hours</th>
-                    <th>Points</th>
-                    <th>Location</th>
-                    <th>Category</th>
-                    <th>Requester</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
+<section class="sessions">
+    <div class="container">
+        <div class="row mb-3">
+            @foreach (var item in Model)
+            {
+                @if (item.Status == 'N')
                 {
-                    @if (item.Status == 'N')
-                    {
-                <tr>
-                    <td>@item.DateRequest</td>
-                    <td class="align-middle" style="width: 50%"><img src="~/images/Sessions/@item.Photo" class="img-fluid" style="width:70px;height:70px;margin-right:20px;"></td>
-                    <td>@item.Description</td>
-                    <td>@item.Title</td>
-                    <td>@item.AvailabilityFrom</td>
-                    <td>@item.Hours</td>
-                    <td>@item.PointsEarned</td>
-                    <td>@item.LocationName</td>
-                    <td>@item.CategoryName</td>
-                    <td>@item.Name</td>
-                    <td>
-                        @if (item.StudentID == Convert.ToInt32(Context.Session.GetInt32("StudentID")))
-                        {
-                            <a asp-action="EditRequest" asp-controller="Request" asp-route-id="@item.RequestID">Edit</a>
-                            <a asp-action="DeleteRequest" asp-controller="Request" asp-route-id="@item.RequestID">Delete</a>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100">
+                            <a class="lightbox"><img src="~/images/Sessions/@Html.DisplayFor(modelItem => item.Photo)" class="card-img-top"></a>
+                            <div class="card-body">
+                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.AvailabilityFrom) | Duration: @Html.DisplayFor(modelItem => item.Hours)hrs | @Html.DisplayFor(modelItem => item.LocationName) | Points: @Html.DisplayFor(modelItem => item.PointsEarned)</h6>
+                                <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Category: @Html.DisplayFor(modelItem => item.CategoryName)</li>
+                                <li class="list-group-item">Requester: @Html.DisplayFor(modelItem => item.Name)</li>
+                            </ul>
+                            <div class="card-body">
+                                @if (item.StudentID != Convert.ToInt32(Context.Session.GetInt32("StudentID")))
+                                {
+                                    <a asp-action="JoinRequest" asp-controller="Request" asp-route-id="@item.RequestID">Join as tutor</a>
+                                }
+                                @if (item.StudentID == Convert.ToInt32(Context.Session.GetInt32("StudentID")))
+                                {
+                                    <a asp-action="EditRequest" asp-controller="Request" asp-route-id="@item.RequestID">Edit</a>
+                                    <br />
+                                    <a asp-action="DeleteRequest" asp-controller="Request" asp-route-id="@item.RequestID">Delete</a>
 
-                        }
-                        @if (item.StudentID != Convert.ToInt32(Context.Session.GetInt32("StudentID")))
-                        {
-                            <a asp-action="JoinRequest" asp-controller="Request" asp-route-id="@item.RequestID">Join as tutor</a>
-                        }
-                    </td>
-                </tr>
-                        }
-                    }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <div class="text-center">
-            <img src="~/images/Icons/question_mark.png" width="300"/>
-            <h3>@ViewData["MyRequestEmpty"]</h3>
-            <p class="text-muted">You might have to create a request first..?</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
         </div>
-        
-    }
-</div>
+    </div>
+</section>
+
 

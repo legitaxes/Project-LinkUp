@@ -76,7 +76,57 @@ namespace portfolio2.Controllers
             }
 
             shopContext.Purchase(item.Cost, studentid, studentpoints);
+            shopContext.AddTransaction(studentid, item.ItemID);
             return RedirectToAction("Index", "Shop");
+        }
+
+        public IActionResult PurchaseHistory()
+        {
+            if ((HttpContext.Session.GetString("Role") == null) ||
+            (HttpContext.Session.GetString("Role") != "Student"))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
+            List<StudentTransaction> purchasehistoryList = shopContext.GetStudentTransactions(studentid);
+            List<StudentTransactionViewModel> viewmodelList = MapToShop(purchasehistoryList);
+            if (viewmodelList.Count() == 0)
+            {
+                ViewData["MyTransactionsEmpty"] = "You have not made any purchases.";
+            }
+            return View(viewmodelList);
+        }
+
+        public List<StudentTransactionViewModel> MapToShop(List<StudentTransaction> currentstudenttransactionList)
+        {
+            string photo = "";
+            string itemname = "";
+            int cost = 0;
+            List<Shop> allitemsList = shopContext.GetAllStoreItems();
+            List<StudentTransactionViewModel> studenttransactionVM = new List<StudentTransactionViewModel>();
+            foreach(StudentTransaction currenttransaction in currentstudenttransactionList)
+            {
+                foreach(Shop currentitem in allitemsList)
+                {
+                    if (currenttransaction.ItemID == currentitem.ItemID)
+                    {
+                        itemname = currentitem.ItemName;
+                        cost = currentitem.Cost;
+                        photo = currentitem.Photo;
+                    }
+                }
+                studenttransactionVM.Add(
+                    new StudentTransactionViewModel
+                    {
+                        Photo = photo,
+                        StudentID = currenttransaction.StudentID,
+                        ItemID = currenttransaction.ItemID,
+                        ItemName = itemname,
+                       Cost = cost
+                    });
+            }
+            return studenttransactionVM;
         }
     }
 }

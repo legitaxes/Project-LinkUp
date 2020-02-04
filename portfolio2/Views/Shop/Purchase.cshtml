@@ -40,9 +40,16 @@
 
 
                     <div class="session-description">
-                        <p>@Html.DisplayFor(model => model.ItemDescription)</p>
-                        <p>@Html.DisplayFor(model => model.Cost)</p>
+                    <div>
+                        <i class="far fa-edit"></i>
+                        @Html.DisplayFor(model => model.ItemDescription)
                     </div>
+                        <div>
+                            <i class="fas fa-dollar-sign"></i>
+                            @Html.DisplayFor(model => model.Cost)
+                        </div>
+                    </div>
+
                     <div hidden readonly>
                         <input asp-for="ItemID" class="form-control" />
                         <input asp-for="Photo" class="form-control" />

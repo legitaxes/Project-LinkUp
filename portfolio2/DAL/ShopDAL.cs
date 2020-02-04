@@ -104,6 +104,42 @@ namespace portfolio2.DAL
             conn.Close();
             return count;
         }
+
+        public int AddTransaction(int studentid, int itemid)
+        {
+            SqlCommand cmd = new SqlCommand
+            ("INSERT INTO StudentTransaction (StudentID, ItemID)" +
+            " VALUES(@selectedstudentid, @selecteditemid)", conn);
+            cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
+            cmd.Parameters.AddWithValue("@selecteditemid", itemid); 
+            conn.Open();
+            int count = cmd.ExecuteNonQuery();
+            conn.Close();
+            return count;
+        }
+
+        public List<StudentTransaction> GetStudentTransactions(int studentid)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM StudentTransaction WHERE StudentID = @selectedstudentid", conn);
+            cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet result = new DataSet();
+            conn.Open();
+            da.Fill(result, "TransactionDetails");
+            conn.Close();
+            List<StudentTransaction> transactionList = new List<StudentTransaction>();
+
+            foreach (DataRow row in result.Tables["TransactionDetails"].Rows)
+            {
+                transactionList.Add(
+                    new StudentTransaction
+                    {
+                        StudentID = Convert.ToInt32(row["StudentID"]),
+                        ItemID = Convert.ToInt32(row["ItemID"])
+                    });
+            }
+            return transactionList;
+        }
     }
 }
 

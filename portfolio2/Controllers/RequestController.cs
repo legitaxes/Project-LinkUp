@@ -373,9 +373,21 @@ namespace portfolio2.Controllers
             List<Request> allrequestsList = requestContext.GetMyRequests(HttpContext.Session.GetInt32("StudentID"));
             if (allrequestsList.Count() == 0)
             {
-                ViewData["MyRequestEmpty"] = "It does not seem like you have created any request!";
+                ViewData["MyRequestEmpty"] = "It does not seem like you have created any requests!";
             }
-            List<RequestViewModel> allrequestviewmodelList = MapToStudentAndLocation(allrequestsList);
+            List<Request> newallrequestsList = new List<Request>();
+            foreach (Request currentrequest in allrequestsList)
+            {
+                if (currentrequest.AvailabilityFrom < DateTime.Now)
+                {
+                    studentrequestContext.UpdateConversionStatus(currentrequest);
+                }
+                else
+                {
+                    newallrequestsList.Add(currentrequest);
+                }
+            }
+            List<RequestViewModel> allrequestviewmodelList = MapToStudentAndLocation(newallrequestsList);
             List<JoinedRequests> myjoinedrequestsList = requestContext.GetMyJoinedRequests(studentid);
             if (myjoinedrequestsList.Count == 0)
             {
@@ -397,7 +409,19 @@ namespace portfolio2.Controllers
             {
                 ViewData["MyRequestEmpty"] = "It does not seem like there is any request right now";
             }
-            List<RequestViewModel> allrequestviewmodelList = MapToStudentAndLocation(allrequestsList);
+            List<Request> newallrequestsList = new List<Request>();
+            foreach (Request currentrequest in allrequestsList)
+            {
+                if (currentrequest.AvailabilityFrom < DateTime.Now)
+                {
+                    studentrequestContext.UpdateConversionStatus(currentrequest);
+                }
+                else
+                {
+                    newallrequestsList.Add(currentrequest);
+                }
+            }
+            List<RequestViewModel> allrequestviewmodelList = MapToStudentAndLocation(newallrequestsList);
 
             return View(allrequestviewmodelList);
         }
