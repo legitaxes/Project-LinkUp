@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="table">
+@*<div class="table">
     <div class="container">
         @if (TempData["Message"] != null)
         {
@@ -15,6 +15,18 @@
             <div class="card-body">
                 <partial name="~/Views/Request/_ViewRequests.cshtml" model="@Model" />
             </div>
+        </div>
+    </div>
+</div>*@
+
+
+
+
+<div class="container">
+    <div class="card">
+        <h2 class="card-header text-center">All Requests</h2>
+        <div class="card-body">
+            <partial name="~/Views/Request/_ViewRequests.cshtml" model="@Model" />
         </div>
     </div>
 </div>

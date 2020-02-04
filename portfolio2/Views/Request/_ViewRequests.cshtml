@@ -26,9 +26,9 @@
                                 }
                                 @if (item.StudentID == Convert.ToInt32(Context.Session.GetInt32("StudentID")))
                                 {
+
+                                    <a asp-action="DeleteRequest" asp-controller="Request" class="btn btn-secondary" asp-route-id="@item.RequestID">Delete</a>
                                     <a asp-action="EditRequest" asp-controller="Request" class="btn btn-primary" asp-route-id="@item.RequestID">Edit</a>
-                                    <br />
-                                    <a asp-action="DeleteRequest" asp-controller="Request" class="btn btn-primary" asp-route-id="@item.RequestID">Delete</a>
 
                                 }
                             </div>

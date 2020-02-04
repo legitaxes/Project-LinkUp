@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container py-5 makerequest">
+<div class="container py-5">
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <span class="anchor" id="formUserEdit"></span>
@@ -64,16 +64,16 @@
                                 <select asp-for="CategoryID" asp-items="@ViewData["Categorylist"] as List<SelectListItem>" class="form-control"></select>
                             </div><span asp-validation-for="CategoryID" class="text-danger"></span>
                         </div>
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label"></label>
+                            <div class="col-lg-9">
+                                <a asp-action="MyRequests" class="btn btn-secondary">Back</a>
+                                <input type="submit" class="btn btn-primary" val="Save">
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label"></label>
-                    <div class="col-lg-9">
-                        <input type="reset" class="btn btn-secondary" value="Back">
-                        <input type="submit" class="btn btn-primary" val="Save">
-                    </div>
-                </div>
-                </form>
-            </div>
             </div>
 
         </div>
