@@ -156,7 +156,19 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
+            if (requestid == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             Request request = requestContext.GetRequestByID(requestid);
+            if (request == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            if (request.StudentID != HttpContext.Session.GetInt32("StudentID"))
+            {
+                return RedirectToAction("Error", "Home");
+            }
             RequestPhoto requestphoto = MapToRequestPhoto(request);
 
             return View(requestphoto);
@@ -171,7 +183,7 @@ namespace portfolio2.Controllers
                 try
                 { // Find the filename extension of the file to be uploaded.
                     string fileExt = Path.GetExtension(requestphoto.FileToUpload.FileName);
-                    string uploadedFile = requestphoto.RequestID + fileExt;
+                    string uploadedFile = requestphoto.RequestID + requestphoto.Title + fileExt;
                     string savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\sessions", uploadedFile);
                     using (var fileSteam = new FileStream(savePath, FileMode.Create))
                     {
@@ -227,9 +239,15 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
-
+            if (id == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             Request request = requestContext.GetRequestByID(id.Value);
-
+            if (request == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             if (request.StudentID != Convert.ToInt32(HttpContext.Session.GetInt32("StudentID")))
             { 
                 return RedirectToAction("Error", "Home");
@@ -272,8 +290,15 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
-
+            if (id == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             Request request = requestContext.GetRequestByID(id.Value);
+            if (request == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             if (request.StudentID != Convert.ToInt32(HttpContext.Session.GetInt32("StudentID")))
             {
                 return RedirectToAction("Error", "Home");
@@ -281,11 +306,6 @@ namespace portfolio2.Controllers
 
             ViewData["Hourlist"] = DropDownHours();
             ViewData["Locationlist"] = DropDownLocation();
-
-            if (request == null)
-            {
-                return RedirectToAction("Error", " Home");
-            }
 
             return View(request);
         }
@@ -527,7 +547,8 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
-            return View();
+            TempData["Message"] = "You can only create up to 3 requests!";
+            return RedirectToAction("AllRequests");
         }
     }
 }

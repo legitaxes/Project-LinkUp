@@ -59,12 +59,26 @@
 
                     <h6>MY INTERESTS</h6>
                     <p class="text-left text-wrap">
-                        @Html.DisplayFor(model => model.Interest)
+                        @if (Model.Interest == null)
+                        {
+                            <span class="text-danger">[This person have not put in any interest yet!]</span>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => model.Interest)
+                        }
                     </p>
 
                     <h6>DESCRIPTION</h6>
                     <p class="text-left text-wrap">
-                        @Html.DisplayFor(model => model.Description)
+                        @if (Model.Description == null)
+                        {
+                            <span class="text-danger">[This person have not put in any description yet!]</span>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => model.Description)
+                        }
                     </p>
 
 
@@ -103,7 +117,14 @@
                                 <label>Website</label>
                             </div>
                             <div class="col-md-6">
-                                <p>@Html.DisplayFor(model => model.ExternalLink)</p>
+                                @if (Model.ExternalLink == null)
+                                {
+                                    <p class="text-danger">[This person have not entered any website link yet!]</p>
+                                }
+                                else
+                                {
+                                    <p><a href="@Model.ExternalLink" target="_blank">@Html.DisplayFor(model => model.ExternalLink)</a></p>
+                                }
                             </div>
                         </div>
                         <div class="row">
@@ -111,7 +132,14 @@
                                 <label>Points</label>
                             </div>
                             <div class="col-md-6">
-                                <p>@Html.DisplayFor(model => model.Points)</p>
+                                @if (Model.Points == null)
+                                {
+                                    @:<p>0</p>
+                                }
+                                else
+                                {
+                                    <p>@Html.DisplayFor(model => model.Points)</p>
+                                }
                             </div>
                         </div>
                     </div>
