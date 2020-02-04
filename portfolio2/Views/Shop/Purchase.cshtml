@@ -1,0 +1,55 @@
+﻿@model portfolio2.Models.Shop
+
+@{
+    ViewData["Title"] = "Purchase";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Purchase</h2>
+
+<h4>Shop</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Purchase">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row" hidden readonly>
+                <label asp-for="ItemID" class="col-lg-3 col-form-label form-control-label">Item ID</label>
+                <div class="col-lg-9">
+                    <textarea asp-for="ItemID" class="form-control" rows="4" readonly></textarea>
+                    <span asp-validation-for="ItemID" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Photo" class="control-label"></label>
+                <input asp-for="Photo" class="form-control" />
+                <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>
+            <div class="align-middle" style="width: 50%"><img src="~/images/Shop/@Html.DisplayFor(model => model.Photo)" class="img-fluid" style="width:70px;height:70px;margin-right:20px;"></div>
+            <div class="form-group row" readonly>
+                <label asp-for="ItemName" class="col-lg-3 col-form-label form-control-label">Name</label>
+                <div class="col-lg-9">
+                    <textarea asp-for="ItemName" class="form-control" rows="4" readonly></textarea>
+                    <span asp-validation-for="ItemName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row" readonly>
+                <label asp-for="ItemDescription" class="col-lg-3 col-form-label form-control-label">Description</label>
+                <div class="col-lg-9">
+                    <textarea asp-for="ItemDescription" class="form-control" rows="4" readonly></textarea>
+                    <span asp-validation-for="ItemDescription" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Cost" class="col-lg-3 col-form-label form-control-label">Date of request</label>
+                <div class="col-lg-9">
+                    <textarea asp-for="Cost" class="form-control" rows="4" readonly></textarea>
+                    <span asp-validation-for="Cost" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Purchase" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
