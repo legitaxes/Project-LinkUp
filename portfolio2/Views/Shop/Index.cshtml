@@ -8,46 +8,37 @@
     var getlist = ViewBag.list as IEnumerable<portfolio2.Models.Shop>;
 }
 
-<div class="container">
-    <div class="card">
-        <div class="card-body leaderboard-table">
-            <h1 class="card-title text-center">Leaderboard</h1>
-
-            <h6 class="card-subtitle mb-2 text-muted text-center">View all tutors/students' points here!</h6>
-
-            <div class="leaderboard-table">
-                <table class="table table-striped table-hover table-light table-responsive-md">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>Photo</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Cost</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in getlist)
-                        {
-                        <tr>
-                            <td class="align-middle" style="width: 50%"><img src="~/images/Shop/@item.Photo" class="img-fluid" style="width:70px;height:70px;margin-right:20px;"></td>
-                            <td class="align-middle">@item.ItemName</td>
-                            <td class="align-middle">@item.ItemDescription</td>
-                            <td class="align-middle">@item.Cost</td>
+<section class="sessions">
+    <div class="container">
+        <div class="row mb-3">
+            @foreach (var item in getlist)
+            {
+                string selectedCard = "class ='card bg-light h-100'";
+                string sCard = "class='card-body'";
+                <div class="col-md-6 col-lg-3">
+                    <div @Html.Raw(selectedCard)>
+                        <a class="lightbox"><img src="~/images/Shop/@item.Photo" class="card-img-top"></a>
+                        <div @Html.Raw(sCard)>
+                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.ItemName)</h5>
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.ItemDescription)</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">@Html.DisplayFor(modelItem => item.Cost)</li>
+                        </ul>
+                        <div class="card-body">
                             @{int points = Convert.ToInt32(ViewData["StudentPoints"]);}
                             @if (points > item.Cost)
                             {
-                                <td class="align-middle"><a asp-action="Purchase" asp-controller="Shop" asp-route-id="@item.ItemID" class="btn btn-primary">Purchase</a></td>
+                                <a asp-action="Purchase" asp-controller="Shop" asp-route-id="@item.ItemID" class="btn btn-primary">Purchase</a>
                             }
                             else
                             {
-                            <td>Insufficient Points</td>
+                            <h6>Insufficient Points</h6>
                             }
-                        </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
-</div>
+</section>
