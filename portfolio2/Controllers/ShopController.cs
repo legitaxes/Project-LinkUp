@@ -19,16 +19,20 @@ namespace portfolio2.Controllers
 
         public IActionResult Index()
         {
+            List<Shop> allstoreList = shopContext.GetAllStoreItems();
+            ViewBag.List = allstoreList;
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
             {
-                return RedirectToAction("Error", "Home");
+                ViewData["Message"] = "Login to view your points!";
+                return View();
             }
-            List<Shop> allstoreList = shopContext.GetAllStoreItems();
-            ViewBag.List = allstoreList;
-            int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
-            StudentDetails student = studentContext.GetStudentDetails(studentid);
-            ViewData["StudentPoints"] = student.Points;
+            else
+            {
+                int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
+                StudentDetails student = studentContext.GetStudentDetails(studentid);
+                ViewData["StudentPoints"] = student.Points;
+            }
             return View();
         }
 

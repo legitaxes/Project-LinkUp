@@ -1,44 +1,100 @@
 ﻿@model portfolio2.Models.Shop
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Context.Session.GetInt32("StudentID") != null)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_SignInLayout.cshtml";
+    }
 }
+
 @{
     var getlist = ViewBag.list as IEnumerable<portfolio2.Models.Shop>;
 }
 
-<section class="sessions">
-    <div class="container">
-        <div class="row mb-3">
-            @foreach (var item in getlist)
-            {
-                string selectedCard = "class ='card bg-light h-100'";
-                string sCard = "class='card-body'";
-                <div class="col-md-6 col-lg-3">
-                    <div @Html.Raw(selectedCard)>
-                        <a class="lightbox"><img src="~/images/Shop/@item.Photo" class="card-img-top"></a>
-                        <div @Html.Raw(sCard)>
-                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.ItemName)</h5>
-                            <p class="card-text">@Html.DisplayFor(modelItem => item.ItemDescription)</p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">@Html.DisplayFor(modelItem => item.Cost)</li>
-                        </ul>
-                        <div class="card-body">
-                            @{int points = Convert.ToInt32(ViewData["StudentPoints"]);}
-                            @if (points > item.Cost)
-                            {
-                                <a asp-action="Purchase" asp-controller="Shop" asp-route-id="@item.ItemID" class="btn btn-primary">Purchase</a>
-                            }
-                            else
-                            {
-                            <h6>Insufficient Points</h6>
-                            }
+@if (ViewData["Message"] == null) //if the user is logged in, code goes here
+{
+    <section class="sessions">
+        <div class="container">
+            <div class="text-center">
+                <h1>Ngee Ann Shop</h1>
+                <hr />
+                <h3>You currently have <span class="text-danger">@Convert.ToInt32(ViewData["StudentPoints"]) points!</span></h3>
+            </div>
+            <div class="row mb-3">
+                @foreach (var item in getlist)
+                {
+                    string selectedCard = "class ='card bg-light h-100'";
+                    string sCard = "class='card-body'";
+                    <div class="col-md-6 col-lg-3">
+                        <div @Html.Raw(selectedCard)>
+                            <a class="lightbox"><img src="~/images/Shop/@item.Photo" class="card-img-top"></a>
+                            <div @Html.Raw(sCard)>
+                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.ItemName)</h5>
+                                <p class="card-text">@Html.DisplayFor(modelItem => item.ItemDescription)</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Points needed: @Html.DisplayFor(modelItem => item.Cost)</li>
+                            </ul>
+                            <div class="card-body">
+                                @{int points = Convert.ToInt32(ViewData["StudentPoints"]);}
+                                @if (points > item.Cost)
+                                {
+                                    <a asp-action="Purchase" asp-controller="Shop" asp-route-id="@item.ItemID" class="btn btn-primary">Purchase</a>
+                                }
+                                else
+                                {
+                                    <h6 class="btn btn-secondary disabled" data-toggle="tooltip" data-placement="top" title="You only have @points points!">Insufficient Points</h6>
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+}
+else
+{
+    <section class="sessions">
+        <div class="container">
+            <div class="text-center">
+                <h1>Ngee Ann Shop</h1>
+                <hr />
+            </div>
+            <div class="row mb-3">
+                @foreach (var item in getlist)
+                {
+                    string selectedCard = "class ='card bg-light h-100'";
+                    string sCard = "class='card-body'";
+                    <div class="col-md-6 col-lg-3">
+                        <div @Html.Raw(selectedCard)>
+                            <a class="lightbox"><img src="~/images/Shop/@item.Photo" class="card-img-top"></a>
+                            <div @Html.Raw(sCard)>
+                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.ItemName)</h5>
+                                <p class="card-text">@Html.DisplayFor(modelItem => item.ItemDescription)</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Points needed: @Html.DisplayFor(modelItem => item.Cost)</li>
+                            </ul>
+                            <div class="card-body">
+                                @{int points = Convert.ToInt32(ViewData["StudentPoints"]);}
+                                @if (points > item.Cost)
+                                {
+                                    <a asp-action="Purchase" asp-controller="Shop" asp-route-id="@item.ItemID" class="btn btn-primary">Purchase</a>
+                                }
+                                else
+                                {
+                                    <h6 class="btn btn-secondary disabled" data-toggle="tooltip" data-placement="top" title="Login in now to buy!!">Login now to buy!</h6>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
