@@ -64,15 +64,16 @@ namespace portfolio2.Controllers
             }
             return RedirectToAction("Index");
         }
+
         public ActionResult IncreasePoints()
         {
-            if (HttpContext.Session.GetString("StudentNumber") != "s10189672" || HttpContext.Session.GetString("StudentNumber") != "s10189566")
+            if (HttpContext.Session.GetString("StudentNumber") == "s10189672" || HttpContext.Session.GetString("StudentNumber") == "s10189566")
             {
-                return RedirectToAction("Error");
+                StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetInt32("StudentID"));
+                studentContext.UpdateStudentPoints(student.StudentID, student.Points + 5000, student.TotalPoints + 5000);
+                return RedirectToAction("StudentMain");
             }
-            StudentDetails student = studentContext.GetStudentDetails(HttpContext.Session.GetInt32("StudentID"));
-            studentContext.UpdateStudentPoints(student.StudentID, student.Points+5000, student.TotalPoints+5000);
-            return RedirectToAction("StudentMain");
+            return RedirectToAction("Error");
         }
         public ActionResult StudentMain()
         {
