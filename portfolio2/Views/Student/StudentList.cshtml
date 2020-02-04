@@ -52,13 +52,13 @@
                                     @Html.DisplayFor(modelItem => item.Year)
                                 </td>
                                 <td class="align-middle">
-                                    @if (item.Points == null)
+                                    @if (item.TotalPoints == null)
                                     {
                                         @:0
                                     }
                                     else
                                     {
-                                        @Html.DisplayFor(modelItem => item.Points)
+                                        @Html.DisplayFor(modelItem => item.TotalPoints)
                                     }
                                 </td>
                                 <td class="align-middle">

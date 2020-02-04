@@ -39,7 +39,15 @@ namespace portfolio2.Controllers
             {
                 return RedirectToAction("Error", "Home");
             }
+            if (id == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             Shop item = shopContext.GetItemByID(id);
+            if (item == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
             int studentid = Convert.ToInt32(HttpContext.Session.GetInt32("StudentID"));
             StudentDetails student = studentContext.GetStudentDetails(studentid);
             int studentpoints = Convert.ToInt32(student.Points);
