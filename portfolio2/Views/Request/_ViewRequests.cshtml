@@ -22,13 +22,13 @@
                             <div class="card-body">
                                 @if (item.StudentID != Convert.ToInt32(Context.Session.GetInt32("StudentID")))
                                 {
-                                    <a asp-action="JoinRequest" asp-controller="Request" asp-route-id="@item.RequestID">Join as tutor</a>
+                                    <a asp-action="JoinRequest" asp-controller="Request" class="btn btn-primary" asp-route-id="@item.RequestID">Join as tutor</a>
                                 }
                                 @if (item.StudentID == Convert.ToInt32(Context.Session.GetInt32("StudentID")))
                                 {
-                                    <a asp-action="EditRequest" asp-controller="Request" asp-route-id="@item.RequestID">Edit</a>
+                                    <a asp-action="EditRequest" asp-controller="Request" class="btn btn-primary" asp-route-id="@item.RequestID">Edit</a>
                                     <br />
-                                    <a asp-action="DeleteRequest" asp-controller="Request" asp-route-id="@item.RequestID">Delete</a>
+                                    <a asp-action="DeleteRequest" asp-controller="Request" class="btn btn-primary" asp-route-id="@item.RequestID">Delete</a>
 
                                 }
                             </div>
