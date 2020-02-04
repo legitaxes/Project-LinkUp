@@ -39,17 +39,18 @@
                     <hr />
 
 
-                    <div class="session-description">
-                    <div>
-                        <i class="far fa-edit"></i>
-                        @Html.DisplayFor(model => model.ItemDescription)
-                    </div>
-                        <div>
-                            <i class="fas fa-dollar-sign"></i>
-                            @Html.DisplayFor(model => model.Cost)
+                    <div class="session-participants">
+                        <i class="fa fa-edit"></i>
+                        <div class="text">
+                            <h6>@Html.DisplayFor(model => model.ItemDescription)</h6>
                         </div>
                     </div>
-
+                    <div class="session-participants">
+                        <i class="fa fa-usd"></i>
+                        <div class="text">
+                            <h6>@Html.DisplayFor(model => model.Cost) Points</h6>
+                        </div>
+                    </div>
                     <div hidden readonly>
                         <input asp-for="ItemID" class="form-control" />
                         <input asp-for="Photo" class="form-control" />
@@ -58,7 +59,7 @@
                         <input asp-for="Cost" class="form-control" />
                     </div>
                     <div class="session-buttons">
-                        <input type="submit" class="btn btn-warning" value ="Purchase">
+                        <input type="submit" class="btn btn-warning" value="Purchase">
                     </div>
                 </div>
             </div>

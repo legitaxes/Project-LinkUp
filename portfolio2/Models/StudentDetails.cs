@@ -51,6 +51,7 @@ namespace portfolio2.Models
         [Display(Name="Course Name")]
         public int CourseID { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:#0.0}")]
         public double TotalReviewScore { get; set; }
     }
 }
