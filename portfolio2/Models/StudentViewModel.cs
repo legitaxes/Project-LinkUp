@@ -43,6 +43,8 @@ namespace portfolio2.Models
         [StringLength(3000, ErrorMessage = "Name Cannot Exceed 3000 Characters!")]
         public string Description { get; set; }
 
+        public int? TotalPoints { get; set; }
+
         public int? Points { get; set; }
 
         [Display(Name = "Course ID")]

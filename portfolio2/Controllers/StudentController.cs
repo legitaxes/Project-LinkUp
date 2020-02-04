@@ -334,6 +334,7 @@ namespace portfolio2.Controllers
                 Interest = student.Interest,
                 ExternalLink = student.ExternalLink,
                 Description = student.Description,
+                TotalPoints = student.TotalPoints,
                 Points = student.Points,
                 CourseID = student.CourseID,
                 CourseName = coursename,

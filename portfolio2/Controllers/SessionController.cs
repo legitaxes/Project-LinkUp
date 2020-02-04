@@ -341,14 +341,14 @@ namespace portfolio2.Controllers
             sessionContext.MarkSessionAsComplete(id); //sets session table --> "Status" as 'Y'
             if (currentSession.Participants != 0) //only give points if there is at least 1 participant
             {
-                studentContext.UpdateStudentPoints(sessionOwner.StudentID, sessionOwner.Points + sessionPoints);
+                studentContext.UpdateStudentPoints(sessionOwner.StudentID, sessionOwner.Points + sessionPoints, sessionOwner.TotalPoints + sessionPoints);
                 List<StudentDetails> participantList = sessionContext.GetParticipantList(id);
                 if (participantList.Count > 0)
                 {
                     foreach (StudentDetails participant in participantList)
                     {
                         //to implement: attendance checklist or remove a student who didnt turn up
-                        studentContext.UpdateStudentPoints(participant.StudentID, participant.Points + (sessionPoints/2)); //distribute the points to the participants for participanting
+                        studentContext.UpdateStudentPoints(participant.StudentID, participant.Points + (sessionPoints/2), participant.TotalPoints + (sessionPoints / 2)); //distribute the points to the participants for participanting
                         notificationContext.AddReviewNotification(participant.StudentID, HttpContext.Session.GetInt32("StudentID"), id); //gives a notification to the participant that they have to give reivew to the session owner
                     }
                     return RedirectToAction("GiveStudentReview", new { id = id });

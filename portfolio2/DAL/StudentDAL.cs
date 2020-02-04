@@ -97,6 +97,9 @@ namespace portfolio2.DAL
                 if (!DBNull.Value.Equals(table.Rows[0]["Description"]))
                     student.Description = table.Rows[0]["Description"].ToString();
 
+                if (!DBNull.Value.Equals(table.Rows[0]["TotalPoints"]))
+                    student.TotalPoints = Convert.ToInt32(table.Rows[0]["TotalPoints"]);
+
                 if (!DBNull.Value.Equals(table.Rows[0]["Points"]))
                     student.Points = Convert.ToInt32(table.Rows[0]["Points"]);
 
@@ -113,7 +116,7 @@ namespace portfolio2.DAL
         public StudentDetails GetStudentBasedOnSession(int? sessionid) //gets sesion owner details
         {
             SqlCommand cmd = new SqlCommand(
-            "SELECT st.Name, st.StudentID, st.Year, st.StudentNo, st.Photo, st.PhoneNo, st.Interest, st.ExternalLink, st.Description, st.Points, st.CourseID  FROM Session s INNER JOIN Student st on s.StudentID = st.StudentID WHERE s.SessionID = @selectedsessionid", conn);
+            "SELECT st.Name, st.StudentID, st.Year, st.StudentNo, st.Photo, st.PhoneNo, st.Interest, st.ExternalLink, st.Description, st.TotalPoints, st.Points, st.CourseID  FROM Session s INNER JOIN Student st on s.StudentID = st.StudentID WHERE s.SessionID = @selectedsessionid", conn);
             cmd.Parameters.AddWithValue("@selectedsessionid", sessionid);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
@@ -151,6 +154,9 @@ namespace portfolio2.DAL
 
                 if (!DBNull.Value.Equals(table.Rows[0]["Description"]))
                     student.Description = table.Rows[0]["Description"].ToString();
+
+                if (!DBNull.Value.Equals(table.Rows[0]["TotalPoints"]))
+                    student.TotalPoints = Convert.ToInt32(table.Rows[0]["TotalPoints"]);
 
                 if (!DBNull.Value.Equals(table.Rows[0]["Points"]))
                     student.Points = Convert.ToInt32(table.Rows[0]["Points"]);
@@ -209,6 +215,9 @@ namespace portfolio2.DAL
                 if (!DBNull.Value.Equals(table.Rows[0]["Description"]))
                     student.Description = table.Rows[0]["Description"].ToString();
 
+                if (!DBNull.Value.Equals(table.Rows[0]["TotalPoints"]))
+                    student.TotalPoints = Convert.ToInt32(table.Rows[0]["TotalPoints"]);
+
                 if (!DBNull.Value.Equals(table.Rows[0]["Points"]))
                     student.Points = Convert.ToInt32(table.Rows[0]["Points"]);
 
@@ -224,14 +233,15 @@ namespace portfolio2.DAL
         }
 
         //given the student id, add the number of points to the student
-        public void UpdateStudentPoints(int studentid, int? points)
+        public void UpdateStudentPoints(int studentid, int? points, int? totalpoints)
         {
-            SqlCommand cmd = new SqlCommand("UPDATE Student SET Points = @selectedstudentpoints" +
+            SqlCommand cmd = new SqlCommand("UPDATE Student SET Points = @selectedstudentpoints, TotalPoints = @totalpoints" +
             " WHERE StudentID = @selectedstudentid", conn);
             if (points == null)
             {
                 points = 0;
             }
+            cmd.Parameters.AddWithValue("@totalpoints", totalpoints);
             cmd.Parameters.AddWithValue("@selectedstudentpoints", points);
             cmd.Parameters.AddWithValue("@selectedstudentid", studentid);
             conn.Open();
@@ -337,8 +347,8 @@ namespace portfolio2.DAL
             foreach (DataRow row in result.Tables["StudentDetails"].Rows)
             {
                 int? points;
-                if (!DBNull.Value.Equals(row["Points"]))
-                    points = Convert.ToInt32(row["Points"]);
+                if (!DBNull.Value.Equals(row["TotalPoints"]))
+                    points = Convert.ToInt32(row["TotalPoints"]);
                 else
                     points = null;
                 studentList.Add(
@@ -354,7 +364,7 @@ namespace portfolio2.DAL
                         //Password = row["Password"].ToString(),
                         ExternalLink = row["ExternalLink"].ToString(),
                         Description = row["Description"].ToString(),
-                        Points = points,
+                        TotalPoints = points,
                         CourseID = Convert.ToInt32(row["CourseID"])
                     }
                 );
@@ -365,7 +375,7 @@ namespace portfolio2.DAL
         public List<StudentDetails> GetAllStudent()
         {
             SqlCommand cmd = new SqlCommand(
-             "SELECT * FROM Student ORDER BY Points DESC", conn);
+             "SELECT * FROM Student ORDER BY TotalPoints DESC", conn);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
             conn.Open();
@@ -375,8 +385,8 @@ namespace portfolio2.DAL
             foreach (DataRow row in result.Tables["StudentDetails"].Rows)
             {
                 int? points;
-                if (!DBNull.Value.Equals(row["Points"]))
-                    points = Convert.ToInt32(row["Points"]);
+                if (!DBNull.Value.Equals(row["TotalPoints"]))
+                    points = Convert.ToInt32(row["TotalPoints"]);
                 else
                     points = null;
                 studentList.Add(
@@ -392,7 +402,7 @@ namespace portfolio2.DAL
                         //Password = row["Password"].ToString(),
                         ExternalLink = row["ExternalLink"].ToString(),
                         Description = row["Description"].ToString(),
-                        Points = points,
+                        TotalPoints = points,
                         CourseID = Convert.ToInt32(row["CourseID"])
                     }
                 );
@@ -405,14 +415,9 @@ namespace portfolio2.DAL
         public int Add(StudentDetails student)
         {
             SqlCommand cmd = new SqlCommand
-            ("INSERT INTO Student (Name, Year, StudentNo, Photo, PhoneNo, Interest, ExternalLink, Description, Points, CourseID)" +
+            ("INSERT INTO Student (Name, Year, StudentNo, Photo, PhoneNo, Interest, ExternalLink, Description, TotalPoints, Points, CourseID)" +
             " OUTPUT INSERTED.StudentID" +
-            " VALUES(@name, @year, @studentno, @photo, @phoneno, @interest, @externallink, @description, @points, @courseID)", conn);
-            cmd.Parameters.AddWithValue("@name", student.Name);
-            cmd.Parameters.AddWithValue("@year", student.Year);
-            cmd.Parameters.AddWithValue("@studentno", student.StudentNumber);
-            cmd.Parameters.AddWithValue("@photo", DBNull.Value);
-            cmd.Parameters.AddWithValue("@phoneno", student.PhoneNo);
+            " VALUES(@name, @year, @studentno, @photo, @phoneno, @interest, @externallink, @description, @totalpoints, @points, @courseID)", conn);
             if (student.Interest == null)
             {
                 cmd.Parameters.AddWithValue("@interest", DBNull.Value);
@@ -437,6 +442,12 @@ namespace portfolio2.DAL
             {
                 cmd.Parameters.AddWithValue("@description", student.Description);
             }
+            cmd.Parameters.AddWithValue("@name", student.Name);
+            cmd.Parameters.AddWithValue("@year", student.Year);
+            cmd.Parameters.AddWithValue("@studentno", student.StudentNumber);
+            cmd.Parameters.AddWithValue("@photo", DBNull.Value);
+            cmd.Parameters.AddWithValue("@phoneno", student.PhoneNo);
+            cmd.Parameters.AddWithValue("@totalpoints", 0);
             cmd.Parameters.AddWithValue("@points", 0);
             cmd.Parameters.AddWithValue("@courseID", student.CourseID);
             conn.Open();
@@ -470,7 +481,7 @@ namespace portfolio2.DAL
 
         public List<StudentDetails> GetLeaderboardPoints()
         {
-            SqlCommand cmd = new SqlCommand("SELECT StudentID, Photo, Name, Points, StudentNo FROM Student ORDER BY Points DESC", conn);
+            SqlCommand cmd = new SqlCommand("SELECT StudentID, Photo, Name, TotalPoints, Points, StudentNo FROM Student ORDER BY TotalPoints DESC", conn);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet result = new DataSet();
             conn.Open();
@@ -480,13 +491,13 @@ namespace portfolio2.DAL
             int p = 0;
             foreach (DataRow row in result.Tables["StudentPointsList"].Rows)
             {
-                if (row["Points"] == DBNull.Value)
+                if (row["TotalPoints"] == DBNull.Value)
                 {
                      p = 0;
                 }
                 else
                 {
-                     p = Convert.ToInt32(row["Points"]);
+                     p = Convert.ToInt32(row["TotalPoints"]);
                 }
                 studentpointsList.Add(
                      new StudentDetails
@@ -495,7 +506,7 @@ namespace portfolio2.DAL
                          Photo = row["Photo"].ToString(),
                          StudentNumber = row["StudentNo"].ToString(),
                          Name = row["Name"].ToString(),
-                         Points = p
+                         TotalPoints = p
 
                     });
             }

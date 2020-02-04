@@ -129,7 +129,23 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <label>Points</label>
+                                <label>Total Points</label>
+                            </div>
+                            <div class="col-md-6">
+                                @if (Model.TotalPoints == null)
+                                {
+                                    @:<p>0</p>
+                                }
+                                else
+                                {
+                                    <p>@Html.DisplayFor(model => model.TotalPoints)</p>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Currennt Points</label>
                             </div>
                             <div class="col-md-6">
                                 @if (Model.Points == null)
