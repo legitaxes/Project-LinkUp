@@ -21,17 +21,15 @@
                             <button id="button-addon5" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
-                    <!-- THIS IS THE START PORTION FOR ADVANCED SEARCH PLEASE MOVE IR WHERE YOU SEE FIT-->
-                    <div>
-                        <div>Advanced search</div>Advanced search
-                    </div>
-                    <!-- THIS IS THE END PORTION FOR ADVANCED SEARCH PLEASE MOVE IR WHERE YOU SEE FIT-->
                 </div>
 
             </form>
-            <div class="requestbutton text-center">
-                <a asp-controller="Student" asp-action="MakeRequest" class="btn text-primary">Didn’t find your session? Request now!</a>
-            </div>
+            @if (Context.Session.GetInt32("StudentID") != null)
+            {
+                <div class="requestbutton text-center">
+                    <a asp-controller="Request" asp-action="MakeRequest" class="btn text-primary">Didn’t find your session? Request now!</a>
+                </div>
+            }
         </div>
 
         <!-- Underlined search bars with buttons -->

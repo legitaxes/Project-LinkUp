@@ -94,6 +94,57 @@ namespace portfolio2.DAL
             return notificationid;
         }
 
+        public int AddSessionJoinNotificationToSessionOwner(int studentid, int sessionid)
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO Notification (DatePosted, NotificationName, Status, OwnerID, SessionID, StudentID) " +
+            "OUTPUT INSERTED.NotificationID " +
+            "VALUES(@dateposted, @notiname, @status, @ownerid, @sessionid, @studentid)", conn);
+            cmd.Parameters.AddWithValue("@dateposted", DateTime.Now);
+            cmd.Parameters.AddWithValue("@notiname", "Someone has joined your session!");
+            cmd.Parameters.AddWithValue("@status", 'N');
+            cmd.Parameters.AddWithValue("@ownerid", 0);
+            cmd.Parameters.AddWithValue("@sessionid", sessionid);
+            cmd.Parameters.AddWithValue("@studentid", studentid);
+            conn.Open();
+            int notificationid = (int)cmd.ExecuteScalar();
+            conn.Close();
+            return notificationid;
+        }
+
+        public int AddSessionJoinNotificationToParticipant(int? studentid, int sessionid)
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO Notification (DatePosted, NotificationName, Status, OwnerID, SessionID, StudentID) " +
+            "OUTPUT INSERTED.NotificationID " +
+            "VALUES(@dateposted, @notiname, @status, @ownerid, @sessionid, @studentid)", conn);
+            cmd.Parameters.AddWithValue("@dateposted", DateTime.Now);
+            cmd.Parameters.AddWithValue("@notiname", "You have joined a session!");
+            cmd.Parameters.AddWithValue("@status", 'N');
+            cmd.Parameters.AddWithValue("@ownerid", 0);
+            cmd.Parameters.AddWithValue("@sessionid", sessionid);
+            cmd.Parameters.AddWithValue("@studentid", studentid);
+            conn.Open();
+            int notificationid = (int)cmd.ExecuteScalar();
+            conn.Close();
+            return notificationid;
+        }
+
+        public int CancelSessionNotificationToSessionOwner(int studentid, int sessionid)
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO Notification (DatePosted, NotificationName, Status, OwnerID, SessionID, StudentID) " +
+            "OUTPUT INSERTED.NotificationID " +
+            "VALUES(@dateposted, @notiname, @status, @ownerid, @sessionid, @studentid)", conn);
+            cmd.Parameters.AddWithValue("@dateposted", DateTime.Now);
+            cmd.Parameters.AddWithValue("@notiname", "Someone left your session and there are no participants left in the session!");
+            cmd.Parameters.AddWithValue("@status", 'N');
+            cmd.Parameters.AddWithValue("@ownerid", 0);
+            cmd.Parameters.AddWithValue("@sessionid", sessionid);
+            cmd.Parameters.AddWithValue("@studentid", studentid);
+            conn.Open();
+            int notificationid = (int)cmd.ExecuteScalar();
+            conn.Close();
+            return notificationid;
+        }
+
         public int AddSessionCancelNotification(int studentid, int? ownerid, int? sessionid)
         {
             SqlCommand cmd = new SqlCommand("INSERT INTO Notification (DatePosted, NotificationName, Status, OwnerID, SessionID, StudentID) " +

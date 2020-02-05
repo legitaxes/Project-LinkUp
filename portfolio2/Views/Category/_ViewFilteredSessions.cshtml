@@ -6,27 +6,22 @@
         </div>
 
         <div class="col-lg-10 mx-auto">
-            <form>
+            <form asp-action="Search" asp-controller="Category" method="post">
                 <div class="row mb-4">
                     <div class="form-group form-group-lg col-md-2">
-                        <select class="custom-select custom-select-lg" name="">
+                        <select class="custom-select custom-select-lg" name="type">
                             <option selected value="sessions">Sessions</option>
                             <option value="users">Users</option>
-
                         </select>
                     </div>
                     <div class="input-group input-group-lg mb-4 col-md-10">
-                        <input type="search" placeholder="Search for a user or session..." aria-describedby="button-addon5" class="form-control">
+                        <input type="search" name="searchedvalue" placeholder="Search for a user or session..." aria-describedby="button-addon5" class="form-control">
                         <div class="input-group-append">
                             <button id="button-addon5" type="submit" class="btn btn-lg btn-primary"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
                 </div>
-
             </form>
-            <div class="requestbutton text-center">
-                <a href="#" class="btn text-primary">Didn’t find your session? Request now!</a>
-            </div>
         </div>
 
         <!-- Underlined search bars with buttons -->

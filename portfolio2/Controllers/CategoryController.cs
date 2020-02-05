@@ -48,6 +48,23 @@ namespace portfolio2.Controllers
             return View(sessionDetailsList);
         }
 
+        public ActionResult Search(string searchedvalue, string type)
+        {
+            if (type == "sessions")
+            {
+                //TempData["Searched"] = searchedvalue;
+                //TempData["Type"] = type;
+                return RedirectToAction("Search", "Session", new { searchedvalue = searchedvalue, type = type });
+            }
+            else if (type == "users")
+            {
+                //TempData["Search"] = searchedvalue;
+                //TempData["Type"] = type;
+                return RedirectToAction("Search", "Session", new { searchedvalue = searchedvalue, type = type });
+            }
+            return RedirectToAction("Error", "Home");
+        }
+
         public List<SessionViewModel> MapToSessionVM(List<Session> sessionList)
         {
             string studentName = "";

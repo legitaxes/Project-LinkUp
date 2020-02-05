@@ -183,11 +183,6 @@ namespace portfolio2.Controllers
 
         public ActionResult ProfileDetails(string id) //profile detail page of another student, provided ID is given
         {
-           // if ((HttpContext.Session.GetString("Role") == null) ||
-           //(HttpContext.Session.GetString("Role") != "Student"))
-           // {
-           //     return RedirectToAction("Error", "Home");
-           // }
             if (id == null)
             {
                 return RedirectToAction("Error", "Home");

@@ -220,6 +220,7 @@
                                         <input asp-for="StudentName" readonly hidden value="@Model.StudentName" />
                                         <input asp-for="LocationName" readonly hidden value="@Model.LocationName" />
                                         <input asp-for="CategoryName" readonly hidden value="@Model.CategoryName" />
+                                        <input name="id" readonly hidden value="@ViewData["SessionStudentID"]"/>
                                         @if (ViewData["Message"] == null)
                                         {
                                             <br />
@@ -250,6 +251,7 @@
                                     <input asp-for="StudentName" readonly hidden value="@Model.StudentName" />
                                     <input asp-for="LocationName" readonly hidden value="@Model.LocationName" />
                                     <input asp-for="CategoryName" readonly hidden value="@Model.CategoryName" />
+                                    <input name="id" readonly hidden value="@ViewData["SessionStudentID"]" />
                                     @if (ViewData["Message"] == null)
                                     {
                                         <input type="submit" value="Cancel Sign Up" class="btn btn-danger btn-lg col-md-12" />

@@ -241,6 +241,7 @@ namespace portfolio2.DAL
                         Interest = row["Interest"].ToString(),
                         ExternalLink = row["ExternalLink"].ToString(),
                         Description = row["Description"].ToString(),
+                        TotalPoints = Convert.ToInt32(row["TotalPoints"]),
                         Points = Convert.ToInt32(row["Points"]),
                         CourseID = Convert.ToInt32(row["CourseID"])
                     });

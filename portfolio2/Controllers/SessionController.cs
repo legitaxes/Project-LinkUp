@@ -166,6 +166,7 @@ namespace portfolio2.Controllers
             if (sessionOwner == null)
                 return RedirectToAction("Error", "Home");
             ViewData["SessionStudentNumber"] = sessionOwner.StudentNumber;
+            ViewData["SessionStudentID"] = sessionOwner.StudentID;
             if ((HttpContext.Session.GetString("Role") == null) || //checks whether the user is logged in
             (HttpContext.Session.GetString("Role") != "Student"))
             {
@@ -175,16 +176,18 @@ namespace portfolio2.Controllers
         }
 
         [HttpPost]
-        public ActionResult Details(SessionViewModel session)
+        public ActionResult Details(SessionViewModel session, int id)
         {
             int bookingID = sessionContext.CreateBooking(session.SessionID, session.Hours); //this creates a booking in the Booking Table
+            notificationContext.AddSessionJoinNotificationToSessionOwner(id, session.SessionID);
+            notificationContext.AddSessionJoinNotificationToParticipant(HttpContext.Session.GetInt32("StudentID"), session.SessionID);
             sessionContext.CreateStudentBooking(HttpContext.Session.GetInt32("StudentID"), bookingID); //this updates the StudentBooking Table
             sessionContext.UpdateSessionParticipant(session.Participants + 1, session.SessionID); //this increases participant count
             return RedirectToAction("SignUp");
         }
 
         [HttpPost]
-        public ActionResult CancelSignUp(SessionViewModel session)
+        public ActionResult CancelSignUp(SessionViewModel session, int id)
         {
             if ((HttpContext.Session.GetString("Role") == null) ||
             (HttpContext.Session.GetString("Role") != "Student"))
@@ -196,6 +199,10 @@ namespace portfolio2.Controllers
             sessionContext.RemoveStudentBooking(HttpContext.Session.GetInt32("StudentID"), bookingid);
             sessionContext.RemoveBooking(bookingid);
             sessionContext.UpdateSessionParticipant(session.Participants - 1, session.SessionID);
+            if ((session.Participants - 1) == 0)
+            {
+                notificationContext.CancelSessionNotificationToSessionOwner(id, session.SessionID);
+            }
             return RedirectToAction("Details", new { id = session.SessionID });
         }
 
