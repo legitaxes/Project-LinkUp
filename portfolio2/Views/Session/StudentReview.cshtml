@@ -83,9 +83,8 @@
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label"></label>
                             <div class="col-lg-9">
-                                <a asp-action="Details" class="btn btn-secondary">Back</a>
-                                <input type="reset" class="btn btn-secondary" value="Reset">
-
+                                <input type="submit" value="Post" class="btn btn-primary"/>
+                                <a asp-controller="Session" asp-action="GiveStudentReview" asp-route-id="@TempData["SessionID"]" class="btn btn-secondary">Back</a>
                             </div>
                         </div>
                     </form>

@@ -31,7 +31,7 @@
                     string sCard = "class='card-body'";
                     <div class="col-md-6 col-lg-3">
                         <div @Html.Raw(selectedCard)>
-                            <a class="lightbox"><img src="~/images/Shop/@item.Photo" class="card-img-top"></a>
+                            <a class="lightbox" asp-action="Purchase" asp-controller="Shop" asp-route-id="@item.ItemID"><img src="~/images/Shop/@item.Photo" class="card-img-top"></a>
                             <div @Html.Raw(sCard)>
                                 <h5 class="card-title">@Html.DisplayFor(modelItem => item.ItemName)</h5>
                                 <p class="card-text">@Html.DisplayFor(modelItem => item.ItemDescription)</p>

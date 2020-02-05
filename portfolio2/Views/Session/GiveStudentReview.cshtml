@@ -70,7 +70,14 @@ else
                         {
                             <tr>
                                 <td class="align-middle" style="width: 70%">
-                                    <a asp-controller="Student" asp-action="ProfileDetails" asp-route-id="@item.StudentNumber"><img src="~/images/Profilepictures/@item.Photo" class="img-fluid" style="width:70px;height:70px;margin-right:10px;"></a>
+                                    @if (item.Photo == "")
+                                    {
+                                        <a asp-controller="Student" asp-action="ProfileDetails" asp-route-id="@item.StudentNumber"><img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" alt="Profile Picture" style="width:70px;height:70px;margin-right:10px;"></a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="Student" asp-action="ProfileDetails" asp-route-id="@item.StudentNumber"><img src="~/images/Profilepictures/@item.Photo" class="img-fluid" style="width:70px;height:70px;margin-right:10px;"></a>
+                                    }
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
 
